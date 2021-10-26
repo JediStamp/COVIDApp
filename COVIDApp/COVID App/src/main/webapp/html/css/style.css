@@ -1,0 +1,68 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+	padding: 0;
+    font-family: 'Helvetica', serif;
+}
+
+body{
+	background-color: #4a86e8; 	/* cornflower blue */
+}
+
+h1{
+	text-align: center;
+	font-size: 48px;
+	padding: 20px 0 20px 0;
+	color: #eeeeee;				/* light grey */
+}
+
+hr{
+	height: 8px;
+	margin: 20px 0 40px 0;
+	background-color: #eeeeee;	/* light grey */
+}
+.center-me {
+	display:flex;
+	justify-content: center;
+}
+
+.dark{
+	background-color: #1c4587; 	/* dark cornflower blue */	
+	color: #eeeeee;				/* light grey */
+}
+
+.light{
+	background-color: #eeeeee;	/* light grey */
+	color: #1c4587; 			/* dark cornflower blue */	
+}
+
+table{
+    border-collapse: collapse;
+    margin: 20px 0 20px 0;
+}
+
+th {
+	border: none;
+	padding: 20px;
+	font-size: 18px;
+}
+
+td {
+    border: none;
+    padding: 4px 8px 4px 8px;
+    font-size: 14px;
+}
+
+[type="submit"] {
+	padding: 8px;
+	text-align: center;
+}
+
+.centered{
+	text-align: center;
+}
+
+.right_align{
+	text-align: right;
+}
+
