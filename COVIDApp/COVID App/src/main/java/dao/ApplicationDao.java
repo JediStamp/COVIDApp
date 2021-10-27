@@ -11,13 +11,14 @@ import java.util.List;
 // Service Class
 public class ApplicationDao {
 	
-	// Create
+	// Create Methods -------------------------------------------------------------------
 	public static void createUser(String userID, String firstName, String lastName, String email, String pwd){
 		String sql = "INSERT INTO " + MyDB.dbName + ".USERS (userID, firstName, lastName, email, pwd) VALUES (?, ?, ?, ?, ?);";
 		
 		try {
 			// Make connection
-			Connection connection = DBUtilities.getConnectionToDatabase( MyDB.connPath,  MyDB.userName,  MyDB.pwd);
+			Connection connection = DBUtilities.getConnectionToDB( 
+					MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
 			PreparedStatement statement = connection.prepareStatement(sql);
 			
 			statement.setString(1, userID);
@@ -38,7 +39,7 @@ public class ApplicationDao {
 		}
 	}
 	
-//	// Read
+	// Read Methods ---------------------------------------------------------------------
 //	public static List<DBLog> readLog() throws SQLException{
 //		DBLog myLog = null;
 //		List<DBLog> myLogs = new ArrayList<>();
