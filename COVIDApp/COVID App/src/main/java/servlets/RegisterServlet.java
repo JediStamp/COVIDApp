@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import app.User;
+import dao.ApplicationDao;
 import login.LoginController;
 
 /**
@@ -63,7 +64,11 @@ public class RegisterServlet extends HttpServlet {
 		//TODO: check that pwd == pwd2 in html before sending (Javascript maybe)
 		//TODO: encrypt password
 		
+		//Create new user
 		User user = new User(fName, lName, email, pwd1);
+		
+		//Add user to db
+		ApplicationDao.createUser(user.getUserID().toString(), fName, lName, email, pwd1);
 		
 		response.sendRedirect(LoginController.register(user));
 	}
