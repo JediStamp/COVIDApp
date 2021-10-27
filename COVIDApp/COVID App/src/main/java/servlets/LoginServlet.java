@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import app.User;
+import login.LoginController;
+
 /**
  * Servlet implementation class LoginServlet
  */
@@ -48,11 +51,9 @@ public class LoginServlet extends HttpServlet {
 
 		System.out.printf("New User: \n\t%s\n\t%s\n",email,pwd);
 		
-		//TODO: check if user exists in db (email)
-//		if user exists && is verified, && pwd matches LOGIN
-//		if user exists && is verified && pwd ! matches LOGIN page with pwd doesn't match error
-//		if user exists && ! verified verification page and send email with not verified error
-//		if user doesn't exist, register, verification page and send email 
+		User user = new User(email, pwd);
+		
+		response.sendRedirect(LoginController.login(user));
 	}
 
 }

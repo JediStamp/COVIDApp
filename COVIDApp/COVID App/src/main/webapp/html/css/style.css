@@ -49,7 +49,7 @@ th {
 
 td {
     border: none;
-    padding: 4px 8px 4px 8px;
+    padding: 8px 4px 8px 4px;
     font-size: 14px;
 }
 
@@ -64,5 +64,11 @@ td {
 
 .right_align{
 	text-align: right;
+}
+
+.single {
+	width: 24px;
+	padding: 4px;
+	text-align: center;
 }
 

@@ -10,9 +10,24 @@ public class User {
 	private Role userRole; // not set up
 	private Boolean verified;
 	private String password; // Temporary - not secure
+	private String verCode;
 	
-	public User() {
+	public User(String firstName, String lastName, String email, String password) {
 		userID = UUID.randomUUID();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		verified = false;
+	}
+	
+	public User(String email, String password) {
+		userID = UUID.randomUUID();
+		this.firstName = "ver";
+		this.lastName = "test";
+		this.email = email;
+		this.password = password;
+		verified = true;
 	}
 	
 	public String getFirstName() {
@@ -56,6 +71,14 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getVerCode() {
+		return verCode;
+	}
+
+	public void setVerCode(String verCode) {
+		this.verCode = verCode;
 	}
 	
 	
