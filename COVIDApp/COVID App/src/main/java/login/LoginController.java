@@ -66,6 +66,7 @@ public class LoginController {
 		// USER REGISTERED, PWD CORRECT, !VERIFIED -> send verification email, take to Verify page
 		if(!isVerified(user)) {
 			//TODO: if user exists && ! verified verification page and send email with not verified error
+			// Hurry CAM
 			System.out.println("user is not verified taking you to verification page, please check your email...");
 			return "http://localhost:8080/COVID_App/html/verify.html";
 		}else {
