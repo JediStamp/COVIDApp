@@ -9,20 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import app.User;
-import login.LoginController;
-
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class VerifyServlet
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/VerifyServlet")
+public class VerifyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public VerifyServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,28 +30,28 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
-		System.out.println("Start Login...");
-		response.sendRedirect("http://localhost:8080/COVID_App/html/login.html");
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
-		String pwd = request.getParameter("pwd");
+		String v1 = request.getParameter("v1");
+		String v2 = request.getParameter("v2");
+		String v3 = request.getParameter("v3");
+		String v4 = request.getParameter("v4");
+		String v5 = request.getParameter("v5");
+		String v6 = request.getParameter("v6");
 		
-		String info = "New user: " + email + " " + pwd;
+		String info = "Verification Code: " + v1 + v2 + v3 + v4 + v5 + v6;
 		String htmlOut = "<html>" + info + "</html>";
 		PrintWriter writer = response.getWriter();
 		writer.write(htmlOut);
 
-		System.out.printf("New User: \n\t%s\n\t%s\n",email,pwd);
+		System.out.printf("New User: \n\t%s%s%s%s%s%s\n",v1,v2,v3,v4,v5,v6);
+//		response.sendRedirect("http://localhost:8080/COVID_App/html/profile.html");
 		
-		// Create user for checks
-		User user = new User(email, pwd);
-		
-		response.sendRedirect(LoginController.login(user));
+		//TODO: Check against verification code expected
 	}
 
 }

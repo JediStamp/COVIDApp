@@ -2,12 +2,13 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import app.User;
+import login.LoginController;
 
 /**
  * Servlet implementation class RegisterServlet
@@ -34,6 +35,12 @@ public class RegisterServlet extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * 
+	 * DEBUGGING GUIDE
+	 * 
+	 * fname = "ver" gets you verified
+	 * pwd = "pwd" gets correct password
+	 * registered works through dB
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		doGet(request, response);
@@ -51,14 +58,14 @@ public class RegisterServlet extends HttpServlet {
 		System.out.printf("New User: \n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n",
 				fName,lName,email,pwd1,pwd2);
 		
-		//TODO: check that pwd == pwd2 in html before sending
+		//TODO: check that pwd == pwd2 in html before sending (Javascript maybe)
+		//TODO: encrypt password
 		
-		//TODO: check if user exists in db (email)
-//		if user exists && is verified, && pwd matches LOGIN
-//		if user exists && is verified && pwd ! matches LOGIN page with pwd doesn't match error
-//		if user exists && ! verified verification page and send email with not verified error
-//		if user doesn't exist, register, verification page and send email 
-
+		//Create new user
+		User user = new User(fName, lName, email, pwd1);
+		
+		
+		response.sendRedirect(LoginController.register(user));
 	}
 
 }
