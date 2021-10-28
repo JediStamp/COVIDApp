@@ -2,15 +2,12 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import app.User;
-import dao.ApplicationDao;
 import login.LoginController;
 
 /**
@@ -43,7 +40,7 @@ public class RegisterServlet extends HttpServlet {
 	 * 
 	 * fname = "ver" gets you verified
 	 * pwd = "pwd" gets correct password
-	 * email - "user@email.com" gets you already registered
+	 * registered works through dB
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		doGet(request, response);
@@ -67,8 +64,6 @@ public class RegisterServlet extends HttpServlet {
 		//Create new user
 		User user = new User(fName, lName, email, pwd1);
 		
-		//Add user to db
-		ApplicationDao.createUser(user.getUserID().toString(), fName, lName, email, pwd1);
 		
 		response.sendRedirect(LoginController.register(user));
 	}

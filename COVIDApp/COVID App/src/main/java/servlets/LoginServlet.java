@@ -51,6 +51,7 @@ public class LoginServlet extends HttpServlet {
 
 		System.out.printf("New User: \n\t%s\n\t%s\n",email,pwd);
 		
+		// Create user for checks
 		User user = new User(email, pwd);
 		
 		response.sendRedirect(LoginController.login(user));

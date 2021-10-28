@@ -7,71 +7,97 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import app.User;
 
 // Service Class
 public class ApplicationDao {
 	
 	// Create Methods -------------------------------------------------------------------
-	public static void createUser(String userID, String firstName, String lastName, String email, String pwd){
+	/**
+	 * CreateUser - Adds a user to the database. Currently adds password to the same spot... 
+	 * should probably not do that
+	 * 
+	 * @param userID
+	 * @param firstName
+	 * @param lastName
+	 * @param email
+	 * @param pwd
+	 */
+	public static void createUser(User user){
 		String sql = "INSERT INTO " + MyDB.dbName + ".USERS (userID, firstName, lastName, email, pwd) VALUES (?, ?, ?, ?, ?);";
 		
-		try {
+		try (
 			// Make connection
-			Connection connection = DBUtilities.getConnectionToDB( 
-					MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
-			PreparedStatement statement = connection.prepareStatement(sql);
-			
-			statement.setString(1, userID);
-			statement.setString(2, firstName);
-			statement.setString(3, lastName);
-			statement.setString(4, email);
-			statement.setString(5, pwd);
+			Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+			PreparedStatement statement = conn.prepareStatement(sql);
+				)
+		{
+			statement.setString(1, user.getUserID().toString());
+			statement.setString(2, user.getFirstName());
+			statement.setString(3, user.getLastName());
+			statement.setString(4, user.getEmail());
+			statement.setString(5, user.getPassword());
 			System.out.println(statement);
 			int rowsInserted = statement.executeUpdate();
 			
 			if (rowsInserted > 0) {
-			    System.out.println("A new user was inserted successfully!");
+			    System.out.println("CreateUser(): A new user was inserted successfully!");
 			}
-			connection = null;
 		} catch (SQLException e) {
-			System.out.println("A new user was not inserted.");
+			System.out.println("CreateUser(): A new user was not inserted.");
 			e.printStackTrace();
 		}
 	}
 	
 	// Read Methods ---------------------------------------------------------------------
-//	public static List<DBLog> readLog() throws SQLException{
-//		DBLog myLog = null;
-//		List<DBLog> myLogs = new ArrayList<>();
-//		String sql = "SELECT * FROM " + DBConnection.dbName + ".textlog ORDER BY timeStmp ASC;";
-//
-//		try (	// Make connection
-//				Connection connection = DBConnection.getConnectionToDatabase();
-//				Statement statement = connection.createStatement();
-//				ResultSet result = statement.executeQuery(sql);
-//				)
-//		{
-//			while (result.next()){
-//				myLog = new DBLog();
-//				myLog.setInternalID(result.getString("internalID"));
-//				myLog.setTitle(result.getString("logTitle"));
-//				myLog.setLog_content(result.getString("logContent"));
-//				myLog.setTimestamp(result.getString("timeStmp"));
-//
-//				myLogs.add(myLog);
-//				//			    System.out.println("Logs read.");
-//				//			    System.out.println(myLog.getInternalID());
-//				//			    System.out.println(myLog.getTitle());
-//				//			    System.out.println(myLog.getLog_content());
-//				//			    System.out.println(myLog.getTimestamp());
-//			}
-//		}catch(SQLException e) {
-//			System.out.println("Logs Not read.");
-//			DBUtilities.processException(e);
-//		}
-//
-//		return myLogs;
-//	}	
+	public static List<User> readUsers() throws SQLException{
+		User user = null;
+		List<User> users = new ArrayList<>();
+		String sql = "SELECT * FROM " + MyDB.dbName + ".USERS ORDER BY lastName, firstName ASC;";
+
+		try (	// Make connection
+				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+				Statement statement = conn.createStatement();
+				ResultSet result = statement.executeQuery(sql);
+				)
+		{
+			while (result.next()){
+				user = new User(result.getString("firstName"), 
+						result.getString("lastName"),
+						result.getString("email"),
+						result.getString("pwd"));
+				
+				// get verification code 
+				user.setVerCode(result.getString("verCode"));
+				
+				// get verified status
+				if (result.getInt("verified") == 1) {
+					user.setVerified(true);	
+				}else {
+					user.setVerified(false);
+				}
+				
+				// get user role
+
+				users.add(user);
+				
+				// Print to screen to see results
+				System.out.println("ReadUsers(): Users read from DB.");
+				System.out.println("First Name: " + user.getFirstName());
+				System.out.println("Last Name: " + user.getLastName());
+				System.out.println("Email: " + user.getEmail());
+				System.out.println("Password: " + user.getPassword());
+				System.out.println("Verification Code: " + user.getVerCode());
+				System.out.println("Verified Status: " + user.getVerified());
+				
+			}
+		}catch(SQLException e) {
+			System.out.println("ReadUsers(): Users Not Read from DB.");
+			DBUtilities.processException(e);
+		}
+
+		return users;
+	}	
 	
 //	// Update
 //	public static void updateLog(String logTitle, String logContent, String newTimeStmp, String oldTimeStmp){

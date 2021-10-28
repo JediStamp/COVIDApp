@@ -18,7 +18,7 @@ public class DBUtilities {
 	 * @param dbName - String - this is the name of the DB currently set to COVID
 	 * @param dbVersion - int - this is the version of the DB we are using. Starts at 1
 	 */
-	public static Connection getConnectionToDB(String connPath, String userName, String pwd, String dbName, int dbVersion) {
+	public static Connection getConnToDB(String connPath, String userName, String pwd, String dbName, int dbVersion) {
 		Connection connection = null;
 		
 		try {
