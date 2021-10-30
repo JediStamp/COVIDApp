@@ -3,7 +3,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>COVID App</title>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="http://localhost:8080/COVID_App/html/css/style.css">
 </head>
 
 <body>
@@ -25,7 +25,7 @@
 	</div> <!-- end div dark left_side -->
 	
 	<div class="light right_side">
-	<form action="../VerifyServlet" method="post">
+	<form action="./VerifyServlet" method="post">
 	<table>
 		<tr>
 			<th colspan=7>Finish Registering</th>
@@ -55,6 +55,15 @@
 </form>
 	</div> <!-- end div right_side -->
 </div><!-- end div center_me -->
+
+<h2 class="error_msg">
+<%
+    if(null!=request.getAttribute("errorMsg"))
+    {
+        out.println(request.getAttribute("errorMsg"));
+    }
+%>
+</h2>
 
 </body>
 </html>

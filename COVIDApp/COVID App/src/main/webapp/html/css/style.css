@@ -72,3 +72,10 @@ td {
 	text-align: center;
 }
 
+.error_msg{
+	 margin: 20px 0 20px 0;
+	 padding: 8px;
+	 text-align: center;
+	 background-color: #eeeeee;	/* light grey */
+	 color: red;
+}

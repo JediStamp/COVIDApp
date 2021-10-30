@@ -30,7 +30,7 @@ public class RegisterServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Go to home page to register...");
-		response.sendRedirect("http://localhost:8080/COVID_App/html/index.html");
+		response.sendRedirect("index.jsp");
 	}
 
 	/**
@@ -64,8 +64,15 @@ public class RegisterServlet extends HttpServlet {
 		//Create new user
 		User user = new User(fName, lName, email, pwd1);
 		
+//		response.sendRedirect(LoginController.register(user));
+		String[] output = LoginController.register(user);
+		request.setAttribute("errorMsg", output[0] );		
+		String url = output[1];
+
+		System.out.println("error message is: " + output[0]);
+		System.out.println("path is: " + output[1]);
 		
-		response.sendRedirect(LoginController.register(user));
+		request.getRequestDispatcher(url).forward(request,response);
 	}
 
 }
