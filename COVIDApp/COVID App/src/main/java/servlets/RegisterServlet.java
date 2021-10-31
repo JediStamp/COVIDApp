@@ -47,22 +47,22 @@ public class RegisterServlet extends HttpServlet {
 		String fName = request.getParameter("first_name");
 		String lName = request.getParameter("last_name");
 		String email = request.getParameter("email");
-		String pwd1 = request.getParameter("pwd");
-		String pwd2 = request.getParameter("pwd2");
+		String pwd = request.getParameter("pwd");
+
 		
-		String info = "New user: " + fName + " " + lName + " " + email + " " + pwd1 + " " + pwd2;
+		String info = "New user: " + fName + " " + lName + " " + email + " " + pwd;
 		String htmlOut = "<html>" + info + "</html>";
 		PrintWriter writer = response.getWriter();
 		writer.write(htmlOut);
 
 		System.out.printf("New User: \n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n",
-				fName,lName,email,pwd1,pwd2);
+				fName,lName,email,pwd);
 		
 		//TODO: check that pwd == pwd2 in html before sending (Javascript maybe)
 		//TODO: encrypt password
 		
 		//Create new user
-		User user = new User(fName, lName, email, pwd1);
+		User user = new User(fName, lName, email, pwd);
 		
 //		response.sendRedirect(LoginController.register(user));
 		String[] output = LoginController.register(user);
