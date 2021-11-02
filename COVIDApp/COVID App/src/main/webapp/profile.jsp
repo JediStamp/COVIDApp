@@ -8,6 +8,12 @@
 
 <body>
 <h1 class="centered">Profile Page</h1>
+<!--  This is where the code for navigation bar will go  -->
+	<div class="menubar">
+		<a href="profile.jsp">PROFILE</a>
+		<a href="questionnaire.jsp">QUESTIONNAIRE</a>
+		<a href="">RESULTS</a>
+	</div>
 <hr>
 
 <div class="center-me">

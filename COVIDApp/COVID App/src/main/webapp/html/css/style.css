@@ -80,6 +80,34 @@ td {
 	 color: red;
 }
 
+
+/* Question page styling */
+.questionTable {
+	background-color: #eeeeee; /* light grey */
+	border-style: solid;
+	border-color: #1c4587; /* dark cornflower blue */
+}
+
+.menubar {
+	width: 100%;
+	background-color: #eeeeee; /* light grey*/
+	border: solid;
+	overflow: auto;
+}
+
+.menubar a {
+	float: left;
+	background-color: #1c4587;/* dark cornflower blue */
+	text-decoration: none; 
+	padding: 5px;
+	font-size: 17px;
+	color: black;
+}
+
+.menubar a:hover {
+	background-color: #eeeeee; /* light grey*/
+}
+
 /* Password check */
 #message {
   display:none;
@@ -116,3 +144,4 @@ td {
   left: -35px;
   content: "\274C";
 }
+
