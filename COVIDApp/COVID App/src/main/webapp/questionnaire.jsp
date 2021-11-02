@@ -10,12 +10,13 @@
 <body>
 	<h1 class="centered"> Fill In Questionnaire</h1>
 	
-	<!--  This is where the code for navigation bar will go  -->
+	<!--  Navigation bar  -->
 	<div class="menubar">
 		<a href="profile.jsp">PROFILE</a>
-		<a href="questionnaire.jsp">QUESTIONNAIRE</a>
-		<a href="">RESULTS</a>
+		<a id="selected" href="questionnaire.jsp">QUESTIONNAIRE</a>
+		<a href="results.jsp">RESULTS</a>
 	</div>
+	
 	<!-- Creating a Table to store the questions and "Yes" & "No" buttons -->
 	<div class="center-me">
 	<form action="./QuestionnaireServlet" method="post">

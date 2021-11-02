@@ -90,8 +90,8 @@ td {
 
 .menubar {
 	width: 100%;
-	background-color: #eeeeee; /* light grey*/
-	border: solid;
+	background-color: #d9dbf1; /* light grey*/
+	border: 1px #1b2432 solid;
 	overflow: auto;
 }
 
@@ -99,13 +99,18 @@ td {
 	float: left;
 	background-color: #1c4587;/* dark cornflower blue */
 	text-decoration: none; 
-	padding: 5px;
-	font-size: 17px;
-	color: black;
+	padding: 8px 20px 8px 20px;
+	border: 1px #1b2432 solid;
+	font-size: 18px;
+	color: #eeeeee; /* light grey*/
+}
+#selected {
+	background-color: #4a86e8; /*  cornflower blue */
 }
 
 .menubar a:hover {
-	background-color: #eeeeee; /* light grey*/
+	background-color: #d9dbf1; /* light grey*/
+	color: #1c4587;
 }
 
 /* Password check */

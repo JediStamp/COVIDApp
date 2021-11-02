@@ -57,12 +57,19 @@ public class LoginServlet extends HttpServlet {
 		User user = new User(email, pwdHashed);
 		
 		String[] output = LoginController.login(user);
-		request.setAttribute("errorMsg", output[0] );		
+		
+		// Set error message & URL
+		request.setAttribute("errorMsg", output[0]);	
+		request.getSession().setAttribute("userID", output[2]);
 		String url = output[1];
 		
+		// Print them to the screen
+		System.out.println("LoginServlet: Printing output parameters...");
 		System.out.println("error message is: " + output[0]);
 		System.out.println("path is: " + output[1]);
+		System.out.println("userID is: " + output[2]);
 		
+		// Display new page
 		request.getRequestDispatcher(url).forward(request,response);
 	}
 

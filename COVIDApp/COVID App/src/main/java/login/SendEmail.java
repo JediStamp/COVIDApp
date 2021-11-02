@@ -10,19 +10,12 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.activation.*;
+//import javax.activation.*;
 
 import app.User;
 
 public class SendEmail {
 
-	public String getRandom () {
-		Random rnd = new Random();
-		int number = rnd.nextInt(999999);
-		System.out.println(number);
-		return String.format("%06d", number);
-	}
-	
 	public boolean sendEmail(User user) {
 		boolean test = false;
 		
@@ -71,4 +64,6 @@ public class SendEmail {
 		
 		return test;
 	}
+	
+
 }

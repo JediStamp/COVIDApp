@@ -46,7 +46,6 @@ public class ApplicationDao {
 		} catch (SQLException e) {
 			System.out.println("CreateUser(): A new user was not inserted.");
 			DBUtilities.processException(e);
-//			e.printStackTrace();
 		}
 	}
 	
@@ -62,6 +61,9 @@ public class ApplicationDao {
 				ResultSet result = statement.executeQuery(sql);
 				)
 		{
+			System.out.println("readUsers(): ");
+			System.out.print(statement);
+			
 			while (result.next()){
 				user = new User(result.getString("firstName"), 
 						result.getString("lastName"),
@@ -100,7 +102,153 @@ public class ApplicationDao {
 		return users;
 	}	
 	
-//	// Update
+	public static User getUserFromID(String userID) throws SQLException{
+		User user = null;
+		String sql = "SELECT * FROM " + MyDB.dbName + ".USER WHERE userID=?;";
+
+		try (	// Make connection
+				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+				PreparedStatement statement = conn.prepareStatement(sql);
+				)
+		{
+			statement.setString(1, userID);
+			System.out.println("getUserFromID(): ");
+			System.out.println(statement);
+			
+			ResultSet result = statement.executeQuery();
+			while (result.next()){
+				user = new User(result.getString("firstName"), 
+						result.getString("lastName"),
+						result.getString("email"),
+						result.getString("pwd"));
+				
+				//get userID
+				user.setUserID(result.getString("userID"));
+				
+				// get verification code 
+				user.setVerCode(result.getString("verCode"));
+				
+				// get verified status
+				if (result.getInt("verified") == 1) {
+					user.setVerified(true);	
+				}else {
+					user.setVerified(false);
+				}
+				
+				// get user role
+
+				
+				// Print to screen to see results
+				System.out.println("getUserFromID(): User read from DB.");
+				System.out.println("Email: " + user.getEmail());
+			
+			}
+		}catch(SQLException e) {
+			System.out.println("getUserFromID(): Users Not Read from DB.");
+			DBUtilities.processException(e);
+		}
+
+		return user;
+	}	
+	
+	public static User getUserFromEmail(String email) throws SQLException{
+		User user = null;
+		String sql = "SELECT * FROM " + MyDB.dbName + ".USER WHERE email=? ;";
+
+		try (	// Make connection
+				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+				PreparedStatement statement = conn.prepareStatement(sql);
+				)
+		{
+			statement.setString(1, email);
+			System.out.println("getUserFromEmail(): ");
+			System.out.println(statement);
+			
+			ResultSet result = statement.executeQuery();			
+			while (result.next()){
+				user = new User(result.getString("firstName"), 
+						result.getString("lastName"),
+						result.getString("email"),
+						result.getString("pwd"));
+				
+				//get userID
+				user.setUserID(result.getString("userID"));
+				
+				// get verification code 
+				user.setVerCode(result.getString("verCode"));
+				
+				// get verified status
+				if (result.getInt("verified") == 1) {
+					user.setVerified(true);	
+				}else {
+					user.setVerified(false);
+				}
+				
+				// get user role
+
+				
+				// Print to screen to see results
+				System.out.println("getUserFromEmail(): User read from DB.");
+				System.out.println("Email: " + user.getEmail());
+			
+			}
+		}catch(SQLException e) {
+			System.out.println("getUsersFromEmail(): Users Not Read from DB.");
+			DBUtilities.processException(e);
+		}
+
+		return user;
+	}	
+	
+	// Update Methods -------------------------------------------------------------------
+	public static void updateUserVerCode(String UserID, String verCode) {
+		String sql = "UPDATE " + MyDB.dbName + ".USER SET verCode=? WHERE userID=?;";
+		
+		try (	// Make connection
+				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+				PreparedStatement statement = conn.prepareStatement(sql);
+				)
+		{
+			statement.setString(1, verCode);
+			statement.setString(2, UserID);
+			System.out.println("updateUserVerCode(): ");
+			System.out.println(statement);
+				
+			int rowsUpdated = statement.executeUpdate();
+			if (rowsUpdated > 0) {
+			    System.out.println("User Verification Code was added successfully!");
+			}
+//			System.out.println("User Verification Code was NOT added.");
+		}catch(SQLException e) {
+			System.out.println("User Verification Code was NOT added.");
+			DBUtilities.processException(e);
+		}
+
+	}
+	
+	public static void updateUserVerStatus(String UserID, Boolean verStatus) {
+		String sql = "UPDATE " + MyDB.dbName + ".USER SET verified=? WHERE userID=?;";
+		
+		try (	// Make connection
+				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+				PreparedStatement statement = conn.prepareStatement(sql);
+				)
+		{
+			statement.setBoolean(1, verStatus);
+			statement.setString(2, UserID);
+			System.out.println(statement);
+				
+			int rowsUpdated = statement.executeUpdate();
+			if (rowsUpdated > 0) {
+			    System.out.println("User verified status was updated successfully!");
+			}
+		}catch(SQLException e) {
+			System.out.println("User verified status was NOT updated");
+			DBUtilities.processException(e);
+		}
+
+	}
+	
 //	public static void updateLog(String logTitle, String logContent, String newTimeStmp, String oldTimeStmp){
 //		String sql = "UPDATE " + DBConnection.dbName + ".textLog SET logTitle=?, logContent=?, timeStmp=? WHERE timeStmp=?;";
 //		

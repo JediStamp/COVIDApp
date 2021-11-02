@@ -56,24 +56,28 @@ public class RegisterServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		writer.write(htmlOut);
 
-		System.out.printf("New User: \n\t%s\n\t%s\n\t%s\n\t%s\n",
+		System.out.printf("User: \n\t%s\n\t%s\n\t%s\n\t%s\n",
 				fName,lName,email,pwd);
-		
-		//TODO: check that pwd == pwd2 in html before sending (Javascript maybe)
-		//TODO: encrypt password
 		
 		//Create new user
 		String pwdHashed = UserPwd.hashPwd(pwd);
 		User user = new User(fName, lName, email, pwdHashed);
 		
-//		response.sendRedirect(LoginController.register(user));
+		// Register User
 		String[] output = LoginController.register(user);
-		request.setAttribute("errorMsg", output[0] );		
+		
+		// Set error message & URL
+		request.setAttribute("errorMsg", output[0]);	
+		request.getSession().setAttribute("userID", output[2]);
 		String url = output[1];
-
+		
+		// Print them to the screen
+		System.out.println("RegisterServlet: Printing output parameters...");
 		System.out.println("error message is: " + output[0]);
 		System.out.println("path is: " + output[1]);
+		System.out.println("userID is: " + output[2]);
 		
+		// Display new page
 		request.getRequestDispatcher(url).forward(request,response);
 	}
 

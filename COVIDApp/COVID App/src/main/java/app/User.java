@@ -6,14 +6,14 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private UUID userID;
+	private String userID;
 	private Role userRole; // not set up
 	private Boolean verified;
 	private String password; // Temporary - not secure
 	private String verCode;
 	
 	public User(String firstName, String lastName, String email, String password) {
-		userID = UUID.randomUUID();
+		userID = UUID.randomUUID().toString();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -22,7 +22,7 @@ public class User {
 	}
 	
 	public User(String email, String password) {
-		userID = UUID.randomUUID();
+		userID = UUID.randomUUID().toString();
 		this.firstName = "ver";
 		this.lastName = "test";
 		this.email = email;
@@ -48,11 +48,11 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public UUID getUserID() {
+	public String getUserID() {
 		return userID;
 	}
-	public void setUserID(UUID uesrID) {
-		this.userID = uesrID;
+	public void setUserID(String userID) {
+		this.userID = userID;
 	}
 	public Role getUserRole() {
 		return userRole;
