@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import app.User;
+import app.UserPwd;
 import login.LoginController;
 
 /**
@@ -55,14 +56,15 @@ public class RegisterServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		writer.write(htmlOut);
 
-		System.out.printf("New User: \n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n",
+		System.out.printf("New User: \n\t%s\n\t%s\n\t%s\n\t%s\n",
 				fName,lName,email,pwd);
 		
 		//TODO: check that pwd == pwd2 in html before sending (Javascript maybe)
 		//TODO: encrypt password
 		
 		//Create new user
-		User user = new User(fName, lName, email, pwd);
+		String pwdHashed = UserPwd.hashPwd(pwd);
+		User user = new User(fName, lName, email, pwdHashed);
 		
 //		response.sendRedirect(LoginController.register(user));
 		String[] output = LoginController.register(user);

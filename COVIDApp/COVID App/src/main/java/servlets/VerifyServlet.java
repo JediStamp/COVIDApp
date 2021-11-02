@@ -8,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import app.User;
 
 /**
  * Servlet implementation class VerifyServlet
@@ -49,6 +52,22 @@ public class VerifyServlet extends HttpServlet {
 		writer.write(htmlOut);
 
 		System.out.printf("New User: \n\t%s%s%s%s%s%s\n",v1,v2,v3,v4,v5,v6);
+		
+		// Cam's
+    	response.setContentType("text/html;charset=UTF-8");
+    	try (PrintWriter out = response.getWriter()) {
+            
+            HttpSession session = request.getSession();
+            User user= (User) session.getAttribute("authcode");
+            
+            String code = request.getParameter("authcode");
+            
+            if(code.equals(user.getVerCode())){
+                out.println("Verification Done");
+            }else{
+                out.println("Incorrect verification code");
+            }
+    	}
 //		response.sendRedirect("http://localhost:8080/COVID_App/html/profile.html");
 		
 		//TODO: Check against verification code expected

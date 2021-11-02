@@ -24,7 +24,7 @@ public class ApplicationDao {
 	 * @param pwd
 	 */
 	public static void createUser(User user){
-		String sql = "INSERT INTO " + MyDB.dbName + ".USERS (userID, firstName, lastName, email, pwd) VALUES (?, ?, ?, ?, ?);";
+		String sql = "INSERT INTO " + MyDB.dbName + ".USER (userID, firstName, lastName, email, pwd) VALUES (?, ?, ?, ?, ?);";
 		
 		try (
 			// Make connection
@@ -54,7 +54,7 @@ public class ApplicationDao {
 	public static List<User> readUsers() throws SQLException{
 		User user = null;
 		List<User> users = new ArrayList<>();
-		String sql = "SELECT * FROM " + MyDB.dbName + ".USERS ORDER BY lastName, firstName ASC;";
+		String sql = "SELECT * FROM " + MyDB.dbName + ".USER ORDER BY lastName, firstName ASC;";
 
 		try (	// Make connection
 				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);

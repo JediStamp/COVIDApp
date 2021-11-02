@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import app.User;
+import app.UserPwd;
 import login.LoginController;
 
 /**
@@ -52,7 +53,8 @@ public class LoginServlet extends HttpServlet {
 		System.out.printf("New User: \n\t%s\n\t%s\n",email,pwd);
 		
 		// Create user for checks
-		User user = new User(email, pwd);
+		String pwdHashed = UserPwd.hashPwd(pwd);
+		User user = new User(email, pwdHashed);
 		
 		String[] output = LoginController.login(user);
 		request.setAttribute("errorMsg", output[0] );		
