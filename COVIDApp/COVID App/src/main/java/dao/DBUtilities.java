@@ -72,19 +72,70 @@ public class DBUtilities {
  */
 	public static void createDB(String connPath, String userName, String pwd, String dbName, int dbVersion) {
 		// Create and Use DB
-		String sql1 = "create database if not exists " + dbName + ";";
-		String sql2 = "use " + dbName + ";";
+		String sqldb1 = "create database if not exists " + dbName + ";";
+		String sqldb2 = "use " + dbName + ";";
+		
 		// Add tables
-		String sql3 = "create table if not exists DBVer(dbVersion integer);";
-		String sql4 = "create table if not exists USERS(userDBID integer not null auto_increment primary key,"
-					+ "userID varchar(50),"
-					+ "firstName varchar(50),"
-					+ "lastName varchar(50),"
-					+ "email varchar(50),"
-					+ "pwd varchar(50),"
-					+ "verCode char(6),"
-					+ "verified boolean,"
-					+ "usrRole varchar(10));";
+		String sqlDBVer = "CREATE TABLE IF NOT EXISTS DBVer(dbVersion integer);";
+		
+		String sqlUser = "CREATE TABLE IF NOT EXISTS USER("
+					+ "userDBID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+					+ "userID VARCHAR(45),"
+					+ "firstName VARCHAR(45),"
+					+ "lastName VARCHAR(45),"
+					+ "email VARCHAR(45),"
+					+ "pwd VARCHAR(45),"
+					+ "verCode CHAR(6),"
+					+ "verified BOOLEAN);";
+		
+		String sqlSurvey = "CREATE TABLE IF NOT EXISTS SURVEY("
+				+ "surveyID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+				+ "teamID INT NULL);";
+		
+		String sqlQuestion = "CREATE TABLE IF NOT EXISTS QUESTION ("
+				+ "questionID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+				+ "questionText VARCHAR(45));";
+		
+		String sqlAnswer = "CREATE TABLE IF NOT EXISTS ANSWER ("
+				+ "answerID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+				+ "answerValue VARCHAR(45));";
+		
+		String sqlQ_A = "CREATE TABLE IF NOT EXISTS QUESTION_ANSWER ("
+				+ "questionID INT,"
+				+ "answerID INT);";
+		
+		String sqlSurvery_Q = "CREATE TABLE IF NOT EXISTS SURVEY_QUESTION ("
+				+ "surveyID INT,"
+				+ "questionID INT);";
+		
+		String sqlTeam = "CREATE TABLE IF NOT EXISTS TEAM ("
+				+ "teamID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+				+ "teamName VARCHAR(45), "
+				+ "teamOwner INT);";
+		
+		String sqlRole = "CREATE TABLE IF NOT EXISTS ROLE ("
+				+ "roleID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+				+ "roleName VARCHAR(45));";
+		
+		String sqlTeam_user = "CREATE TABLE IF NOT EXISTS TEAM_USER_ROLE ("
+				+ "teamID INT,"
+				+ "userID INT,"
+				+ "roleID INT);";
+		
+		String sqlEvent = "CREATE TABLE IF NOT EXISTS EVENT ("
+				+ "eventID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+				+ "teamID INT,"
+				+ "surveyID INT,"
+				+ "startDate DATE,"
+				+ "endDate DATE);";
+		
+		String sqlUser_Survey_Answer = "CREATE TABLE IF NOT EXISTS USER_SURVEY_ANSWER ("
+				+ "userID INT,"
+				+ "teamID INT,"
+				+ "eventID INT,"
+				+ "questionID INT,"
+				+ "answerID INT);";
+		
 		// Set Version Number
 		String sql5 = "insert into " + dbName + ".DBVer  values(" + dbVersion + ");";
 	
@@ -92,10 +143,22 @@ public class DBUtilities {
 			Connection conn = DriverManager.getConnection(connPath, userName, pwd);
 			Statement stmt = conn.createStatement();
 			) {
-			stmt.addBatch(sql1);
-			stmt.addBatch(sql2);
-			stmt.addBatch(sql3);
-			stmt.addBatch(sql4);
+			stmt.addBatch(sqldb1);
+			stmt.addBatch(sqldb2);
+			// Add Tables
+			stmt.addBatch(sqlDBVer);
+			stmt.addBatch(sqlUser);
+			stmt.addBatch(sqlSurvey);
+			stmt.addBatch(sqlQuestion);
+			stmt.addBatch(sqlAnswer);
+			stmt.addBatch(sqlQ_A);
+			stmt.addBatch(sqlSurvery_Q);
+			stmt.addBatch(sqlTeam);
+			stmt.addBatch(sqlRole);
+			stmt.addBatch(sqlTeam_user);
+			stmt.addBatch(sqlEvent);
+			stmt.addBatch(sqlUser_Survey_Answer);
+			// Insert Data
 			stmt.addBatch(sql5);
 			stmt.executeBatch();
 		} catch (SQLException e) {
