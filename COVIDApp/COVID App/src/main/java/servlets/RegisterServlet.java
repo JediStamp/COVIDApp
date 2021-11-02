@@ -30,7 +30,7 @@ public class RegisterServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Go to home page to register...");
-		response.sendRedirect("http://localhost:8080/COVID_App/html/index.html");
+		response.sendRedirect("index.jsp");
 	}
 
 	/**
@@ -47,25 +47,32 @@ public class RegisterServlet extends HttpServlet {
 		String fName = request.getParameter("first_name");
 		String lName = request.getParameter("last_name");
 		String email = request.getParameter("email");
-		String pwd1 = request.getParameter("pwd");
-		String pwd2 = request.getParameter("pwd2");
+		String pwd = request.getParameter("pwd");
+
 		
-		String info = "New user: " + fName + " " + lName + " " + email + " " + pwd1 + " " + pwd2;
+		String info = "New user: " + fName + " " + lName + " " + email + " " + pwd;
 		String htmlOut = "<html>" + info + "</html>";
 		PrintWriter writer = response.getWriter();
 		writer.write(htmlOut);
 
 		System.out.printf("New User: \n\t%s\n\t%s\n\t%s\n\t%s\n\t%s\n",
-				fName,lName,email,pwd1,pwd2);
+				fName,lName,email,pwd);
 		
 		//TODO: check that pwd == pwd2 in html before sending (Javascript maybe)
 		//TODO: encrypt password
 		
 		//Create new user
-		User user = new User(fName, lName, email, pwd1);
+		User user = new User(fName, lName, email, pwd);
 		
+//		response.sendRedirect(LoginController.register(user));
+		String[] output = LoginController.register(user);
+		request.setAttribute("errorMsg", output[0] );		
+		String url = output[1];
+
+		System.out.println("error message is: " + output[0]);
+		System.out.println("path is: " + output[1]);
 		
-		response.sendRedirect(LoginController.register(user));
+		request.getRequestDispatcher(url).forward(request,response);
 	}
 
 }

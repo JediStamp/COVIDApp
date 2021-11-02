@@ -45,7 +45,8 @@ public class ApplicationDao {
 			}
 		} catch (SQLException e) {
 			System.out.println("CreateUser(): A new user was not inserted.");
-			e.printStackTrace();
+			DBUtilities.processException(e);
+//			e.printStackTrace();
 		}
 	}
 	
@@ -83,12 +84,12 @@ public class ApplicationDao {
 				
 				// Print to screen to see results
 				System.out.println("ReadUsers(): Users read from DB.");
-				System.out.println("First Name: " + user.getFirstName());
-				System.out.println("Last Name: " + user.getLastName());
+//				System.out.println("First Name: " + user.getFirstName());
+//				System.out.println("Last Name: " + user.getLastName());
 				System.out.println("Email: " + user.getEmail());
-				System.out.println("Password: " + user.getPassword());
-				System.out.println("Verification Code: " + user.getVerCode());
-				System.out.println("Verified Status: " + user.getVerified());
+//				System.out.println("Password: " + user.getPassword());
+//				System.out.println("Verification Code: " + user.getVerCode());
+//				System.out.println("Verified Status: " + user.getVerified());
 				
 			}
 		}catch(SQLException e) {

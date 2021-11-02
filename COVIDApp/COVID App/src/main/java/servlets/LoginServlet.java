@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 //		response.getWriter().append("Served at: ").append(request.getContextPath());
 		System.out.println("Start Login...");
-		response.sendRedirect("http://localhost:8080/COVID_App/html/login.html");
+		response.sendRedirect("login.jsp");
 	}
 
 	/**
@@ -54,7 +54,14 @@ public class LoginServlet extends HttpServlet {
 		// Create user for checks
 		User user = new User(email, pwd);
 		
-		response.sendRedirect(LoginController.login(user));
+		String[] output = LoginController.login(user);
+		request.setAttribute("errorMsg", output[0] );		
+		String url = output[1];
+		
+		System.out.println("error message is: " + output[0]);
+		System.out.println("path is: " + output[1]);
+		
+		request.getRequestDispatcher(url).forward(request,response);
 	}
 
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>COVID App</title>
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="http://localhost:8080/COVID_App/html/css/style.css">
 </head>
 
 <body>
@@ -12,7 +12,7 @@
 
 <div class="center-me">
 	<div class="light left_side">
-	<form action="../ProfileServlet" method="post">
+	<form action="./ProfileServlet" method="post">
 	<table>
 		<tr>
 			<th colspan=2>Profile</th>
@@ -47,7 +47,7 @@
 	</div> <!-- end div dark left_side -->
 	
 	<div class="dark right_side">
-	<form action="../ProfileServlet" method="get">
+	<form action="./ProfileServlet" method="get">
 	<table>
 		<tr>
 			<th>PROFILE PIC GOES HERE</th>
@@ -61,6 +61,15 @@
 	</form>
 	</div> <!-- end div right_side -->
 </div><!-- end div center_me -->
+
+<h2 class="error_msg">
+<%
+    if(null!=request.getAttribute("errorMsg"))
+    {
+        out.println(request.getAttribute("errorMsg"));
+    }
+%>
+</h2>
 
 </body>
 </html>
