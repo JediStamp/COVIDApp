@@ -80,7 +80,6 @@ td {
 	 color: red;
 }
 
-
 /* Question page styling */
 .questionTable {
 	background-color: #eeeeee; /* light grey */
@@ -108,6 +107,10 @@ td {
 	background-color: #4a86e8; /*  cornflower blue */
 }
 
+.menubar .right_align{
+	float: right;
+}
+
 .menubar a:hover {
 	background-color: #d9dbf1; /* light grey*/
 	color: #1c4587;
@@ -128,7 +131,7 @@ td {
   font-size: 18px;
 }
 
-/* Add a green text color and a checkmark when the requirements are right */
+/* Add a green text color and a check mark when the requirements are right */
 .valid {
   color: green;
 }

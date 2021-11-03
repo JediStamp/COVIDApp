@@ -124,7 +124,7 @@ public class LoginController {
 			// Read user from DB
 			User user = ApplicationDao.getUserFromID(userID);
 			
-			// CASE: matches
+			// CASE: code matches
 			// -> go to profile page
 			if (user.getVerCode().equals(codeInput)) {
 				
@@ -144,7 +144,7 @@ public class LoginController {
 				//Include userID
 				output[2] = user.getUserID();
 			}
-			// Case: doesn't match
+			// Case: code doesn't match
 			// -> stay on verification page with error message
 			else {
 				//Provide output message for user
@@ -164,16 +164,14 @@ public class LoginController {
 			return output;
 	}
 	
-	public static String[] login(User user) {
+	public static String[] login(User userAttempt) {
 		String[] output = new String[3]; // = {errorMessage, path, userID};
 		
 		try {
-			// Read user from DB
-			user = ApplicationDao.getUserFromEmail(user.getEmail());
 			
 			// CASE: USER NOT REGISTERED 
 			// -> warning username or password is incorrect 
-			if(!isRegistered(user)) {
+			if(!isRegistered(userAttempt)) {
 				
 				//Send user back to login page
 				output[0] = "username or password is incorrect";
@@ -181,14 +179,14 @@ public class LoginController {
 				output[1] = "login.jsp";
 				
 				//Include userID
-				output[2] = user.getUserID().toString();
+				output[2] = userAttempt.getUserID().toString();
 				
 				return output; 
 			}
 		
 			// CASE: USER REGISTERED, PASSWORD WRONG 
 			// -> warning username or password is incorrect
-			if(!checkPwd(user)) {
+			if(!checkPwd(userAttempt)) {
 	
 				//Send user back to login page
 				output[0] = "username or password is incorrect";
@@ -197,10 +195,13 @@ public class LoginController {
 				output[1] = "login.jsp";
 				
 				//Include userID
-				output[2] = user.getUserID().toString();
+				output[2] = userAttempt.getUserID().toString();
 				
 				return output;
 			}
+		
+		// Read user from DB
+		User user = ApplicationDao.getUserFromEmail(userAttempt.getEmail());
 		
 		// CASE: USER REGISTERED, PWD CORRECT, !VERIFIED 
 		// -> send verification email, take to Verify page
@@ -221,7 +222,7 @@ public class LoginController {
 		// CASE: USER REGISTERED, PWD CORRECT, VERIFIED 
 		// -> take to profile page
 		
-		output[0] = "logging in...";
+//		output[0] = "logging in...";
 		System.out.println(output[0]);
 
 		output[1] = "profile.jsp";

@@ -14,6 +14,7 @@
 		<a id="selected" href="profile.jsp">PROFILE</a>
 		<a href="questionnaire.jsp">QUESTIONNAIRE</a>
 		<a href="results.jsp">RESULTS</a>
+		<a class="right_align" href="index.jsp">LOGOUT</a>
 	</div>
 <hr>
 
@@ -27,7 +28,7 @@
 		
 		<tr>
 			<td><label for="first_name">First Name:</label></td>
-			<td><input type="text" id="first_name" name="first_name"/></td>
+			<td><input type="text" id="first_name" name="first_name" /></td>
 		</tr>
 		
 		<tr>
@@ -57,7 +58,7 @@
 	<form action="./ProfileServlet" method="get">
 	<table>
 		<tr>
-			<th>PROFILE PIC GOES HERE</th>
+			<th><img src="http://localhost:8080/COVID_App/html/images/profile.jpg" width="200px"></th>
 		</tr>
 		
 		<tr>
@@ -69,14 +70,18 @@
 	</div> <!-- end div right_side -->
 </div><!-- end div center_me -->
 
-<h2 class="error_msg">
-<%
-    if(null!=request.getAttribute("errorMsg"))
-    {
-        out.println(request.getAttribute("errorMsg"));
-    }
-%>
-</h2>
+<div>
+ <% if (null!=request.getAttribute("errorMsg"))
+{
+    %>	
+	<h2 class="error_msg">
+    <%
+	out.println(request.getAttribute("errorMsg"));
+	%>
+	</h2>	
+	<% }
+	%>
+</div>
 
 </body>
 </html>

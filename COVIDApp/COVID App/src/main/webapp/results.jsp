@@ -14,6 +14,7 @@
 		<a href="profile.jsp">PROFILE</a>
 		<a href="questionnaire.jsp">QUESTIONNAIRE</a>
 		<a id="selected" href="results.jsp">RESULTS</a>
+		<a class="right_align" href="index.jsp">LOGOUT</a>
 	</div>
 <hr>
 

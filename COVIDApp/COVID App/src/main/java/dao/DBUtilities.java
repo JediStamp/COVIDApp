@@ -94,7 +94,7 @@ public class DBUtilities {
 		
 		String sqlQuestion = "CREATE TABLE IF NOT EXISTS QUESTION ("
 				+ "questionID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
-				+ "questionText VARCHAR(45));";
+				+ "questionText BLOB);";
 		
 		String sqlAnswer = "CREATE TABLE IF NOT EXISTS ANSWER ("
 				+ "answerID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
@@ -137,7 +137,58 @@ public class DBUtilities {
 				+ "answerID INT);";
 		
 		// Set Version Number
-		String sql5 = "insert into " + dbName + ".DBVer  values(" + dbVersion + ");";
+		String inDBVer = "insert into " + dbName + ".DBVer  values(" + dbVersion + ");";
+		// Set Questions
+		String inQ1 = "insert into " + dbName + ".QUESTION (questionText) values "
+				+ "('I am fully vaccinated against COVID-19.');";
+		String inQ2 = "insert into " + dbName + ".QUESTION (questionText) values "
+				+ "('In the last 10 days, have you been identified as a close contact<br/>"
+				+ " of someone who currently has COVID-19?.');";
+		String inQ3 = "insert into " + dbName + ".QUESTION (questionText) values "
+				+ "('In the last 10 days, have you received a COVID Alert exposure <br/>"
+				+ " notification on your cell phone?</td>');";
+		String inQ4 = "insert into " + dbName + ".QUESTION (questionText) values "
+				+ "('In the last 14 days, have you travelled outside of Canada?');";
+		String inQ5 = "insert into " + dbName + ".QUESTION (questionText) values "
+				+ "('Are you currently experiencing fever and/or Chills? <br/>"
+				+ "<i>Temperature of 37.8 degrees Celcius/100 degrees Fahrenheit or more</i>');";
+		String inQ6 = "insert into " + dbName + ".QUESTION (questionText) values "
+				+ "('Are you currently experiencing cough or barking cough? <br/>"
+				+ "	<i>Continuous, more than usual, making a whistling noise when breathing <br/>"
+				+ "(not related to asthma, post-infectious reactive airways, COPD, or <br/>"
+				+ "other known causes or conditions you already have)</i>');";
+		String inQ7 = "insert into " + dbName + ".QUESTION (questionText) values "
+				+ "('Are you currently experiencing shortness of breath?<br/>"
+				+ "<i>Out of breath, unable to breathe deeply (not related to asthma <br/>"
+				+ "or other known causes or conditions you already have)</i>');";
+		String inQ8 = "insert into " + dbName + ".QUESTION (questionText) values "
+				+ "('Are you currently experiencing decrease in loss of taste or breath?<br/>"
+				+ "<i>Not related to seasonal allergies, neurological disorders, or other <br/>"
+				+ "known causes or conditions you already have</i>');";
+		String inQ9 = "insert into " + dbName + ".QUESTION (questionText) values "
+				+ "('Are you currently experiencing muscle aches/joint pain?<br/>"
+				+ "<i>Unusual, long-lasting (not related to getting a COVID-19 vaccine in the last 48 hours,<br/>"
+				+ "a sudden injury, fibromyalgia, or other known causes or conditions you already have)</i>');";
+		String inQ10 = "insert into " + dbName + ".QUESTION (questionText) values "
+				+ "('Are you currently experiencing extreme tiredness?<br/>"
+				+ "<i>Unusual, fatigue, lack of energy (not related to getting a COVID-19 vaccine in the last 48 hours, <br/>"
+				+ "depression, insomnia, thyroid dysfunction, or other known causes or conditions you already have)</i>');";
+
+		// Set Answers
+		String inAns1 = "insert into " + dbName + ".ANSWER (answerValue) values ('yes');";
+		String inAns2 = "insert into " + dbName + ".ANSWER (answerValue) values ('no');";
+		
+		// Set Question_Answers
+		String inQA1 = "insert into " + dbName + ".QUESTION_ANSWER (questionID, answerID) VALUES (1,1);";
+		String inQA2 = "insert into " + dbName + ".QUESTION_ANSWER (questionID, answerID) VALUES (2,2);";
+		String inQA3 = "insert into " + dbName + ".QUESTION_ANSWER (questionID, answerID) VALUES (3,2);";
+		String inQA4 = "insert into " + dbName + ".QUESTION_ANSWER (questionID, answerID) VALUES (4,2);";
+		String inQA5 = "insert into " + dbName + ".QUESTION_ANSWER (questionID, answerID) VALUES (5,2);";
+		String inQA6 = "insert into " + dbName + ".QUESTION_ANSWER (questionID, answerID) VALUES (6,2);";
+		String inQA7 = "insert into " + dbName + ".QUESTION_ANSWER (questionID, answerID) VALUES (7,2);";
+		String inQA8 = "insert into " + dbName + ".QUESTION_ANSWER (questionID, answerID) VALUES (8,2);";
+		String inQA9 = "insert into " + dbName + ".QUESTION_ANSWER (questionID, answerID) VALUES (9,2);";
+		String inQA10 = "insert into " + dbName + ".QUESTION_ANSWER (questionID, answerID) VALUES (10,2);";
 	
 		try (
 			Connection conn = DriverManager.getConnection(connPath, userName, pwd);
@@ -158,8 +209,36 @@ public class DBUtilities {
 			stmt.addBatch(sqlTeam_user);
 			stmt.addBatch(sqlEvent);
 			stmt.addBatch(sqlUser_Survey_Answer);
+			
 			// Insert Data
-			stmt.addBatch(sql5);
+			// DBVer
+			stmt.addBatch(inDBVer);
+			// Question
+			stmt.addBatch(inQ1);
+			stmt.addBatch(inQ2);
+			stmt.addBatch(inQ3);
+			stmt.addBatch(inQ4);
+			stmt.addBatch(inQ5);
+			stmt.addBatch(inQ6);
+			stmt.addBatch(inQ7);
+			stmt.addBatch(inQ8);
+			stmt.addBatch(inQ9);
+			stmt.addBatch(inQ10);
+			// Answer
+			stmt.addBatch(inAns1);
+			stmt.addBatch(inAns2);
+			// Question_answer
+			stmt.addBatch(inQA1);
+			stmt.addBatch(inQA2);
+			stmt.addBatch(inQA3);
+			stmt.addBatch(inQA4);
+			stmt.addBatch(inQA5);
+			stmt.addBatch(inQA6);
+			stmt.addBatch(inQA7);
+			stmt.addBatch(inQA8);
+			stmt.addBatch(inQA9);
+			stmt.addBatch(inQA10);
+			// Execute Batch of statements
 			stmt.executeBatch();
 		} catch (SQLException e) {
 			System.out.println("error in createDB() method");
@@ -182,6 +261,7 @@ public class DBUtilities {
         try (Connection conn = DriverManager.getConnection(connPath, userName, pwd);
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
                stmt.execute();
+               System.out.println("deleteDB(): Deleted DB");
         } catch (SQLException e) {
         	System.out.println("error in deleteDB() method");
         	DBUtilities.processException(e);
@@ -199,10 +279,10 @@ public class DBUtilities {
 	 */
 	public static void updateDB(String connPath, String userName, String pwd, String dbName, int dbVersion) {
 		if (getVersion(connPath, userName, pwd, dbName) > 0) {
-			System.out.printf("delete DB version %d",getVersion(connPath, userName, pwd, dbName));
+			System.out.printf("delete DB version %d\n",getVersion(connPath, userName, pwd, dbName));
 			deleteDB(connPath, userName, pwd, dbName, dbVersion);			
 		}
-		System.out.printf("create DB version %d", dbVersion);
+		System.out.printf("create DB version %d\n", dbVersion);
 		createDB(connPath, userName, pwd, dbName, dbVersion);
 	}
 	

@@ -65,14 +65,18 @@
 	</div> <!-- end div dark left_side -->
 </div><!-- end div center_me -->
 
-<h2 class="error_msg">
-<%
-    if(null!=request.getAttribute("errorMsg"))
-    {
-        out.println(request.getAttribute("errorMsg"));
-    }
-%>
-</h2>
+<div>
+ <% if (null!=request.getAttribute("errorMsg"))
+{
+    %>	
+	<h2 class="error_msg">
+	<%
+	out.println(request.getAttribute("errorMsg"));
+	%>
+	</h2>	
+	<% }
+	%>
+</div>
 
 </body>
 </html>
