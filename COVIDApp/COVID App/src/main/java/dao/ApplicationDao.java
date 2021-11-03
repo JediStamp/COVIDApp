@@ -49,6 +49,34 @@ public class ApplicationDao {
 		}
 	}
 	
+	//create another insert method to insert questonair answers into the db
+	
+	public static void storeQuestions(User user){
+//		String sql = "INSERT INTO " + MyDB.dbName + ".USER (userID, firstName, lastName, email, pwd) VALUES (?, ?, ?, ?, ?);";
+//		
+//		try (
+//			// Make connection
+//			Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+//			PreparedStatement statement = conn.prepareStatement(sql);
+//				)
+//		{
+//			statement.setString(1, user.getUserID().toString());
+//			statement.setString(2, user.getFirstName());
+//			statement.setString(3, user.getLastName());
+//			statement.setString(4, user.getEmail());
+//			statement.setString(5, user.getPassword());
+//			System.out.println(statement);
+//			int rowsInserted = statement.executeUpdate();
+//			
+//			if (rowsInserted > 0) {
+//			    System.out.println("CreateUser(): A new user was inserted successfully!");
+//			}
+//		} catch (SQLException e) {
+//			System.out.println("CreateUser(): A new user was not inserted.");
+//			DBUtilities.processException(e);
+//		}
+	}
+	
 	// Read Methods ---------------------------------------------------------------------
 	public static List<User> readUsers() throws SQLException{
 		User user = null;
