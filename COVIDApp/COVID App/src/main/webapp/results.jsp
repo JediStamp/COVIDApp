@@ -16,6 +16,8 @@
 		<a id="selected" href="results.jsp">RESULTS</a>
 		<a class="right_align" href="index.jsp">LOGOUT</a>
 	</div>
+	
+
 
 </body>
 </html>
