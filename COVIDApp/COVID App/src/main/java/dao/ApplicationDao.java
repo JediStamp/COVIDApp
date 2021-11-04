@@ -158,7 +158,7 @@ public class ApplicationDao {
 	public static List<QuestionAnswer> readSurveyResults() throws SQLException{
 		User user = null;
 		List<QuestionAnswer> qa = new ArrayList<>();
-		String sql = "SELECT 	user_survey_answer.userID,"
+		String sql = "SELECT user_survey_answer.userID,"
 				+ "user_survey_answer.teamID,"
 				+ "user_survey_answer.eventID,"
 				+ "user_survey_answer.questionID,"

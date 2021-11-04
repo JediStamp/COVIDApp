@@ -14,8 +14,8 @@
 	<div class="menubar">
 		<a href="profile.jsp">PROFILE</a>
 		<a id="selected" href="questionnaire.jsp">QUESTIONNAIRE</a>
-		<a href="results.jsp">RESULTS</a>
-		<a class="right_align" href="index.jsp">LOGOUT</a>
+		<a id="selected" href="results.jsp">RESULTS</a>
+		<a class="right_align" href="LogoutServlet?logout=true">LOGOUT</a>
 	</div>
 	
 	<!-- Creating a Table to store the questions and "Yes" & "No" buttons -->

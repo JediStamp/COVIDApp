@@ -43,32 +43,32 @@
 		
 		<tr>
 			<td><label for="first_name">First Name:</label></td>
-			<td><input type="text" id="first_name" name="first_name" size="50"
+			<td><input type="text" id="first_name" name="first_name" size="30"
 				required="required"/></td>
 		</tr>
 		
 		<tr>
 			<td><label for="last_name">Last Name:</label></td>
-			<td><input type="text" id="last_name" name="last_name" size="50" 
+			<td><input type="text" id="last_name" name="last_name" size="30" 
 				required="required"/></td>
 		</tr>
 		
 		<tr>
 			<td><label for="email">Email:</label></td>
-			<td><input type="email" id="email" name="email" size="50" 
+			<td><input type="email" id="email" name="email" size="30" 
 				required="required"/></td>
 		</tr>
 		
 		<tr>
 			<td><label for="pwd">Password:</label></td>
-			<td><input type="password" id="pwd" name="pwd" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" size="50"
+			<td><input type="password" id="pwd" name="pwd" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" size="30"
 			title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
 				onChange="onChange()" required="required"/></td>
 		</tr>
 		
 		<tr>
 			<td><label for="conf_pwd">Confirm Password:</label></td>
-			<td><input type="password" id="conf_pwd" name="conf_pwd" onChange="onChange()" size="50"
+			<td><input type="password" id="conf_pwd" name="conf_pwd" onChange="onChange()" size="30"
 				required="required"/></td>
 		</tr>
 		
