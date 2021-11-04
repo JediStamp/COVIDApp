@@ -45,6 +45,10 @@ public class RegisterServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		doGet(request, response);
+		System.out.println(request.getParameterMap());
+		System.out.println("select"+ 1);
+		
+		
 		String fName = request.getParameter("first_name");
 		String lName = request.getParameter("last_name");
 		String email = request.getParameter("email");

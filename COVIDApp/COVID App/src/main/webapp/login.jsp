@@ -20,13 +20,13 @@
 		
 		<tr>
 			<td><label for="email">Email:</label></td>
-			<td><input type="email" id="email" name="email" 
+			<td><input type="email" id="email" name="email" size="50"
 				required="required"/></td>
 		</tr>
 		
 		<tr>
 			<td><label for="pwd">Password:</label></td>
-			<td><input type="password" id="pwd" name="pwd" 
+			<td><input type="password" id="pwd" name="pwd" size="50"
 				required="required"/></td>
 		</tr>
 		

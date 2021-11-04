@@ -12,7 +12,7 @@ body{
 h1{
 	text-align: center;
 	font-size: 48px;
-	padding: 20px 0 20px 0;
+	padding: 20px 0 20px 0; 	/* top right bottom left */
 	color: #eeeeee;				/* light grey */
 }
 
@@ -24,21 +24,26 @@ hr{
 .center-me {
 	display:flex;
 	justify-content: center;
+	width: 60%;
+	margin: auto;
 }
 
 .dark{
 	background-color: #1c4587; 	/* dark cornflower blue */	
 	color: #eeeeee;				/* light grey */
+	flex: 2;
 }
 
 .light{
 	background-color: #eeeeee;	/* light grey */
 	color: #1c4587; 			/* dark cornflower blue */	
+	flex: 3;
 }
 
 table{
     border-collapse: collapse;
-    margin: 20px 0 20px 0;
+    margin: 20px auto 20px auto;		/* top right bottom left */
+    width: 80%;
 }
 
 th {
@@ -56,6 +61,10 @@ td {
 [type="submit"] {
 	padding: 8px;
 	text-align: center;
+}
+
+[type="radio"] {
+	margin-left: 25px;
 }
 
 .centered{
@@ -84,7 +93,9 @@ td {
 .questionTable {
 	background-color: #eeeeee; /* light grey */
 	border-style: solid;
-	border-color: #1c4587; /* dark cornflower blue */
+	border-color: #1c4587; 		/* dark cornflower blue */
+	flex: 1;
+	width: 100%
 }
 
 .menubar {

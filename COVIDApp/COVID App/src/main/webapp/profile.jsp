@@ -28,22 +28,24 @@
 		
 		<tr>
 			<td><label for="first_name">First Name:</label></td>
-			<td><input type="text" id="first_name" name="first_name" /></td>
+			<td><input type="text" id="first_name" name="first_name" size="50"
+			value ="First Name Goes Here"/></td>
 		</tr>
 		
 		<tr>
 			<td><label for="last_name">Last Name:</label></td>
-			<td><input type="text" id="last_name" name="last_name"/></td>
+			<td><input type="text" id="last_name" name="last_name" size="50"
+			value=<% out.println(request.getSession().getAttribute("userID"));%>/></td>
 		</tr>
 		
 		<tr>
 			<td><label for="email">Email:</label></td>
-			<td><input type="email" id="email" name="email"/></td>
+			<td><input type="email" id="email" name="email" size="50"/></td>
 		</tr>
 		
 		<tr>
 			<td><label for="pwd">Password:</label></td>
-			<td><input type="password" id="pwd" name="pwd"/></td>
+			<td><input type="password" id="pwd" name="pwd" size="50"/></td>
 		</tr>
 		
 		<tr>
