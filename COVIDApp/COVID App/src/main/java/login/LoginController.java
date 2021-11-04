@@ -3,7 +3,17 @@ package login;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import app.User;
 import dao.ApplicationDao;
 import dao.DBUtilities;
@@ -302,6 +312,7 @@ public class LoginController {
 		ApplicationDao.updateUserVerCode(user.getUserID().toString(),  verCode);
 		
 		// TODO: Send verification code to user via email
+		sendEmail(user); //this line was needed.
 
 	}
 	
@@ -314,6 +325,54 @@ public class LoginController {
 		int number = rnd.nextInt(999999);
 		System.out.println("Verification code is: " + number);
 		return String.format("%06d", number);
+	}
+	
+	public static boolean sendEmail(User user) {
+		boolean test = false;
+		
+		String toEmail = user.getEmail();
+		String fromEmail = "apate0871@gmail.com";
+		String password = "Patriots_87";
+		
+		try {
+			
+			//set properties for our email provider
+			Properties pr = new Properties();
+			pr.setProperty("mail.smtp.host", "smtp.gmail.com");
+			pr.setProperty("mail.smtp.port", "587");
+			pr.setProperty("mail.smtp.auth", "true");
+			pr.setProperty("mail.smtp.starttls.enable", "true");
+			pr.put("mail.smtp.socketFactory.port", "465");
+			pr.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			
+			//get session
+			Session session = Session.getInstance(pr, new Authenticator(){
+				@Override
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(fromEmail, password);
+				}
+			});
+			
+			//set email message details
+            Message mess = new MimeMessage(session);
+            
+            mess.setFrom(new InternetAddress (fromEmail));
+            mess.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+            
+            mess.setSubject("User Email Verification");
+            mess.setText("Registered Success please use this code: " + user.getVerCode());
+            
+            Transport.send(mess);
+            
+            test = true;
+            
+            
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return test;
 	}
 	
 	
