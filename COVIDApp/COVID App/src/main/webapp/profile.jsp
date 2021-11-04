@@ -16,7 +16,7 @@
 		<a href="results.jsp">RESULTS</a>
 		<a class="right_align" href="index.jsp">LOGOUT</a>
 	</div>
-<hr>
+
 
 <div class="center-me">
 	<div class="light left_side">
@@ -29,23 +29,24 @@
 		<tr>
 			<td><label for="first_name">First Name:</label></td>
 			<td><input type="text" id="first_name" name="first_name" size="50"
-			value ="First Name Goes Here"/></td>
+			value=<% out.println(request.getSession().getAttribute("firstName"));%>/></td>
 		</tr>
 		
 		<tr>
 			<td><label for="last_name">Last Name:</label></td>
 			<td><input type="text" id="last_name" name="last_name" size="50"
-			value=<% out.println(request.getSession().getAttribute("userID"));%>/></td>
+			value=<% out.println(request.getSession().getAttribute("lastName"));%>/></td>
 		</tr>
 		
 		<tr>
 			<td><label for="email">Email:</label></td>
-			<td><input type="email" id="email" name="email" size="50"/></td>
+			<td><input type="email" id="email" name="email" size="50"
+			value=<% out.println(request.getSession().getAttribute("email"));%>/></td>
 		</tr>
 		
 		<tr>
-			<td><label for="pwd">Password:</label></td>
-			<td><input type="password" id="pwd" name="pwd" size="50"/></td>
+			<td>Change Password</td>
+			<td>?</td>
 		</tr>
 		
 		<tr>

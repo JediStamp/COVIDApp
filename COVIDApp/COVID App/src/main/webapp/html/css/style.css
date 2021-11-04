@@ -103,6 +103,7 @@ td {
 	background-color: #d9dbf1; /* light grey*/
 	border: 1px #1b2432 solid;
 	overflow: auto;
+	margin-bottom: 40px;
 }
 
 .menubar a {

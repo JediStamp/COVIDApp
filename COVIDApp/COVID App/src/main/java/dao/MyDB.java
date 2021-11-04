@@ -8,7 +8,7 @@ public class MyDB {
     public static final String pwd = "J3nn3sDB!!$$"; //might have to change the password
 
     public static final String connPath = "jdbc:mysql://localhost:3306/";
-    public static final int version = 3;
+    public static final int version = 4;
     
     // Email verification
     public static final String fromEmail = "";

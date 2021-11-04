@@ -66,12 +66,18 @@ public class VerifyServlet extends HttpServlet {
 		request.setAttribute("errorMsg", output[0] );		
 		String url = output[1];
 		request.getSession().setAttribute("userID", output[2]);
+		request.getSession().setAttribute("firstName", output[3]);
+		request.getSession().setAttribute("lastName", output[4]);
+		request.getSession().setAttribute("email", output[5]);
 		
 		// Print them to the screen
 		System.out.println("VerifyServlet: Printing output parameters...");
 		System.out.println("error message is: " + output[0]);
 		System.out.println("path is: " + output[1]);
 		System.out.println("userID is: " + output[2]);
+		System.out.println("firstName is: " + output[3]);
+		System.out.println("lastName is: " + output[4]);
+		System.out.println("email is: " + output[5]);
 		
 		// Display new page
 		request.getRequestDispatcher(url).forward(request,response);

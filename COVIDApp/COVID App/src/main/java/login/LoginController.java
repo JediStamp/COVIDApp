@@ -27,7 +27,8 @@ public class LoginController {
 	 * @return
 	 */
 	public static String[] register(User user) {
-		String[] output = new String[3]; // = {errorMessage, path, userID};
+		// {errorMessage, path, userID, firstName, lastName, email};
+		String[] output = new String[6]; 
 		
 		// CASE: USER NOT REGISTERED 
 		// -> send verification email, take to Verify page
@@ -48,13 +49,15 @@ public class LoginController {
 			
 			//Include userID
 			output[2] = user.getUserID().toString();
+			output[3] = user.getFirstName();
+			output[4] = user.getLastName();
+			output[5] = user.getEmail();
 			return output;
 		}	
 		
 		// CASE: USER ALREADY REGISTERED & pwd is correct but !VERIFIED 
 		// -> send verification email, take to Verify page
-		if(!isVerified(user) && checkPwd(user)) {
-			
+		else if(!isVerified(user) && checkPwd(user)) {
 			
 			try {
 				//get user from DB
@@ -72,6 +75,10 @@ public class LoginController {
 				
 				//Include userID
 				output[2] = user.getUserID().toString();
+				output[3] = user.getFirstName();
+				output[4] = user.getLastName();
+				output[5] = user.getEmail();
+				
 			} catch (SQLException e) {
 				DBUtilities.processException(e);
 			}
@@ -81,7 +88,7 @@ public class LoginController {
 		
 		// CASE: USER REGISTERED & VERIFIED, PASSWORD WRONG 
 		// -> warning
-		if(!checkPwd(user)) {
+		else if(!checkPwd(user)) {
 
 			try {
 				//get user from DB
@@ -95,6 +102,9 @@ public class LoginController {
 				
 				//Include userID
 				output[2] = user.getUserID().toString();
+				output[3] = user.getFirstName();
+				output[4] = user.getLastName();
+				output[5] = user.getEmail();
 				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -106,29 +116,34 @@ public class LoginController {
 		
 		// CASE: USER REGISTERED, VERIFIED, PWD matches 
 		// -> take to profile page
+		else {
+			try {
+				//get user from DB
+				user = ApplicationDao.getUserFromEmail(user.getEmail());
 
-		try {
-			//get user from DB
-			user = ApplicationDao.getUserFromEmail(user.getEmail());
-			
-			//Provide output message for user
-			output[0] = "user is already registered, verified, and pwd is correct, logging in...";
-			System.out.println(output[0]);
-			
-			output[1] = "profile.jsp";
-			
-			//Include userID
-			output[2] = user.getUserID().toString();
-			
-		} catch (SQLException e) {
-			DBUtilities.processException(e);
+				//Provide output message for user
+				output[0] = "user is already registered, verified, and pwd is correct, logging in...";
+				System.out.println(output[0]);
+
+				output[1] = "profile.jsp";
+
+				//Include userID
+				output[2] = user.getUserID().toString();
+				output[3] = user.getFirstName();
+				output[4] = user.getLastName();
+				output[5] = user.getEmail();
+
+			} catch (SQLException e) {
+				DBUtilities.processException(e);
+			}
+
+			return output;
 		}
-		
-		return output;
 	}
 
 	public static String[] verify(String userID, String codeInput) {
-		String[] output = new String[3]; // = {errorMessage, path, userID};
+		// {errorMessage, path, userID, firstName, lastName, email};
+		String[] output = new String[6]; 
 		
 		try {
 			// Read user from DB
@@ -153,6 +168,9 @@ public class LoginController {
 				
 				//Include userID
 				output[2] = user.getUserID();
+				output[3] = user.getFirstName();
+				output[4] = user.getLastName();
+				output[5] = user.getEmail();
 			}
 			// Case: code doesn't match
 			// -> stay on verification page with error message
@@ -166,6 +184,9 @@ public class LoginController {
 				
 				//Include userID
 				output[2] = user.getUserID().toString();
+				output[3] = user.getFirstName();
+				output[4] = user.getLastName();
+				output[5] = user.getEmail();
 			}
 		} catch (SQLException e) {
 			DBUtilities.processException(e);
@@ -175,73 +196,77 @@ public class LoginController {
 	}
 	
 	public static String[] login(User userAttempt) {
-		String[] output = new String[3]; // = {errorMessage, path, userID};
-		
+		// {errorMessage, path, userID, firstName, lastName, email};
+		String[] output = new String[6];
+		output[5] = userAttempt.getEmail();
+
 		try {
-			
+
 			// CASE: USER NOT REGISTERED 
 			// -> warning username or password is incorrect 
 			if(!isRegistered(userAttempt)) {
-				
+
 				//Send user back to login page
 				output[0] = "username or password is incorrect";
 				System.out.println(output[0]);
 				output[1] = "login.jsp";
-				
+
 				//Include userID
 				output[2] = userAttempt.getUserID().toString();
-				
+
 				return output; 
 			}
-		
+
 			// CASE: USER REGISTERED, PASSWORD WRONG 
 			// -> warning username or password is incorrect
-			if(!checkPwd(userAttempt)) {
-	
+			else if(!checkPwd(userAttempt)) {
+
 				//Send user back to login page
 				output[0] = "username or password is incorrect";
 				System.out.println(output[0]);
-	
+
 				output[1] = "login.jsp";
-				
+
 				//Include userID
 				output[2] = userAttempt.getUserID().toString();
-				
+
 				return output;
 			}
-		
-		// Read user from DB
-		User user = ApplicationDao.getUserFromEmail(userAttempt.getEmail());
-		
-		// CASE: USER REGISTERED, PWD CORRECT, !VERIFIED 
-		// -> send verification email, take to Verify page
-		if(!isVerified(user)) {
+			else {
 
-			sendVerificationCode(user);
-			output[0] = "Please check your email for verification code...";
-			System.out.println(output[0]);
+				// Read user from DB
+				User user = ApplicationDao.getUserFromEmail(userAttempt.getEmail());
 
-			output[1] = "verify.jsp";
-			
-			//Include userID
-			output[2] = user.getUserID().toString();
-			
-			return output;
-		}else {
-		
-		// CASE: USER REGISTERED, PWD CORRECT, VERIFIED 
-		// -> take to profile page
-		
-//		output[0] = "logging in...";
-		System.out.println(output[0]);
+				// Include userID
+				output[2] = user.getUserID().toString();
+				output[3] = user.getFirstName();
+				output[4] = user.getLastName();
+				output[5] = user.getEmail();
+				
+				// CASE: USER REGISTERED, PWD CORRECT, !VERIFIED 
+				// -> send verification email, take to Verify page
+				if(!isVerified(user)) {
 
-		output[1] = "profile.jsp";
-		
-		//Include userID
-		output[2] = user.getUserID().toString();
+					sendVerificationCode(user);
+					output[0] = "Please check your email for verification code...";
+					System.out.println(output[0]);
 
-		return output; 
-		}
+					output[1] = "verify.jsp";
+
+					return output;
+				}else {
+
+					// CASE: USER REGISTERED, PWD CORRECT, VERIFIED 
+					// -> take to profile page
+
+					output[0] = "";
+					System.out.println(output[0]);
+
+					output[1] = "profile.jsp";
+
+					return output; 
+				}
+			}
 		} catch (SQLException e) {
 			DBUtilities.processException(e);
 		}
@@ -255,13 +280,17 @@ public class LoginController {
 		try {
 			List<User> users = ApplicationDao.readUsers();
 			for (int i = 0; i < users.size(); i++) {
+				
 				//check each entry until you find a match
 				if (user.getEmail().equals(users.get(i).getEmail())){
+					
+					// User is Registered already
 					System.out.println("User already exists in db");
 					return true;
 				}
 			}
-			// No match
+			
+			// No match, user is not registered
 			System.out.println("LoginController.isRegistered(): User can be added");
 			return false;
 			
