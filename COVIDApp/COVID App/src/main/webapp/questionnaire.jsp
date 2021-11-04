@@ -31,7 +31,7 @@
 		<tbody>
 			<tr>
 				<td>I am fully vaccinated against COVID-19.</td>
-				<td colspan=2 style="text-align: center; vertical-align: middle;"><input type="radio" name="select" value="Yes"> &emsp;&emsp;&emsp; <input type="radio" name="select" value="No"></td>
+				<td colspan=2 style="text-align: center; vertical-align: middle;"><input type="radio" name="select1" value="Yes"> &emsp;&emsp;&emsp; <input type="radio" name="select1" value="No"></td>
 				<!--<td style="text-align: center; vertical-align: middle;"><input type="checkbox" value="yes" name="checks"/></td>
 				<td style="text-align: center; vertical-align: middle;"><input type="checkbox" value="no" name="checks"/></td> -->
 			</tr>
@@ -92,7 +92,7 @@
 				<td>Extreme tiredness<br/>
 					<i>Unusual, fatigue, lack of energy (not related to getting a COVID-19 vaccine in the last 48 hours, <br/> 
 					depression, insomnia, thyroid dysfunction, or other known causes or conditions you already have)</i></td>
-				<td colspan=2 style="text-align: center; vertical-align: middle;"><input type="radio" name="select0" value="Yes"> &emsp;&emsp;&emsp; <input type="radio" name="select0" value="No"></td>
+				<td colspan=2 style="text-align: center; vertical-align: middle;"><input type="radio" name="select10" value="Yes"> &emsp;&emsp;&emsp; <input type="radio" name="select10" value="No"></td>
 			</tr>
 			<!-- <tr>
 				<td><label for="checks">None of the above</label></td>

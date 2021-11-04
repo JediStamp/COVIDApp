@@ -3,12 +3,14 @@ package questionnaires;
 import java.util.ArrayList;
 
 public class QuestionSet {
-	private ArrayList<Question> questions;
+	private ArrayList<QuestionAnswer> questions;
 	private int teamID;
+	private int eventID;
 	
-	public QuestionSet(ArrayList<Question> questions, int teamId) {
-		this.teamID = teamId;
-		this.questions = questions;
+	public QuestionSet(int teamID, int eventID) {
+		this.teamID = teamID;
+		this.setEventID(eventID);
+		this.questions = new ArrayList<QuestionAnswer>();
 	}
 	
 	public int getTeamID() {
@@ -17,11 +19,23 @@ public class QuestionSet {
 	public void setTeamID(int teamID) {
 		this.teamID = teamID;
 	}
-	public ArrayList<Question> getQuestions() {
+	public ArrayList<QuestionAnswer> getQuestions() {
 		return questions;
 	}
-	public void setQuestions(ArrayList<Question> questions) {
+	public void setQuestions(ArrayList<QuestionAnswer> questions) {
 		this.questions = questions;
+	}
+	
+	public void addQuestionAnswer(QuestionAnswer qa) {
+		questions.add(qa);
+	}
+
+	public int getEventID() {
+		return eventID;
+	}
+
+	public void setEventID(int eventID) {
+		this.eventID = eventID;
 	}
 	
 }
