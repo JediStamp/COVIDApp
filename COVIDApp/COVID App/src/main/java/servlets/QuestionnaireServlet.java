@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -97,7 +98,35 @@ public class QuestionnaireServlet extends HttpServlet {
 		System.out.println(questionSet.getQuestions().size());
 				
 		ApplicationDao.storeQuestions(userID, questionSet);
+		
+		
+		
+		
+		//call to get questions 
+		System.out.println("finished storeQuestions()");
+		String lineBreak = "<br />";
+		try {
+			List<QuestionAnswer> results = ApplicationDao.readQuestions();
+			for(int i = 0; i < results.size(); i++) {
+				response.getWriter().write(results.get(i).getUserID());
+				response.getWriter().write(lineBreak);
+				response.getWriter().write("qID " + results.get(i).getQuestionID());
+				response.getWriter().write(lineBreak);
+				response.getWriter().write("a ID " + results.get(i).getAnswerID());
+				response.getWriter().write(lineBreak);
+				
+//				response.getWriter().write(lineBreak);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Successfully read readQuestions()");
 
+		
+		
+		
 		//redirect to results page
 		// Set error message & URL
 				request.setAttribute("errorMsg", "");	
@@ -111,7 +140,8 @@ public class QuestionnaireServlet extends HttpServlet {
 //				System.out.println("userID is: " + output[2]);
 				
 				// Display new page
-				request.getRequestDispatcher(url).forward(request,response);
+				
+//				request.getRequestDispatcher(url).forward(request,response);
 		
 			
 	}

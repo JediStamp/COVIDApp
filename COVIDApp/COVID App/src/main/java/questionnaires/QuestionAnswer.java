@@ -1,9 +1,12 @@
 package questionnaires;
 
 public class QuestionAnswer {
+	private String userID;
+	private int teamID;
+	private int eventID;
 	private int questionID;
 	private int answerID;
-	private boolean isRightAns;
+	private int isRightAns;
 	
 	public QuestionAnswer(int questionID, int answerID) {
 		this.questionID = questionID;
@@ -22,10 +25,34 @@ public class QuestionAnswer {
 	public void setAnswerID(int answerID) {
 		this.answerID = answerID;
 	}
-	public boolean isRightAns() {
+	public int isRightAns() {
 		return isRightAns;
 	}
-	public void setRightAns(boolean isRightAns) {
+	public void setRightAns(int isRightAns) {
 		this.isRightAns = isRightAns;
+	}
+
+	public String getUserID() {
+		return userID;
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+
+	public int getTeamID() {
+		return teamID;
+	}
+
+	public void setTeamID(int teamID) {
+		this.teamID = teamID;
+	}
+
+	public int getEventID() {
+		return eventID;
+	}
+
+	public void setEventID(int eventID) {
+		this.eventID = eventID;
 	}
 }

@@ -9,11 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import app.User;
 import questionnaires.Question;
+import questionnaires.QuestionAnswer;
 import questionnaires.QuestionSet;
 import servlets.QuestionnaireServlet;
 
 // Service Class
 public class ApplicationDao {
+	
+	//create new arraylist for reading questions
+	static ArrayList<QuestionAnswer> readList = new ArrayList<>();
 	
 	// Create Methods -------------------------------------------------------------------
 	/**
@@ -148,6 +152,49 @@ public class ApplicationDao {
 		}
 
 		return users;
+	}	
+	
+	//read question answers from db 
+	public static List<QuestionAnswer> readQuestions() throws SQLException{
+		User user = null;
+		List<QuestionAnswer> qa = new ArrayList<>();
+		String sql = "SELECT * FROM " + MyDB.dbName + ".USER_SURVEY_ANSWER;";
+
+		try (	// Make connection
+				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+				PreparedStatement statement = conn.prepareStatement(sql);
+				ResultSet result = statement.executeQuery(sql);
+				)
+		{
+			System.out.println("readQuestions(): ");
+			System.out.print(statement);
+							
+			while (result.next()){
+					String userID = result.getString("userID");
+				    int teamID = result.getInt("teamID"); 
+				    int eventID = result.getInt("eventID");
+				    int questionID = result.getInt("questionID");
+				    int answerID = result.getInt("answerID");
+				    
+				    QuestionAnswer QA = new QuestionAnswer(questionID, answerID);
+				    QA.setUserID(userID);
+				    QA.setTeamID(teamID);
+				    QA.setEventID(eventID);
+				    
+				  //add to arraylist while still in while loop
+				    readList.add(QA);
+				
+			}
+			
+			// Print to screen to see results
+			System.out.println("readQuestions(): Questions read from DB.");
+			
+		}catch(SQLException e) {
+			System.out.println("ReadUsers(): Users Not Read from DB.");
+			DBUtilities.processException(e);
+		}
+
+		return readList;
 	}	
 	
 	public static User getUserFromID(String userID) throws SQLException{
