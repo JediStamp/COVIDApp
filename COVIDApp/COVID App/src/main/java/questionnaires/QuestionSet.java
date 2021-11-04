@@ -27,7 +27,7 @@ public class QuestionSet {
 	}
 	
 	public void addQuestionAnswer(QuestionAnswer qa) {
-		
+		questions.add(qa);
 	}
 
 	public int getEventID() {
