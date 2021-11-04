@@ -25,7 +25,7 @@ public class QuestionAnswer {
 	public void setAnswerID(int answerID) {
 		this.answerID = answerID;
 	}
-	public int isRightAns() {
+	public int getRightAns() {
 		return isRightAns;
 	}
 	public void setRightAns(int isRightAns) {

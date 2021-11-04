@@ -106,14 +106,15 @@ public class QuestionnaireServlet extends HttpServlet {
 		System.out.println("finished storeQuestions()");
 		String lineBreak = "<br />";
 		try {
-			List<QuestionAnswer> results = ApplicationDao.readQuestions();
+			List<QuestionAnswer> results = ApplicationDao.readSurveyResults();
 			for(int i = 0; i < results.size(); i++) {
-				response.getWriter().write(results.get(i).getUserID());
+				response.getWriter().write(results.get(i).getUserID() + "qID " + results.get(i).getQuestionID()
+						+ "a ID " + results.get(i).getAnswerID() + " RightAns: " + results.get(i).getRightAns());
 				response.getWriter().write(lineBreak);
-				response.getWriter().write("qID " + results.get(i).getQuestionID());
-				response.getWriter().write(lineBreak);
-				response.getWriter().write("a ID " + results.get(i).getAnswerID());
-				response.getWriter().write(lineBreak);
+//				response.getWriter().write("qID " + results.get(i).getQuestionID());
+//				response.getWriter().write(lineBreak);
+//				response.getWriter().write("a ID " + results.get(i).getAnswerID());
+//				response.getWriter().write(lineBreak);
 				
 //				response.getWriter().write(lineBreak);
 				
@@ -141,7 +142,7 @@ public class QuestionnaireServlet extends HttpServlet {
 				
 				// Display new page
 				
-//				request.getRequestDispatcher(url).forward(request,response);
+				request.getRequestDispatcher(url).forward(request,response);
 		
 			
 	}

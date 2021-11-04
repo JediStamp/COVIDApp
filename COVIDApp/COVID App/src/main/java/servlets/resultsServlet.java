@@ -14,22 +14,25 @@ import dao.ApplicationDao;
 import questionnaires.QuestionAnswer;
 
 
-@WebServlet("/resultsServlet")
+@WebServlet("/ResultsServlet")
 public class resultsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 
     public resultsServlet() {
         super();
-        try {
-			doGet(null, null);
-		} catch (ServletException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			List<QuestionAnswer> results = ApplicationDao.readSurveyResults();
+//			for(int i = 0; i < results.size(); i++) {
+//				System.out.println(results.get(i).getUserID() + "qID " + results.get(i).getQuestionID()
+//						+ "a ID " + results.get(i).getAnswerID() + " RightAns: " + results.get(i).getRightAns());
+//			
+//			}
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println("Successfully read readQuestions()");
         
       
     }
@@ -37,13 +40,16 @@ public class resultsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String lineBreak = "<br />";
 		try {
-			List<QuestionAnswer> results = ApplicationDao.readQuestions();
+			List<QuestionAnswer> results = ApplicationDao.readSurveyResults();
 			for(int i = 0; i < results.size(); i++) {
-				response.getWriter().write(results.get(i).getUserID());
+				String uID = results.get(i).getUserID();
+				String lineOut ="<tr><td>" + uID + "</td><td>";
+				while(results.get(i).getUserID().equals(uID)) {
+					lineOut += "";
+				}
+				response.getWriter().write(results.get(i).getUserID() + "qID " + results.get(i).getQuestionID()
+						+ "a ID " + results.get(i).getAnswerID() + " RightAns: " + results.get(i).getRightAns());
 				response.getWriter().write(lineBreak);
-				response.getWriter().write("qID " + results.get(i).getQuestionID());
-				response.getWriter().write(lineBreak);
-				response.getWriter().write("a ID " + results.get(i).getAnswerID());
 				response.getWriter().write(lineBreak);
 				
 //				response.getWriter().write(lineBreak);

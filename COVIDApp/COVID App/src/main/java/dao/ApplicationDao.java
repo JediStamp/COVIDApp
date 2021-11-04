@@ -155,10 +155,17 @@ public class ApplicationDao {
 	}	
 	
 	//read question answers from db 
-	public static List<QuestionAnswer> readQuestions() throws SQLException{
+	public static List<QuestionAnswer> readSurveyResults() throws SQLException{
 		User user = null;
 		List<QuestionAnswer> qa = new ArrayList<>();
-		String sql = "SELECT * FROM " + MyDB.dbName + ".USER_SURVEY_ANSWER;";
+		String sql = "SELECT 	user_survey_answer.userID,"
+				+ "user_survey_answer.teamID,"
+				+ "user_survey_answer.eventID,"
+				+ "user_survey_answer.questionID,"
+				+ "user_survey_answer.answerID,"
+				+ "question_answer.answerID "
+				+ "FROM " + MyDB.dbName + ".USER_SURVEY_ANSWER JOIN "
+		+ MyDB.dbName + ".QUESTION_ANSWER on USER_SURVEY_ANSWER.QuestionID = QUESTION_ANSWER.QuestionID;";
 
 		try (	// Make connection
 				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
@@ -174,12 +181,14 @@ public class ApplicationDao {
 				    int teamID = result.getInt("teamID"); 
 				    int eventID = result.getInt("eventID");
 				    int questionID = result.getInt("questionID");
-				    int answerID = result.getInt("answerID");
+				    int answerID = result.getInt(5);
+				    int rightAnsID = result.getInt(6);
 				    
 				    QuestionAnswer QA = new QuestionAnswer(questionID, answerID);
 				    QA.setUserID(userID);
 				    QA.setTeamID(teamID);
 				    QA.setEventID(eventID);
+				    QA.setRightAns(rightAnsID);
 				    
 				  //add to arraylist while still in while loop
 				    readList.add(QA);
