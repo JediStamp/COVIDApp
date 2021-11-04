@@ -27,26 +27,25 @@
 		</tr>
 		
 		<tr>
-			<td><label for="first_name">First Name:</label></td>
-			<td><input type="text" id="first_name" name="first_name" size="50"
+			<td><label class="profile-label" for="first_name">First Name:</label></td>
+			<td><input class="profile" type="text" id="first_name" name="first_name" size="30"
 			value=<% out.println(request.getSession().getAttribute("firstName"));%>/></td>
 		</tr>
 		
 		<tr>
-			<td><label for="last_name">Last Name:</label></td>
-			<td><input type="text" id="last_name" name="last_name" size="50"
+			<td><label class="profile-label" for="last_name">Last Name:</label></td>
+			<td><input class="profile" type="text" id="last_name" name="last_name" size="30"
 			value=<% out.println(request.getSession().getAttribute("lastName"));%>/></td>
 		</tr>
 		
 		<tr>
-			<td><label for="email">Email:</label></td>
-			<td><input type="email" id="email" name="email" size="50"
+			<td><label class="profile-label" for="email">Email:</label></td>
+			<td><input class="profile" type="email" id="email" name="email" size="30"
 			value=<% out.println(request.getSession().getAttribute("email"));%>/></td>
 		</tr>
 		
 		<tr>
-			<td>Change Password</td>
-			<td>?</td>
+			<td colspan=2 class="right_align"><a href="#">Change My Password</a></td>
 		</tr>
 		
 		<tr>
