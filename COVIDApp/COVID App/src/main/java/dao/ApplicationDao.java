@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import app.User;
+import questionnaires.Question;
+import questionnaires.QuestionSet;
+import servlets.QuestionnaireServlet;
 
 // Service Class
 public class ApplicationDao {
@@ -47,6 +50,51 @@ public class ApplicationDao {
 			System.out.println("CreateUser(): A new user was not inserted.");
 			DBUtilities.processException(e);
 		}
+	}
+	
+	//create another insert method to insert questonnaire answers into the db
+	
+	public static void storeQuestions(String userID, QuestionSet questionSet){
+		String sql = "INSERT INTO " + MyDB.dbName + ".USER_SURVEY_ANSWER (userID, teamID, eventID, questionID, answerID) VALUES (?, ?, ?, ?, ?);";
+		
+		try (
+			// Make connection
+			Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+				)
+		{
+			
+			System.out.println("before for loop in ApplicationDAO()" + questionSet.getQuestions().size());
+			
+			for(int i = 0; i < questionSet.getQuestions().size(); i++) {
+				
+			statement.setString(1, userID);
+			statement.setInt(2, questionSet.getTeamID());  
+			statement.setInt(3, questionSet.getEventID());  
+			statement.setInt(4, questionSet.getQuestions().get(i).getQuestionID());  //get question ID 
+			statement.setInt(5, questionSet.getQuestions().get(i).getAnswerID());    //get answer ID
+			System.out.println(statement);
+			int rowsInserted = statement.executeUpdate();
+			
+			if (rowsInserted > 0) {
+			    System.out.println("storeQuestions(): stored use questions succesfully!");
+			}
+			}
+		} catch (SQLException e) {
+			System.out.println("storeQuestions(): questions not inserted.");
+			DBUtilities.processException(e);
+		
+			}
+			
+			//check if answer is yes or no
+//			if() {
+//				statement.setInt(5, 1);
+//			}else {
+//				statement.setInt(5, 2);
+//			}
+			
+
 	}
 	
 	// Read Methods ---------------------------------------------------------------------

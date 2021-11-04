@@ -1,12 +1,19 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import app.User;
+import dao.ApplicationDao;
+import questionnaires.QuestionAnswer;
+import questionnaires.QuestionSet;
 
 /**
  * Servlet implementation class QuestionnaireServlet
@@ -41,33 +48,72 @@ public class QuestionnaireServlet extends HttpServlet {
 		//doGet(request, response);
 		/* 
 		 * These strings below will obtain the Yes or No value from radio buttons in fill in questionnaire page
-		 */
-		String select = request.getParameter("select"); // represents question 1 answer
-		String select2 = request.getParameter("select2");// represents question 2 answer
-		String select3 = request.getParameter("select3"); // represents question 3 answer
-		String select4 = request.getParameter("select4"); // represents question 4 answer
-		String select5 = request.getParameter("select5"); // represents question 5 answer
-		String select6 = request.getParameter("select6"); // represents question 6 answer
-		String select7 = request.getParameter("select7"); // represents question 7 answer
-		String select8 = request.getParameter("select8"); // represents question 8 answer
-		String select9 = request.getParameter("select9"); // represents question 9 answer
-		String select0 = request.getParameter("select0"); // represents question 10 answer
+//		 */
+//		String select1 = request.getParameter("select1"); // represents question 1 answer
+//		String select2 = request.getParameter("select2");// represents question 2 answer
+//		String select3 = request.getParameter("select3"); // represents question 3 answer
+//		String select4 = request.getParameter("select4"); // represents question 4 answer
+//		String select5 = request.getParameter("select5"); // represents question 5 answer
+//		String select6 = request.getParameter("select6"); // represents question 6 answer
+//		String select7 = request.getParameter("select7"); // represents question 7 answer
+//		String select8 = request.getParameter("select8"); // represents question 8 answer
+//		String select9 = request.getParameter("select9"); // represents question 9 answer
+//		String select10 = request.getParameter("select10"); // represents question 10 answer
 		
 		
-		/* Simple outputting the answer for each questions */
-		System.out.printf("Q1: \t%s\n",select);
-		System.out.printf("Q2: \t%s\n",select2);
-		System.out.printf("Q3: \t%s\n",select3);
-		System.out.printf("Q4: \t%s\n",select4);
-		System.out.printf("Q5: \t%s\n",select5);
-		System.out.printf("Q6: \t%s\n",select6);
-		System.out.printf("Q7: \t%s\n",select7);
-		System.out.printf("Q8: \t%s\n",select8);
-		System.out.printf("Q9: \t%s\n",select9);
-		System.out.printf("Q10: \t%s\n",select0);
+//		/* Simple outputting the answer for each questions */
+//		System.out.printf("Q1: \t%s\n",select1);
+//		System.out.printf("Q2: \t%s\n",select2);
+//		System.out.printf("Q3: \t%s\n",select3);
+//		System.out.printf("Q4: \t%s\n",select4);
+//		System.out.printf("Q5: \t%s\n",select5);
+//		System.out.printf("Q6: \t%s\n",select6);
+//		System.out.printf("Q7: \t%s\n",select7);
+//		System.out.printf("Q8: \t%s\n",select8);
+//		System.out.printf("Q9: \t%s\n",select9);
+//		System.out.printf("Q10: \t%s\n",select10);
+		
+		//create question set
+		
+		QuestionSet questionSet = new QuestionSet(1,1);
 		
 		
+		//check if answer is yes or no
+		for (int i = 1; i<=10; i++) {
+			int j;
+			if(request.getParameter("select" + i).equalsIgnoreCase("yes")){
+				j=1;
+			}else {
+				j=2;
+			}
+			questionSet.addQuestionAnswer(new QuestionAnswer(i, j));
+			System.out.println(i + " " + j);
+			
+		}
 		
+		String userID = (String) request.getSession().getAttribute("userID");
+		
+		System.out.println(userID);
+		System.out.println(questionSet.getQuestions().size());
+				
+		ApplicationDao.storeQuestions(userID, questionSet);
+
+		//redirect to results page
+		// Set error message & URL
+				request.setAttribute("errorMsg", "");	
+				//request.getSession().setAttribute("userID", output[2]);
+				String url = "results.jsp";
+				
+				// Print them to the screen
+//				System.out.println("RegisterServlet: Printing output parameters...");
+//				System.out.println("error message is: " + output[0]);
+//				System.out.println("path is: " + output[1]);
+//				System.out.println("userID is: " + output[2]);
+				
+				// Display new page
+				request.getRequestDispatcher(url).forward(request,response);
+		
+			
 	}
 
 }
