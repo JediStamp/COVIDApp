@@ -61,6 +61,8 @@ public class LoginServlet extends HttpServlet {
 		// Set error message & URL
 		request.setAttribute("errorMsg", output[0]);	
 		request.getSession().setAttribute("userID", output[2]);
+		request.getSession().setAttribute("email", email);
+		// set email, first name, last name for user
 		String url = output[1];
 		
 		// Print them to the screen

@@ -20,13 +20,13 @@
 		
 		<tr>
 			<td><label for="email">Email:</label></td>
-			<td><input type="email" id="email" name="email" 
+			<td><input type="email" id="email" name="email" size="50"
 				required="required"/></td>
 		</tr>
 		
 		<tr>
 			<td><label for="pwd">Password:</label></td>
-			<td><input type="password" id="pwd" name="pwd" 
+			<td><input type="password" id="pwd" name="pwd" size="50"
 				required="required"/></td>
 		</tr>
 		
@@ -65,14 +65,18 @@
 	</div> <!-- end div dark left_side -->
 </div><!-- end div center_me -->
 
-<h2 class="error_msg">
-<%
-    if(null!=request.getAttribute("errorMsg"))
-    {
-        out.println(request.getAttribute("errorMsg"));
-    }
-%>
-</h2>
+<div>
+ <% if (null!=request.getAttribute("errorMsg"))
+{
+    %>	
+	<h2 class="error_msg">
+	<%
+	out.println(request.getAttribute("errorMsg"));
+	%>
+	</h2>	
+	<% }
+	%>
+</div>
 
 </body>
 </html>
