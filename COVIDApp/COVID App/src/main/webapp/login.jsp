@@ -31,7 +31,7 @@
 		</tr>
 		
 		<tr>
-			<td colspan=2 class="right_align"><a href="#">Forgot My Password</a></td>
+			<td colspan=2 class="right_align"><a href="email.jsp">Forgot My Password</a></td>
 		</tr>
 		
 		<tr>
