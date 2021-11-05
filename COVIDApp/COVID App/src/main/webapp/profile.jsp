@@ -60,7 +60,7 @@
 	<form action="./ProfileServlet" method="get">
 	<table>
 		<tr>
-			<th><img src="http://localhost:8080/COVID_App/html/images/profile.jpg" width="200px"></th>
+			<th colspan=2><img src="http://localhost:8080/COVID_App/html/images/profile.jpg" width="200px"></th>
 		</tr>
 		
 		<tr>
