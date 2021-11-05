@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -14,6 +16,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import app.Email;
 import app.User;
 import dao.ApplicationDao;
 import dao.DBUtilities;
@@ -26,6 +29,8 @@ public class LoginController {
 	 * @param user
 	 * @return
 	 */
+	static ExecutorService executor = Executors.newFixedThreadPool(5);
+	 
 	public static String[] register(User user) {
 		// {errorMessage, path, userID, firstName, lastName, email};
 		String[] output = new String[6]; 
@@ -360,47 +365,53 @@ public class LoginController {
 	public static boolean sendEmail(User user) {
 		boolean test = false;
 		
-		String toEmail = user.getEmail();
-		String fromEmail = "apate0871@gmail.com";
-		String password = "Patriots_87";
-		
-		try {
-			
-			//set properties for our email provider
-			Properties pr = new Properties();
-			pr.setProperty("mail.smtp.host", "smtp.gmail.com");
-			pr.setProperty("mail.smtp.port", "587");
-			pr.setProperty("mail.smtp.auth", "true");
-			pr.setProperty("mail.smtp.starttls.enable", "true");
-			pr.put("mail.smtp.socketFactory.port", "465");
-			pr.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-			
-			//get session
-			Session session = Session.getInstance(pr, new Authenticator(){
-				@Override
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(fromEmail, password);
-				}
-			});
-			
-			//set email message details
-            Message mess = new MimeMessage(session);
-            
-            mess.setFrom(new InternetAddress (fromEmail));
-            mess.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
-            
-            mess.setSubject("User Email Verification");
-            mess.setText("Registered Success please use this code: " + user.getVerCode());
-            
-            Transport.send(mess);
-            
-            test = true;
-            
-            
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+		// Enqueue recordings for closed captioning.
+        EmailSpooler spooler = new EmailSpooler();
+        Email email = new Email(user.getEmail(), user.getVerCode());
+        spooler.enqueue(email);
+        spooler.shutdown();
+        
+//		String toEmail = user.getEmail();
+//		String fromEmail = "apate0871@gmail.com";
+//		String password = "Patriots_87";
+//		
+//		try {
+//			
+//			//set properties for our email provider
+//			Properties pr = new Properties();
+//			pr.setProperty("mail.smtp.host", "smtp.gmail.com");
+//			pr.setProperty("mail.smtp.port", "587");
+//			pr.setProperty("mail.smtp.auth", "true");
+//			pr.setProperty("mail.smtp.starttls.enable", "true");
+//			pr.put("mail.smtp.socketFactory.port", "465");
+//			pr.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+//			
+//			//get session
+//			Session session = Session.getInstance(pr, new Authenticator(){
+//				@Override
+//				protected PasswordAuthentication getPasswordAuthentication() {
+//					return new PasswordAuthentication(fromEmail, password);
+//				}
+//			});
+//			
+//			//set email message details
+//            Message mess = new MimeMessage(session);
+//            
+//            mess.setFrom(new InternetAddress (fromEmail));
+//            mess.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+//            
+//            mess.setSubject("User Email Verification");
+//            mess.setText("Registered Success please use this code: " + user.getVerCode());
+//            
+//            Transport.send(mess);
+//            
+//            test = true;
+//            
+//            
+//		}
+//		catch(Exception e) {
+//			e.printStackTrace();
+//		}
 		
 		return test;
 	}
