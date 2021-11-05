@@ -28,17 +28,24 @@ public class resultsServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String lineOut = "<table><th>User ID</th><th>Question ID</th><th>Answer ID</th><th>Correct Answer ID</th>";
+		String lineOut = "<table class=\"resultsTable\"><tr><th>User ID</th><th>Question ID</th><th>Answer ID</th><th>Correct Answer</th></tr>";
 		try {
 			List<QuestionAnswer> results = ApplicationDao.readSurveyResults();
 			for(int i = 0; i < results.size(); i++) {
 				String uID = results.get(i).getUserID();
-				lineOut += "<tr><td>" + uID + "</td><td>";
+				lineOut += "<tr><td>" + uID + "</td>";
 
 //				if(results.get(i).getUserID().equals(uID)) {
 					lineOut += "<td>" + results.get(i).getQuestionID() + "</td>";
 					lineOut += "<td>" + results.get(i).getAnswerID() + "</td>";
-					lineOut += "<td>" + results.get(i).getRightAns() + "</td>";
+					if (results.get(i).getAnswerID() == results.get(i).getRightAns()) {
+						lineOut += "<td style=\"background-color:green;\">" + "Yes" + "</td>";
+					}
+					else {
+						lineOut += "<td style=\"background-color:red;\">" + "No" + "</td>";
+					}
+
+					
 //				}
 				lineOut += "</tr>";
 				}

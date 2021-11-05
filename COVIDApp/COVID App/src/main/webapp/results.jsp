@@ -16,18 +16,23 @@
 		<a id="selected" href="results.jsp">RESULTS</a>
 		<a class="right_align" href="LogoutServlet?logout=true">LOGOUT</a>
 	</div>
-	
-	<form action="./ResultsServlet" method="post">
+
+<div>
+<form action="./ResultsServlet" method="post">
 	<table>
 		<tr>
 			<td class="centered" colspan=2><input type="submit" value="Show me the results"></td>
 		</tr>
 	</table>
 </form>
+</div>
 
 
 
-<div>
+
+
+
+<div class="center-me">
  <% if (null!=request.getAttribute("lineOut"))
 {
     %>	

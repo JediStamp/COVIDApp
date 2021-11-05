@@ -42,8 +42,9 @@ hr{
 
 table{
     border-collapse: collapse;
-    margin: 20px auto 20px auto;		/* top right bottom left */
-    width: 80%;
+    margin: 20px auto 20px auto;	/* top right bottom left */
+    width: 90%;
+    align-self: center;
 }
 
 th {
@@ -96,6 +97,20 @@ td {
 	border-color: #1c4587; 		/* dark cornflower blue */
 	flex: 1;
 	width: 100%
+}
+
+.resultsTable {
+	background-color: #eeeeee; /* light grey */
+	border-style: solid;
+	border-color: #1c4587; 		/* dark cornflower blue */
+	flex: 1;
+	width: 100%;
+	text-align: center;
+}
+
+p{
+	margin: 0;
+	padding: 0;
 }
 
 .menubar {
