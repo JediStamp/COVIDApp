@@ -27,6 +27,8 @@ public class UserPwd {
             
             //Get complete hashed password in hex format
             pwdHash = sb.toString();
+            
+            //Add a salt HERE
         } 
         catch (NoSuchAlgorithmException e) 
         {

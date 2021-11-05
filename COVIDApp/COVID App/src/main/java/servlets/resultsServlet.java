@@ -11,17 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.ApplicationDao;
+import dao.DBUtilities;
 import questionnaires.QuestionAnswer;
 
 
 @WebServlet("/ResultsServlet")
 public class resultsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
 
-    public resultsServlet() {
-        super();
-    }
+
+	public resultsServlet() {
+		super();
+	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -31,41 +32,40 @@ public class resultsServlet extends HttpServlet {
 		String lineOut = "<table class=\"resultsTable\"><tr><th>User ID</th><th>Question ID</th><th>Answer ID</th><th>Correct Answer</th></tr>";
 		try {
 			List<QuestionAnswer> results = ApplicationDao.readSurveyResults();
+			
+//			int qCNT;
+//			for(int i = 0; i < results.size(); i++) {
+//				
+//			}
+//			 = max(results.get(i).getQuestionID());
+//			int userCnt = 0;
+			
 			for(int i = 0; i < results.size(); i++) {
+				
 				String uID = results.get(i).getUserID();
 				lineOut += "<tr><td>" + uID + "</td>";
 
-//				if(results.get(i).getUserID().equals(uID)) {
-					lineOut += "<td>" + results.get(i).getQuestionID() + "</td>";
-					lineOut += "<td>" + results.get(i).getAnswerID() + "</td>";
-					if (results.get(i).getAnswerID() == results.get(i).getRightAns()) {
-						lineOut += "<td style=\"background-color:green;\">" + "Yes" + "</td>";
-					}
-					else {
-						lineOut += "<td style=\"background-color:red;\">" + "No" + "</td>";
-					}
-
-					
-//				}
-				lineOut += "</tr>";
+				lineOut += "<td>" + results.get(i).getQuestionID() + "</td>";
+				lineOut += "<td>" + results.get(i).getAnswerID() + "</td>";
+				if (results.get(i).getAnswerID() == results.get(i).getRightAns()) {
+					lineOut += "<td style=\"background-color:#6AF190;\">" + "Yes" + "</td>";
+//					userCnt++;
 				}
-//				response.getWriter().write(results.get(i).getUserID() + "qID " + results.get(i).getQuestionID()
-//						+ "a ID " + results.get(i).getAnswerID() + " RightAns: " + results.get(i).getRightAns());
-//				response.getWriter().write(lineBreak);
-//				response.getWriter().write(lineBreak);
-				
-//				response.getWriter().write(lineBreak);
-				
+				else {
+					lineOut += "<td style=\"background-color:#BA3B54;\">" + "No" + "</td>";
+				}
+
+				lineOut += "</tr>";
+			}
+
 			lineOut += "</table>";
 			request.setAttribute("lineOut", lineOut);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			DBUtilities.processException(e);
 		}
 		System.out.println("Successfully read readQuestions()");
+
 		// Display new page
-		
 		request.getRequestDispatcher("results.jsp").forward(request,response);
 	}
-
 }
