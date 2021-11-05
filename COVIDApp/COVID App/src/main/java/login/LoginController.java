@@ -163,8 +163,16 @@ public class LoginController {
 				output[0] = "welcome";
 				System.out.println(output[0]);
 				
-				//Send user to verification page
-				output[1] = "profile.jsp"; 
+				System.out.println("Verification status updated, user email is: " + user.getPassword());
+				
+				
+				if (user.getPassword().equals("0")) {
+					// take it to set password
+					output[1] = "changePass.jsp";
+				}else {
+					//Send user to verification page
+					output[1] = "profile.jsp";					
+				} 
 				
 				//Include userID
 				output[2] = user.getUserID();
@@ -429,8 +437,46 @@ public class LoginController {
 		}
 	}
 	
-	public static void changePwd() {
+	public static String[] changePwd(User user) {
+		// {errorMessage, path, userID, firstName, lastName, email};
+		String[] output = new String[6]; 
+		
 		System.out.println("Changing password...");
+		if(LoginController.isRegistered(user)) {
+			try {
+				user = ApplicationDao.getUserFromEmail(user.getEmail());
+				ApplicationDao.updateUserVerStatus( user.getUserID(), false);
+				//Update user password
+				ApplicationDao.updateUserPwd("0", user.getUserID());
+				
+				//Send user verification code & Send user to verification page
+				sendVerificationCode(user);
+				
+				//Provide output message for user
+				output[0] = "Please check your email for verification code...";
+				System.out.println(output[0]);
+				
+				//Send user to verification page
+				output[1] = "verifyPasswordChange.jsp"; 
+				
+				//Include userID
+				output[2] = user.getUserID().toString();
+				output[3] = user.getFirstName();
+				output[4] = user.getLastName();
+				output[5] = user.getEmail();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else {
+				//Provide output message for user
+				output[0] = "User not registered";
+				
+				//Send user to verification page
+				output[1] = "index.jsp"; 
+			}
+		return output;
 	}
 }
 

@@ -65,6 +65,7 @@ public class VerifyServlet extends HttpServlet {
 		System.out.println("Verify page: userID is: " + userID);
 		
 		String[] output = LoginController.verify(userID, verCode);
+		
 		// Set error message & URL
 		request.setAttribute("errorMsg", output[0] );
 		

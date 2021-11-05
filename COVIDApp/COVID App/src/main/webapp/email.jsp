@@ -11,8 +11,8 @@
 <hr>
 
 <div class="center-me">
-	<div class="light left_side">
-	<form action="./verifyPasswordChange.jsp" method="post">
+	<div class="light">
+	<form action="./EmailServlet" method="post">
 	<table>
 		<tr>
 			<th colspan=2>Login</th>
@@ -20,7 +20,7 @@
 		
 		<tr>
 			<td><label for="email">Email:</label></td>
-			<td><input type="email" id="email" name="email" size="50"
+			<td><input type="email" id="email" name="email" size="30"
 				required="required"/></td>
 		</tr>
 						
@@ -30,6 +30,8 @@
 		
 	</table>
 </form>
+</div>
+</div>
 
 </body>
 </html>

@@ -27,7 +27,6 @@ public class resultsServlet extends HttpServlet {
 
 	}
 
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String lineOut = "<table><th>User ID</th><th>Question ID</th><th>Answer ID</th><th>Correct Answer ID</th>";
 		try {

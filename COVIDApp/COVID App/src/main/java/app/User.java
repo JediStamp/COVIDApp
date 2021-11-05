@@ -12,6 +12,24 @@ public class User {
 	private String password; // Temporary - not secure
 	private String verCode;
 	
+	public User(String email) {
+		userID = UUID.randomUUID().toString();
+		this.firstName = "";
+		this.lastName = "";
+		this.email = email;
+		this.password = "";
+		verified = false;
+	}
+	
+	public User(String email, String password) {
+		userID = UUID.randomUUID().toString();
+		this.firstName = "";
+		this.lastName = "";
+		this.email = email;
+		this.password = password;
+		verified = false;
+	}
+	
 	public User(String firstName, String lastName, String email, String password) {
 		userID = UUID.randomUUID().toString();
 		this.firstName = firstName;
@@ -19,15 +37,6 @@ public class User {
 		this.email = email;
 		this.password = password;
 		verified = false;
-	}
-	
-	public User(String email, String password) {
-		userID = UUID.randomUUID().toString();
-		this.firstName = "ver";
-		this.lastName = "test";
-		this.email = email;
-		this.password = password;
-		verified = true;
 	}
 	
 	public String getFirstName() {
