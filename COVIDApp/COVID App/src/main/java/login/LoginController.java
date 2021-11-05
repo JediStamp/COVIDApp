@@ -282,7 +282,7 @@ public class LoginController {
 			for (int i = 0; i < users.size(); i++) {
 				
 				//check each entry until you find a match
-				if (user.getEmail().equals(users.get(i).getEmail())){
+				if (user.getEmail().equalsIgnoreCase(users.get(i).getEmail())){
 					
 					// User is Registered already
 					System.out.println("User already exists in db");

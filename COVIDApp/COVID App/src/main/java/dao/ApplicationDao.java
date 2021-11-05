@@ -378,7 +378,28 @@ public class ApplicationDao {
 
 	}
 	
-	
+	public static void updateUserPwd(String pwd, String userID) {
+		String sql = "UPDATE " + MyDB.dbName + ".USER SET pwd=? WHERE userID=?;";
+		
+		try (	// Make connection
+				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+				PreparedStatement statement = conn.prepareStatement(sql);
+				)
+		{
+			statement.setString(1, pwd);
+			statement.setString(2, userID);
+			System.out.println(statement);
+				
+			int rowsUpdated = statement.executeUpdate();
+			if (rowsUpdated > 0) {
+			    System.out.println("User password was updated successfully!");
+			}
+		}catch(SQLException e) {
+			System.out.println("User password was NOT updated");
+			DBUtilities.processException(e);
+		}
+
+	}
 //	public static void updateLog(String logTitle, String logContent, String newTimeStmp, String oldTimeStmp){
 //		String sql = "UPDATE " + DBConnection.dbName + ".textLog SET logTitle=?, logContent=?, timeStmp=? WHERE timeStmp=?;";
 //		

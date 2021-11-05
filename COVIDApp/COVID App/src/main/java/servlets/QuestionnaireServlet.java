@@ -6,6 +6,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import app.User;
 import dao.ApplicationDao;
 import questionnaires.QuestionAnswer;
 import questionnaires.QuestionSet;
@@ -41,12 +43,12 @@ public class QuestionnaireServlet extends HttpServlet {
 			System.out.println(i + " " + j);
 		}
 		
-		String userID = (String) request.getSession().getAttribute("userID");
+		User user = (User) request.getSession().getAttribute("thisUser");
 		
-		System.out.println(userID);
+		System.out.println(user.getUserID());
 		System.out.println(questionSet.getQuestions().size());
 				
-		ApplicationDao.storeQuestions(userID, questionSet);
+		ApplicationDao.storeQuestions(user.getUserID(), questionSet);
 		System.out.println("finished storeQuestions()");		
 
 		String url = "/ResultsServlet";

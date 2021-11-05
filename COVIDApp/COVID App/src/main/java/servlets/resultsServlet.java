@@ -35,13 +35,14 @@ public class resultsServlet extends HttpServlet {
 			for(int i = 0; i < results.size(); i++) {
 				String uID = results.get(i).getUserID();
 				lineOut += "<tr><td>" + uID + "</td><td>";
-				lineOut += "<td>" + results.get(i).getQuestionID() + "</td>";
-				lineOut += "<td>" + results.get(i).getAnswerID() + "</td>";
-				lineOut += "<td>" + results.get(i).getRightAns() + "</td>";
-				lineOut += "</tr>";
-//				while(results.get(i).getUserID().equals(uID)) {
-//					lineOut += "";
+
+//				if(results.get(i).getUserID().equals(uID)) {
+					lineOut += "<td>" + results.get(i).getQuestionID() + "</td>";
+					lineOut += "<td>" + results.get(i).getAnswerID() + "</td>";
+					lineOut += "<td>" + results.get(i).getRightAns() + "</td>";
 //				}
+				lineOut += "</tr>";
+				}
 //				response.getWriter().write(results.get(i).getUserID() + "qID " + results.get(i).getQuestionID()
 //						+ "a ID " + results.get(i).getAnswerID() + " RightAns: " + results.get(i).getRightAns());
 //				response.getWriter().write(lineBreak);
@@ -49,7 +50,6 @@ public class resultsServlet extends HttpServlet {
 				
 //				response.getWriter().write(lineBreak);
 				
-			}
 			lineOut += "</table>";
 			request.setAttribute("lineOut", lineOut);
 		} catch (SQLException e) {

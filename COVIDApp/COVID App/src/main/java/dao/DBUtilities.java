@@ -130,6 +130,7 @@ public class DBUtilities {
 				+ "endDate DATE);";
 		
 		String sqlUser_Survey_Answer = "CREATE TABLE IF NOT EXISTS USER_SURVEY_ANSWER ("
+				+ "userSurAnsID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
 				+ "userID VARCHAR(45),"
 				+ "teamID INT,"
 				+ "eventID INT,"

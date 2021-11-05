@@ -44,12 +44,12 @@
 		</tr>
 		
 		<tr>
-			<td colspan=2 class="right_align"><a href="#">Change My Password</a></td>
+			<td colspan=2 class="right_align"><a href="changePass.jsp">Change My Password</a></td>
 		</tr>
 		
 		<tr>
-			<td class="centered"><input type="submit" value="Update"></td>
-			<td class="centered"><input type="submit" value="Delete" formaction="./DeleteServlet"></td>
+			<td colspan=2 class="right_align"><input type="submit" value="Update">
+			<input type="submit" value="Delete" formaction="./DeleteServlet"></td>
 		</tr>
 		
 	</table>
