@@ -58,10 +58,18 @@ public class LoginServlet extends HttpServlet {
 		
 		String[] output = LoginController.login(user);
 		
+		user.setUserID(output[2]);
+		user.setFirstName(output[3]);
+		user.setLastName(output[4]);
+		user.setEmail(output[5]);
+		
 		// Set error message & URL
 		request.setAttribute("errorMsg", output[0]);	
-		request.getSession().setAttribute("userID", output[2]);
-//		request.getSession().setAttribute("email", email);
+		
+		request.getSession().setAttribute("thisUser", user);
+		
+//		request.getSession().setAttribute("userID", output[2]);
+////		request.getSession().setAttribute("email", email);
 		request.getSession().setAttribute("firstName", output[3]);
 		request.getSession().setAttribute("lastName", output[4]);
 		request.getSession().setAttribute("email", output[5]);

@@ -58,9 +58,11 @@ public class RegisterServlet extends HttpServlet {
 		// Register User
 		String[] output = LoginController.register(user);
 		
+		
 		// Set error message, user details & URL
-		request.setAttribute("errorMsg", output[0]);	
-		request.getSession().setAttribute("userID", output[2]);
+		request.setAttribute("errorMsg", output[0]);
+		request.getSession().setAttribute("thisUser", user);
+//		request.getSession().setAttribute("userID", output[2]);
 		request.getSession().setAttribute("firstName", output[3]);
 		request.getSession().setAttribute("lastName", output[4]);
 		request.getSession().setAttribute("email", output[5]);

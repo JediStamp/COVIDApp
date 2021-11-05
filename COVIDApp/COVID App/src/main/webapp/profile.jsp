@@ -39,9 +39,8 @@
 		</tr>
 		
 		<tr>
-			<td><label class="profile-label" for="email">Email:</label></td>
-			<td><input class="profile" type="email" id="email" name="email" size="30"
-			value=<% out.println(request.getSession().getAttribute("email"));%>/></td>
+			<td><label class="profile-label">Email:</label></td>
+			<td><label class="profile-label"><% out.println(request.getSession().getAttribute("email"));%></label></td>
 		</tr>
 		
 		<tr>
@@ -49,7 +48,8 @@
 		</tr>
 		
 		<tr>
-			<td class="centered" colspan=2><input type="submit" value="Update"></td>
+			<td class="centered"><input type="submit" value="Update"></td>
+			<td class="centered"><input type="submit" value="Delete" formaction="./DeleteServlet"></td>
 		</tr>
 		
 	</table>

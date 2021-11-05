@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 //
 //import app.User;
 
+import app.User;
 import login.LoginController;
 
 /**
@@ -58,14 +59,24 @@ public class VerifyServlet extends HttpServlet {
 		
 		// Check verification code against value returned by user
 //		String userID1 = request.getAttribute("userID").toString();
-		String userID = (String) request.getSession().getAttribute("userID");
+//		String userID = (String) request.getSession().getAttribute("userID");
+		User user = (User) request.getSession().getAttribute("thisUser");
+		String userID = user.getUserID();
 		System.out.println("Verify page: userID is: " + userID);
 		
 		String[] output = LoginController.verify(userID, verCode);
 		// Set error message & URL
-		request.setAttribute("errorMsg", output[0] );		
+		request.setAttribute("errorMsg", output[0] );
+		
 		String url = output[1];
-		request.getSession().setAttribute("userID", output[2]);
+		user.setUserID(output[2]);
+		user.setFirstName(output[3]);
+		user.setLastName(output[4]);
+		user.setEmail(output[5]);
+		
+		request.getSession().setAttribute("thisUser", user);
+		
+//		request.getSession().setAttribute("userID", output[2]);
 		request.getSession().setAttribute("firstName", output[3]);
 		request.getSession().setAttribute("lastName", output[4]);
 		request.getSession().setAttribute("email", output[5]);

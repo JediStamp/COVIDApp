@@ -353,6 +353,32 @@ public class ApplicationDao {
 
 	}
 	
+	
+	public static void updateUser(String UserID, String firstName, String lastName) {
+		String sql = "UPDATE " + MyDB.dbName + ".USER SET firstName=?, lastName=? WHERE userID=?;";
+		
+		try (	// Make connection
+				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+				PreparedStatement statement = conn.prepareStatement(sql);
+				)
+		{
+			statement.setString(1, firstName);
+			statement.setString(2, lastName);
+			statement.setString(3, UserID);
+			System.out.println(statement);
+				
+			int rowsUpdated = statement.executeUpdate();
+			if (rowsUpdated > 0) {
+			    System.out.println("User profile was updated successfully!");
+			}
+		}catch(SQLException e) {
+			System.out.println("User profile was NOT updated");
+			DBUtilities.processException(e);
+		}
+
+	}
+	
+	
 //	public static void updateLog(String logTitle, String logContent, String newTimeStmp, String oldTimeStmp){
 //		String sql = "UPDATE " + DBConnection.dbName + ".textLog SET logTitle=?, logContent=?, timeStmp=? WHERE timeStmp=?;";
 //		
@@ -379,25 +405,24 @@ public class ApplicationDao {
 //		}
 //	}
 	
-//	// Delete
-//	public static void deleteLog(String timeStmp){
-//		String sql = "DELETE FROM " + DBConnection.dbName + ".textlog WHERE timeStmp=?";
-//		try {
-//			// Make connection
-//			Connection connection = DBConnection.getConnectionToDatabase();
-//			PreparedStatement statement = connection.prepareStatement(sql);
-//			
-//			statement.setString(1, timeStmp);
-//			
-//			int rowsDeleted = statement.executeUpdate();
-//			if (rowsDeleted > 0) {
-//			    System.out.println("A log was deleted successfully!");
-//			}
-//			
-//			connection = null;
-//		}catch(SQLException e) {
-//			System.out.println("No logs were deleted.");
-//			e.printStackTrace();
-//		}
-//	}
+	// Delete
+	public static void deleteUser(String userID){
+		String sql = "DELETE FROM " + MyDB.dbName + ".USER WHERE userID=?";
+		try(	// Make connection
+				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+				PreparedStatement statement = conn.prepareStatement(sql);
+				) {
+			
+			statement.setString(1, userID);
+			
+			int rowsDeleted = statement.executeUpdate();
+			if (rowsDeleted > 0) {
+			    System.out.println("User was deleted successfully!");
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("User was NOT deleted");
+			DBUtilities.processException(e);
+		}
+	}
 }
