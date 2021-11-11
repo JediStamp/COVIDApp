@@ -1,6 +1,9 @@
 package servlets;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,6 +33,12 @@ public class QuestionnaireServlet extends HttpServlet {
 		
 		//create question set to store answers to survey
 		QuestionSet questionSet = new QuestionSet(1,1);
+		// create question answer to use to store each question and answer combo
+		QuestionAnswer qa;
+		
+		// Get time stamp of log 
+		Date date = new Date();
+		Timestamp time_stamp = new Timestamp(date.getTime());
 		
 		//check if answer is yes or no
 		for (int i = 1; i<=10; i++) {
@@ -39,7 +48,9 @@ public class QuestionnaireServlet extends HttpServlet {
 			}else {
 				j=2;
 			}
-			questionSet.addQuestionAnswer(new QuestionAnswer(i, j));
+			qa = new QuestionAnswer(i, j);
+			qa.setTimestamp(time_stamp);
+			questionSet.addQuestionAnswer(qa);
 			System.out.println(i + " " + j);
 		}
 		

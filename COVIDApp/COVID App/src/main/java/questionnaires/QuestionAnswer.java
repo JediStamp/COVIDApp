@@ -1,12 +1,17 @@
 package questionnaires;
 
+import java.sql.Timestamp;
+
 public class QuestionAnswer {
 	private String userID;
+	private String fName;
+	private String lName;
 	private int teamID;
 	private int eventID;
 	private int questionID;
 	private int answerID;
 	private int isRightAns;
+	private Timestamp timestamp;
 	
 	public QuestionAnswer(int questionID, int answerID) {
 		this.questionID = questionID;
@@ -54,5 +59,29 @@ public class QuestionAnswer {
 
 	public void setEventID(int eventID) {
 		this.eventID = eventID;
+	}
+
+	public String getlName() {
+		return lName;
+	}
+
+	public void setlName(String lName) {
+		this.lName = lName;
+	}
+
+	public String getfName() {
+		return fName;
+	}
+
+	public void setfName(String fName) {
+		this.fName = fName;
+	}
+
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 }

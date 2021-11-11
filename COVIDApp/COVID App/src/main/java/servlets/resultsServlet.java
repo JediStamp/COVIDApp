@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -29,33 +30,61 @@ public class resultsServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String lineOut = "<table class=\"resultsTable\"><tr><th>User ID</th><th>Question ID</th><th>Answer ID</th><th>Correct Answer</th></tr>";
+		String lineOut = "<table class=\"resultsTable\"><tr><th>First Name</th><th>Last Name</th><th>Time Answered</th><th>Clear</th></tr>";
 		try {
-			List<QuestionAnswer> results = ApplicationDao.readSurveyResults();
+			List<QuestionAnswer> results = ApplicationDao.readFullSurveyResults();
 			
-//			int qCNT;
-//			for(int i = 0; i < results.size(); i++) {
-//				
-//			}
-//			 = max(results.get(i).getQuestionID());
-//			int userCnt = 0;
-			
+			// Display the results 1 question per line
+			String x = null;
+			Timestamp ts = null;
+			int cnt = 0;
 			for(int i = 0; i < results.size(); i++) {
+				// Set the values to compare against for first loop
+				if(i == 0) {
+					x = results.get(i).getUserID();
+					ts = results.get(i).getTimestamp();				
+				}
 				
+				// Get user details to display
 				String uID = results.get(i).getUserID();
-				lineOut += "<tr><td>" + uID + "</td>";
+				String fName = results.get(i).getfName();
+				String lName = results.get(i).getlName();
+				Timestamp time_stamp = results.get(i).getTimestamp();
+				
+				// Get cumulative results for user at given time
+				if (x.equals(uID) && (ts.equals(time_stamp))) {
+					if (results.get(i).getAnswerID() != results.get(i).getRightAns()) {
+						cnt++;
+					}
 
-				lineOut += "<td>" + results.get(i).getQuestionID() + "</td>";
-				lineOut += "<td>" + results.get(i).getAnswerID() + "</td>";
-				if (results.get(i).getAnswerID() == results.get(i).getRightAns()) {
-					lineOut += "<td style=\"background-color:#6AF190;\">" + "Yes" + "</td>";
-//					userCnt++;
+					// End of current set of results or last set of results display a line
+					Boolean isLastRecord = (i == results.size() - 1);
+					if (isLastRecord) {
+						lineOut += "<tr><td>" + fName + "</td><td> " + lName + "</td><td>" + time_stamp + "</td>";
+						if (cnt == 0) {
+							lineOut += "<td style=\"background-color:#6AF190;\">" + "Yes" + "</td><tr>";
+						}
+						else {
+							lineOut += "<td style=\"background-color:#BA3B54;\">" + "No" + "</td><tr>";
+						}
+						break;
+					}
+					Boolean isNewRecord = !(x.equals(results.get(i+1).getUserID()) && (ts.equals(results.get(i+1).getTimestamp())));
+					if(isNewRecord) {
+						lineOut += "<tr><td>" + fName + "</td><td> " + lName + "</td><td>" + time_stamp + "</td>";
+						if (cnt == 0) {
+							lineOut += "<td style=\"background-color:#6AF190;\">" + "Yes" + "</td><tr>";
+						}
+						else {
+							lineOut += "<td style=\"background-color:#BA3B54;\">" + "No" + "</td><tr>";
+						}
+					}
+				// reset for next set of results
+				}else {
+					x = results.get(i).getUserID();
+					ts = results.get(i).getTimestamp();	
+					cnt = 0;
 				}
-				else {
-					lineOut += "<td style=\"background-color:#BA3B54;\">" + "No" + "</td>";
-				}
-
-				lineOut += "</tr>";
 			}
 
 			lineOut += "</table>";
@@ -68,4 +97,5 @@ public class resultsServlet extends HttpServlet {
 		// Display new page
 		request.getRequestDispatcher("results.jsp").forward(request,response);
 	}
+
 }

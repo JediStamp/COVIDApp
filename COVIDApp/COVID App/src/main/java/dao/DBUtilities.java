@@ -135,7 +135,8 @@ public class DBUtilities {
 				+ "teamID INT,"
 				+ "eventID INT,"
 				+ "questionID INT,"
-				+ "answerID INT);";
+				+ "answerID INT,"
+				+ "time_stamp DATETIME);";
 		
 		// Set Version Number
 		String inDBVer = "insert into " + dbName + ".DBVer  values(" + dbVersion + ");";

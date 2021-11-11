@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Timestamp;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -59,7 +60,8 @@ public class ApplicationDao {
 	//create another insert method to insert questonnaire answers into the db
 	
 	public static void storeQuestions(String userID, QuestionSet questionSet){
-		String sql = "INSERT INTO " + MyDB.dbName + ".USER_SURVEY_ANSWER (userID, teamID, eventID, questionID, answerID) VALUES (?, ?, ?, ?, ?);";
+		String sql = "INSERT INTO " + MyDB.dbName + ".USER_SURVEY_ANSWER (userID, teamID, eventID, questionID, answerID, time_stamp) "
+				+ "VALUES (?, ?, ?, ?, ?, ?);";
 		
 		try (
 			// Make connection
@@ -78,6 +80,7 @@ public class ApplicationDao {
 			statement.setInt(3, questionSet.getEventID());  
 			statement.setInt(4, questionSet.getQuestions().get(i).getQuestionID());  //get question ID 
 			statement.setInt(5, questionSet.getQuestions().get(i).getAnswerID());    //get answer ID
+			statement.setTimestamp(6, questionSet.getQuestions().get(i).getTimestamp());
 			System.out.println(statement);
 			int rowsInserted = statement.executeUpdate();
 			
@@ -205,6 +208,73 @@ public class ApplicationDao {
 
 		return readList;
 	}	
+	
+	//read question answers from db 
+		public static List<QuestionAnswer> readFullSurveyResults() throws SQLException{
+			User user = null;
+			List<QuestionAnswer> qa = new ArrayList<>();
+			String sql = "SELECT "
+					+ "user.firstName,"
+					+ "user.lastName,"
+					+ "user_survey_answer.userID,"
+					+ "user_survey_answer.teamID,"
+					+ "user_survey_answer.eventID,"
+					+ "user_survey_answer.questionID,"
+					+ "user_survey_answer.answerID,"
+					+ "question_answer.answerID,"
+					+ "user_survey_answer.time_stamp "
+					+ "FROM " + MyDB.dbName + ".user "
+					+ "join "
+					+ MyDB.dbName + ".user_survey_answer "
+					+ "on user.userID = user_survey_answer.userID "
+					+ "join " 
+					+ MyDB.dbName + ".QUESTION_ANSWER "
+					+ "on USER_SURVEY_ANSWER.QuestionID = QUESTION_ANSWER.QuestionID "
+					+ "ORDER by time_stamp, userID, questionID;";
+
+			try (	// Make connection
+					Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+					PreparedStatement statement = conn.prepareStatement(sql);
+					ResultSet result = statement.executeQuery(sql);
+					)
+			{
+//				System.out.println("readQuestions(): ");
+//				System.out.print(statement);
+								
+				while (result.next()){
+						String fName = result.getString("firstName");
+						String lName = result.getString("lastName");
+						String userID = result.getString("userID");
+					    int teamID = result.getInt("teamID"); 
+					    int eventID = result.getInt("eventID");
+					    int questionID = result.getInt("questionID");
+					    int answerID = result.getInt(7);
+					    int rightAnsID = result.getInt(8);
+					    Timestamp time_stamp = result.getTimestamp("time_stamp");
+					    QuestionAnswer QA = new QuestionAnswer(questionID, answerID);
+					    QA.setfName(fName);
+					    QA.setlName(lName);
+					    QA.setUserID(userID);
+					    QA.setTeamID(teamID);
+					    QA.setEventID(eventID);
+					    QA.setRightAns(rightAnsID);
+					    QA.setTimestamp(time_stamp);
+					    
+					  //add to arraylist while still in while loop
+					    readList.add(QA);
+					
+				}
+				
+				// Print to screen to see results
+				System.out.println("readQuestions(): Questions read from DB.");
+				
+			}catch(SQLException e) {
+				System.out.println("readQuestions(): Questions Not Read from DB.");
+				DBUtilities.processException(e);
+			}
+
+			return readList;
+		}	
 	
 	public static User getUserFromID(String userID) throws SQLException{
 		User user = null;
@@ -400,31 +470,6 @@ public class ApplicationDao {
 		}
 
 	}
-//	public static void updateLog(String logTitle, String logContent, String newTimeStmp, String oldTimeStmp){
-//		String sql = "UPDATE " + DBConnection.dbName + ".textLog SET logTitle=?, logContent=?, timeStmp=? WHERE timeStmp=?;";
-//		
-//		try {
-//			// Make connection
-//			Connection connection = DBConnection.getConnectionToDatabase();
-//			PreparedStatement statement = connection.prepareStatement(sql);
-//			
-//			statement.setString(1, logTitle);
-//			statement.setString(2, logContent);
-//			statement.setString(3, newTimeStmp);
-//			statement.setString(4, oldTimeStmp);
-//			System.out.println(statement);
-//			
-//			int rowsUpdated = statement.executeUpdate();
-//			if (rowsUpdated > 0) {
-//			    System.out.println("An existing log was updated successfully!");
-//			}
-//			
-//			connection = null;
-//		} catch (SQLException e) {
-//			System.out.println("No logs were updateed.");
-//			e.printStackTrace();
-//		}
-//	}
 	
 	// Delete
 	public static void deleteUser(String userID){
