@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import app.User;
+import app.UserBuilder;
 import app.UserPwd;
 import login.LoginController;
 
@@ -53,7 +54,12 @@ public class RegisterServlet extends HttpServlet {
 		
 		//Create new user
 		String pwdHashed = UserPwd.hashPwd(pwd);
-		User user = new User(fName, lName, email, pwdHashed);
+		User user = new UserBuilder()
+					.setFirstName(fName)
+					.setEmail(lName)
+					.setEmail(email)
+					.setPassword(pwdHashed)
+					.createUser();
 		
 		// Register User
 		String[] output = LoginController.register(user);

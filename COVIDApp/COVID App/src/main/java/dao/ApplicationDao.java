@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import app.User;
+import app.UserBuilder;
 import questionnaires.Question;
 import questionnaires.QuestionAnswer;
 import questionnaires.QuestionSet;
@@ -40,7 +41,7 @@ public class ApplicationDao {
 			PreparedStatement statement = conn.prepareStatement(sql);
 				)
 		{
-			statement.setString(1, user.getUserID().toString());
+			statement.setString(1, user.getUserID());//used to be toString
 			statement.setString(2, user.getFirstName());
 			statement.setString(3, user.getLastName());
 			statement.setString(4, user.getEmail());
@@ -120,10 +121,12 @@ public class ApplicationDao {
 			System.out.print(statement);
 			
 			while (result.next()){
-				user = new User(result.getString("firstName"), 
-						result.getString("lastName"),
-						result.getString("email"),
-						result.getString("pwd"));
+				user = new UserBuilder()
+						.setFirstName(result.getString("firstName"))
+						.setLastName(result.getString("lastName"))
+						.setEmail(result.getString("email"))
+						.setPassword(result.getString("pwd"))
+						.createUser();
 				
 				// get verification code 
 				user.setVerCode(result.getString("verCode"));
@@ -291,10 +294,12 @@ public class ApplicationDao {
 			
 			ResultSet result = statement.executeQuery();
 			while (result.next()){
-				user = new User(result.getString("firstName"), 
-						result.getString("lastName"),
-						result.getString("email"),
-						result.getString("pwd"));
+				user = new UserBuilder()
+						.setFirstName(result.getString("firstName"))
+						.setLastName(result.getString("lastName"))
+						.setEmail(result.getString("email"))
+						.setPassword(result.getString("pwd"))
+						.createUser();
 				
 				//get userID
 				user.setUserID(result.getString("userID"));
@@ -340,10 +345,12 @@ public class ApplicationDao {
 			
 			ResultSet result = statement.executeQuery();			
 			while (result.next()){
-				user = new User(result.getString("firstName"), 
-						result.getString("lastName"),
-						result.getString("email"),
-						result.getString("pwd"));
+				user = new UserBuilder()
+						.setFirstName(result.getString("firstName"))
+						.setLastName(result.getString("lastName"))
+						.setEmail(result.getString("email"))
+						.setPassword(result.getString("pwd"))
+						.createUser();
 				
 				//get userID
 				user.setUserID(result.getString("userID"));

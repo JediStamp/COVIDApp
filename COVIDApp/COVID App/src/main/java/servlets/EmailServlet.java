@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import app.User;
+import app.UserBuilder;
 import login.LoginController;
 
 
@@ -31,7 +32,7 @@ public class EmailServlet extends HttpServlet {
 		System.out.println("At email servlet. user: " + email);
 		
 		// Create user for checks
-		User user = new User(email);
+		User user = new UserBuilder().setEmail(email).createUser();
 		
 		// Logic for changing a password when forgotten
 		String[] output = LoginController.changePwd(user);

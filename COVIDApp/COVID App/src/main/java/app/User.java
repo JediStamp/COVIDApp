@@ -9,36 +9,53 @@ public class User {
 	private String userID;
 	private Role userRole; // not set up
 	private Boolean verified;
-	private String password; // Temporary - not secure
+	private String password; // actually pwd hash
 	private String verCode;
 	
-	public User(String email) {
-		userID = UUID.randomUUID().toString();
-		this.firstName = "";
-		this.lastName = "";
-		this.email = email;
-		this.password = "";
-		verified = false;
-	}
+//	public User(String email) {
+//		userID = UUID.randomUUID().toString();
+//		this.firstName = "";
+//		this.lastName = "";
+//		this.email = email;
+//		this.password = "";
+//		verified = false;
+//	}
 	
-	public User(String email, String password) {
-		userID = UUID.randomUUID().toString();
-		this.firstName = "";
-		this.lastName = "";
-		this.email = email;
-		this.password = password;
-		verified = false;
-	}
+//	public User(String email, String password) {
+//		userID = UUID.randomUUID().toString();
+//		this.firstName = "";
+//		this.lastName = "";
+//		this.email = email;
+//		this.password = password;
+//		verified = false;
+//	}
+//	
+//	public User(String firstName, String lastName, String email, String password) {
+//		userID = UUID.randomUUID().toString();
+//		this.firstName = firstName;
+//		this.lastName = lastName;
+//		this.email = email;
+//		this.password = password;
+//		verified = false;
+//	}
 	
-	public User(String firstName, String lastName, String email, String password) {
-		userID = UUID.randomUUID().toString();
+	// Builder Constructor
+	public User(String firstName, String lastName, String email, String userID, Role userRole, Boolean verified,
+			String password, String verCode) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.userID = userID;
+    	if (userID == null) {
+    		this.userID = UUID.randomUUID().toString();
+    	}
+    	
+		this.userRole = userRole;
+		this.verified = verified;
 		this.password = password;
-		verified = false;
+		this.verCode = verCode;
 	}
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -89,6 +106,4 @@ public class User {
 	public void setVerCode(String verCode) {
 		this.verCode = verCode;
 	}
-	
-	
 }

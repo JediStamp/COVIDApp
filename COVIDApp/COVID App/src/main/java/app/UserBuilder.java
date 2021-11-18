@@ -11,7 +11,7 @@ public class UserBuilder {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private UUID userID;
+	private String userID;
 	private Role userRole; // not set up
 	private Boolean verified;
 	private String password; // Temporary - not secure
@@ -21,69 +21,47 @@ public class UserBuilder {
 		
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
+	public UserBuilder setFirstName(String firstName) {
 		this.firstName = firstName;
+		return this;
 	}
 
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
+	public UserBuilder setLastName(String lastName) {
 		this.lastName = lastName;
+		return this;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
+	public UserBuilder setEmail(String email) {
 		this.email = email;
+		return this;
 	}
 
-	public UUID getUserID() {
-		return userID;
-	}
-
-	public void setUserID(UUID userID) {
+	public UserBuilder setUserID(String userID) {
 		this.userID = userID;
+		return this;
 	}
 
-	public Role getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(Role userRole) {
+	public UserBuilder setUserRole(Role userRole) {
 		this.userRole = userRole;
+		return this;
 	}
 
-	public Boolean getVerified() {
-		return verified;
-	}
-
-	public void setVerified(Boolean verified) {
+	public UserBuilder setVerified(Boolean verified) {
 		this.verified = verified;
+		return this;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
+	public UserBuilder setPassword(String password) {
 		this.password = password;
+		return this;
 	}
 
-	public String getVerCode() {
-		return verCode;
-	}
-
-	public void setVerCode(String verCode) {
+	public UserBuilder setVerCode(String verCode) {
 		this.verCode = verCode;
+		return this;
 	}
 	
-	
+	public User createUser() {
+		return new User(firstName, lastName, email, userID, userRole, verified, password, verCode);
+	}
 }
