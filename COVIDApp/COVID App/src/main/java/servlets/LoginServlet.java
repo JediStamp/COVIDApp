@@ -1,93 +1,71 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import app.User;
 import app.UserBuilder;
 import app.UserPwd;
 import login.LoginController;
 
-/**
- * Servlet implementation class LoginServlet
- */
 @WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet implements Observer{
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+	private User user;
+	private LoginController lc;
+	
     public LoginServlet() {
         super();
-        // TODO Auto-generated constructor stub
+		user = new UserBuilder().createUser();
+		lc = new LoginController();
+		lc.registerObserver(this);
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
 		System.out.println("Start Login...");
 		response.sendRedirect("login.jsp");
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Get request parameters
 		String email = request.getParameter("email");
 		String pwd = request.getParameter("pwd");
 		
-		String info = "New user: " + email + " " + pwd;
-		String htmlOut = "<html>" + info + "</html>";
-		PrintWriter writer = response.getWriter();
-		writer.write(htmlOut);
-
-		System.out.printf("New User: \n\t%s\n\t%s\n",email,pwd);
-		
 		// Create user for checks
-		String pwdHashed = UserPwd.hashPwd(pwd);
-		User user = new UserBuilder().setEmail(email).setPassword(pwdHashed).createUser();
+		user = new UserBuilder().setEmail(email).setPassword(UserPwd.hashPwd(pwd)).createUser();
 		
-		String[] output = LoginController.login(user);
-		
-		user.setUserID(output[2]);
-		user.setFirstName(output[3]);
-		user.setLastName(output[4]);
-		user.setEmail(output[5]);
+		// Login user using loginController
+		String[] output = lc.login(user);
 		
 		// Set error message & URL
 		request.setAttribute("errorMsg", output[0]);	
-		
-		request.getSession().setAttribute("thisUser", user);
-		
-//		request.getSession().setAttribute("userID", output[2]);
-////		request.getSession().setAttribute("email", email);
-		request.getSession().setAttribute("firstName", output[3]);
-		request.getSession().setAttribute("lastName", output[4]);
-		request.getSession().setAttribute("email", output[5]);
-		// set email, first name, last name for user
 		String url = output[1];
 		
-		// Print them to the screen
-		System.out.println("LoginServlet: Printing output parameters...");
-		System.out.println("error message is: " + output[0]);
-		System.out.println("path is: " + output[1]);
-		System.out.println("userID is: " + output[2]);
-		System.out.println("firstName is: " + output[3]);
-		System.out.println("lastName is: " + output[4]);
-		System.out.println("email is: " + output[5]);
+		// Set session info
+		request.getSession().setAttribute("thisUser", user);
+		
+		// Display Login servlet info
+		display(pwd, output);
 		
 		// Display new page
 		request.getRequestDispatcher(url).forward(request,response);
 	}
 
+	@Override
+	public void update(User user) {
+		this.user = user;
+	}
+	
+	public void display(String pwd, String[] output) {
+		// Print out user's info
+		System.out.printf("LoginServlet:\n");
+		System.out.printf("\tLogin User: \n\t%s\n\t%s\n", user.getEmail(), pwd);
+		
+		// Print outputs to screen
+		System.out.printf("\terror message is: %s\n", output[0]);
+		System.out.printf("\tpath is: %s\n\n", output[1]);
+	}
 }

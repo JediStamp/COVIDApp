@@ -14,11 +14,16 @@ import login.LoginController;
 
 
 @WebServlet("/EmailServlet")
-public class EmailServlet extends HttpServlet {
+public class EmailServlet extends HttpServlet implements Observer{
 	private static final long serialVersionUID = 1L;
+	private User user;
+	private LoginController lc;
        
     public EmailServlet() {
         super();
+		user = new UserBuilder().createUser();
+		lc = new LoginController();
+		lc.registerObserver(this);
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,43 +32,43 @@ public class EmailServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Get request parameters
 		String email = request.getParameter("email");
 		
 		System.out.println("At email servlet. user: " + email);
 		
 		// Create user for checks
-		User user = new UserBuilder().setEmail(email).createUser();
+		user = new UserBuilder().setEmail(email).createUser();
 		
 		// Logic for changing a password when forgotten
-		String[] output = LoginController.changePwd(user);
-		
-		user.setUserID(output[2]);
-		user.setFirstName(output[3]);
-		user.setLastName(output[4]);
-		user.setEmail(output[5]);
+		String[] output = lc.changePwd(user);
 		
 		// Set error message & URL
-		request.setAttribute("errorMsg", output[0]);	
-		
-		request.getSession().setAttribute("thisUser", user);
-
-		request.getSession().setAttribute("firstName", output[3]);
-		request.getSession().setAttribute("lastName", output[4]);
-		request.getSession().setAttribute("email", output[5]);
-		// set email, first name, last name for user
+		request.setAttribute("errorMsg", output[0] );
 		String url = output[1];
-//		
-//		// Print them to the screen
-		System.out.println("EmailServlet: Printing output parameters...");
-//		System.out.println("error message is: " + output[0]);
-		System.out.println("path is: " + output[1]);
-//		System.out.println("userID is: " + output[2]);
-//		System.out.println("firstName is: " + output[3]);
-//		System.out.println("lastName is: " + output[4]);
-//		System.out.println("email is: " + output[5]);
+
+		// Set session info
+		request.getSession().setAttribute("thisUser", user);
 		
+		// Display Email Servlet info
+		display(output);
+
 		// Display new page
-		request.getRequestDispatcher("verify.jsp").forward(request,response);
+		request.getRequestDispatcher(url).forward(request,response);
 	}
 
+	@Override
+	public void update(User user) {
+		this.user = user;
+	}
+
+	private void display(String[] output) {
+		System.out.printf("EmailServlet:\n");
+		System.out.printf("\tEmail User: \n\t%s\n\t%s\n\n\t%s\n",
+					user.getFirstName(), user.getLastName(), user.getEmail());
+		
+		// Print outputs to screen
+		System.out.printf("\terror message is: %s\n", output[0]);
+		System.out.printf("\tpath is: %s\n\n", output[1]);
+	}
 }
