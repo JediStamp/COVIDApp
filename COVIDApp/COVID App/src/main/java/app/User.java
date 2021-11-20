@@ -7,40 +7,13 @@ public class User {
 	private String lastName;
 	private String email;
 	private String userID;
-	private Role userRole; // not set up
+	private UserRole userRole; // not set up
 	private Boolean verified;
 	private String password; // actually pwd hash
 	private String verCode;
 	
-//	public User(String email) {
-//		userID = UUID.randomUUID().toString();
-//		this.firstName = "";
-//		this.lastName = "";
-//		this.email = email;
-//		this.password = "";
-//		verified = false;
-//	}
-	
-//	public User(String email, String password) {
-//		userID = UUID.randomUUID().toString();
-//		this.firstName = "";
-//		this.lastName = "";
-//		this.email = email;
-//		this.password = password;
-//		verified = false;
-//	}
-//	
-//	public User(String firstName, String lastName, String email, String password) {
-//		userID = UUID.randomUUID().toString();
-//		this.firstName = firstName;
-//		this.lastName = lastName;
-//		this.email = email;
-//		this.password = password;
-//		verified = false;
-//	}
-	
 	// Builder Constructor
-	public User(String firstName, String lastName, String email, String userID, Role userRole, Boolean verified,
+	public User(String firstName, String lastName, String email, String userID, UserRole userRole, Boolean verified,
 			String password, String verCode) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -80,10 +53,10 @@ public class User {
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}
-	public Role getUserRole() {
+	public UserRole getUserRole() {
 		return userRole;
 	}
-	public void setUserRole(Role userRole) {
+	public void setUserRole(UserRole userRole) {
 		this.userRole = userRole;
 	}
 	public Boolean getVerified() {

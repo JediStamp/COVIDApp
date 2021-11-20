@@ -17,26 +17,27 @@
 		<a class="right_align" href="LogoutServlet?logout=true">LOGOUT</a>
 	</div>
 
-<div>
-<form action="./ResultsServlet" method="post">
-	<table>
-		<tr>
-			<td class="centered" colspan=2><input type="submit" value="Show me the results"></td>
-		</tr>
-	</table>
-</form>
-</div>
+    <script>
+        function clearcontent(elementID) {
+            document.getElementById(elementID).innerHTML = "";
+        }
+    </script>
 
-
-
-
-
+	<div>
+	<form action="./ResultsServlet" method="post">
+		<table>
+			<tr>
+				<td class="centered" colspan=2><input type="submit" value="Show me the results" onclick="clearcontent('table-here')"></td>
+			</tr>
+		</table>
+	</form>
+	</div>
 
 <div class="center-me">
  <% if (null!=request.getAttribute("lineOut"))
 {
     %>	
-	<p>
+	<p id="table-here">
 	<%
 	out.println(request.getAttribute("lineOut"));
 	%>

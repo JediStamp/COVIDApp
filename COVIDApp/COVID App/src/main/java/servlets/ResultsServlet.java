@@ -36,7 +36,7 @@ public class ResultsServlet extends HttpServlet implements Observer{
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Create table
+		// Create output table
 		String lineOut = "<table class=\"resultsTable\"><tr><th>First Name</th><th>Last Name</th><th>Time Answered</th><th>Clear</th></tr>";
 		try {
 			List<QuestionAnswer> results = ApplicationDao.readFullSurveyResults();

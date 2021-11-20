@@ -12,7 +12,7 @@ public class UserBuilder {
 	private String lastName;
 	private String email;
 	private String userID;
-	private Role userRole; // not set up
+	private UserRole userRole; // not set up
 	private Boolean verified;
 	private String password; // Temporary - not secure
 	private String verCode;
@@ -41,7 +41,7 @@ public class UserBuilder {
 		return this;
 	}
 
-	public UserBuilder setUserRole(Role userRole) {
+	public UserBuilder setUserRole(UserRole userRole) {
 		this.userRole = userRole;
 		return this;
 	}
