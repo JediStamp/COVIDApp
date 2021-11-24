@@ -6,11 +6,11 @@ public abstract class UserRole {
 	protected boolean canSeeResults;
 	protected boolean canEditTeam;
 	
-	public boolean seeResults() {
+	public boolean seeResultsBehaviour() {
 		return canSeeResults;
 	}
 	
-	public boolean editTeam() {
+	public boolean editTeamBehaviour() {
 		return canEditTeam;
 	}
 	

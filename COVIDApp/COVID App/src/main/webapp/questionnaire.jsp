@@ -14,7 +14,9 @@
 	<div class="menubar">
 		<a href="profile.jsp">PROFILE</a>
 		<a id="selected" href="questionnaire.jsp">QUESTIONNAIRE</a>
-		<a id="selected" href="results.jsp">RESULTS</a>
+		<a href="team.jsp">TEAM</a>
+		<a href="question.jsp">QUESTION</a>
+		<a href="results.jsp">RESULTS</a>
 		<a class="right_align" href="LogoutServlet?logout=true">LOGOUT</a>
 	</div>
 	

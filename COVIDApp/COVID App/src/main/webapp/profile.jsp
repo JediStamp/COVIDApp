@@ -13,6 +13,8 @@
 	<div class="menubar">
 		<a id="selected" href="profile.jsp">PROFILE</a>
 		<a href="questionnaire.jsp">QUESTIONNAIRE</a>
+		<a href="team.jsp">TEAM</a>
+		<a href="question.jsp">QUESTION</a>
 		<a id="selected" href="results.jsp">RESULTS</a>
 		<a class="right_align" href="LogoutServlet?logout=true">LOGOUT</a>
 	</div>
