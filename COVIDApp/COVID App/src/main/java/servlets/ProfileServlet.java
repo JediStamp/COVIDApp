@@ -10,11 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import app.User;
 import dao.ApplicationDao;
+import dao.ApplicationDaoProxy;
 import login.LoginController;
 
 @WebServlet("/ProfileServlet")
 public class ProfileServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
+	//Proxy Pattern
+	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
 	
     public ProfileServlet() {
         super();
@@ -49,7 +52,7 @@ public class ProfileServlet extends HttpServlet{
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		
-		ApplicationDao.updateUser(user.getUserID(), firstName, lastName);				
+		appDaoProxy.updateUser(user.getUserID(), firstName, lastName);				
 
 		request.getSession().setAttribute("thisUser", user);		
 		request.getSession().setAttribute("firstName", firstName);

@@ -32,7 +32,7 @@ public class ApplicationDao {
 	 * @param email
 	 * @param pwd
 	 */
-	public static void createUser(User user){
+	public void createUser(User user){
 		String sql = "INSERT INTO " + MyDB.dbName + ".USER (userID, firstName, lastName, email, pwd) VALUES (?, ?, ?, ?, ?);";
 		
 		try (
@@ -60,7 +60,7 @@ public class ApplicationDao {
 	
 	//create another insert method to insert questonnaire answers into the db
 	
-	public static void storeQuestions(String userID, QuestionSet questionSet){
+	public void storeQuestions(String userID, QuestionSet questionSet){
 		String sql = "INSERT INTO " + MyDB.dbName + ".USER_SURVEY_ANSWER (userID, teamID, eventID, questionID, answerID, time_stamp) "
 				+ "VALUES (?, ?, ?, ?, ?, ?);";
 		
@@ -106,7 +106,7 @@ public class ApplicationDao {
 	}
 	
 	// Read Methods ---------------------------------------------------------------------
-	public static List<User> readUsers() throws SQLException{
+	public List<User> readUsers() throws SQLException{
 		User user = null;
 		List<User> users = new ArrayList<>();
 		String sql = "SELECT * FROM " + MyDB.dbName + ".USER ORDER BY lastName, firstName ASC;";
@@ -161,59 +161,59 @@ public class ApplicationDao {
 	}	
 	
 	//read question answers from db 
-	public static List<QuestionAnswer> readSurveyResults() throws SQLException{
-		User user = null;
-		List<QuestionAnswer> qa = new ArrayList<>();
-		String sql = "SELECT user_survey_answer.userID,"
-				+ "user_survey_answer.teamID,"
-				+ "user_survey_answer.eventID,"
-				+ "user_survey_answer.questionID,"
-				+ "user_survey_answer.answerID,"
-				+ "question_answer.answerID "
-				+ "FROM " + MyDB.dbName + ".USER_SURVEY_ANSWER JOIN "
-		+ MyDB.dbName + ".QUESTION_ANSWER on USER_SURVEY_ANSWER.QuestionID = QUESTION_ANSWER.QuestionID;";
-
-		try (	// Make connection
-				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
-				PreparedStatement statement = conn.prepareStatement(sql);
-				ResultSet result = statement.executeQuery(sql);
-				)
-		{
-			System.out.println("readQuestions(): ");
-			System.out.print(statement);
-							
-			while (result.next()){
-					String userID = result.getString("userID");
-				    int teamID = result.getInt("teamID"); 
-				    int eventID = result.getInt("eventID");
-				    int questionID = result.getInt("questionID");
-				    int answerID = result.getInt(5);
-				    int rightAnsID = result.getInt(6);
-				    
-				    QuestionAnswer QA = new QuestionAnswer(questionID, answerID);
-				    QA.setUserID(userID);
-				    QA.setTeamID(teamID);
-				    QA.setEventID(eventID);
-				    QA.setRightAns(rightAnsID);
-				    
-				  //add to arraylist while still in while loop
-				    readList.add(QA);
-				
-			}
-			
-			// Print to screen to see results
-			System.out.println("readQuestions(): Questions read from DB.");
-			
-		}catch(SQLException e) {
-			System.out.println("ReadUsers(): Users Not Read from DB.");
-			DBUtilities.processException(e);
-		}
-
-		return readList;
-	}	
+//	public List<QuestionAnswer> readSurveyResults() throws SQLException{
+//		User user = null;
+//		List<QuestionAnswer> qa = new ArrayList<>();
+//		String sql = "SELECT user_survey_answer.userID,"
+//				+ "user_survey_answer.teamID,"
+//				+ "user_survey_answer.eventID,"
+//				+ "user_survey_answer.questionID,"
+//				+ "user_survey_answer.answerID,"
+//				+ "question_answer.answerID "
+//				+ "FROM " + MyDB.dbName + ".USER_SURVEY_ANSWER JOIN "
+//		+ MyDB.dbName + ".QUESTION_ANSWER on USER_SURVEY_ANSWER.QuestionID = QUESTION_ANSWER.QuestionID;";
+//
+//		try (	// Make connection
+//				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);
+//				PreparedStatement statement = conn.prepareStatement(sql);
+//				ResultSet result = statement.executeQuery(sql);
+//				)
+//		{
+//			System.out.println("readQuestions(): ");
+//			System.out.print(statement);
+//							
+//			while (result.next()){
+//					String userID = result.getString("userID");
+//				    int teamID = result.getInt("teamID"); 
+//				    int eventID = result.getInt("eventID");
+//				    int questionID = result.getInt("questionID");
+//				    int answerID = result.getInt(5);
+//				    int rightAnsID = result.getInt(6);
+//				    
+//				    QuestionAnswer QA = new QuestionAnswer(questionID, answerID);
+//				    QA.setUserID(userID);
+//				    QA.setTeamID(teamID);
+//				    QA.setEventID(eventID);
+//				    QA.setRightAns(rightAnsID);
+//				    
+//				  //add to arraylist while still in while loop
+//				    readList.add(QA);
+//				
+//			}
+//			
+//			// Print to screen to see results
+//			System.out.println("readQuestions(): Questions read from DB.");
+//			
+//		}catch(SQLException e) {
+//			System.out.println("ReadUsers(): Users Not Read from DB.");
+//			DBUtilities.processException(e);
+//		}
+//
+//		return readList;
+//	}	
 	
 	//read question answers from db 
-		public static List<QuestionAnswer> readFullSurveyResults() throws SQLException{
+		public List<QuestionAnswer> readFullSurveyResults() throws SQLException{
 			User user = null;
 			List<QuestionAnswer> qa = new ArrayList<>();
 			String sql = "SELECT "
@@ -279,7 +279,7 @@ public class ApplicationDao {
 			return readList;
 		}	
 	
-	public static User getUserFromID(String userID) throws SQLException{
+	public User getUserFromID(String userID) throws SQLException{
 		User user = null;
 		String sql = "SELECT * FROM " + MyDB.dbName + ".USER WHERE userID=?;";
 
@@ -330,7 +330,7 @@ public class ApplicationDao {
 		return user;
 	}	
 	
-	public static User getUserFromEmail(String email) throws SQLException{
+	public User getUserFromEmail(String email) throws SQLException{
 		User user = null;
 		String sql = "SELECT * FROM " + MyDB.dbName + ".USER WHERE email=? ;";
 
@@ -382,7 +382,7 @@ public class ApplicationDao {
 	}	
 	
 	// Update Methods -------------------------------------------------------------------
-	public static void updateUserVerCode(String UserID, String verCode) {
+	public void updateUserVerCode(String UserID, String verCode) {
 		String sql = "UPDATE " + MyDB.dbName + ".USER SET verCode=? WHERE userID=?;";
 		
 		try (	// Make connection
@@ -407,7 +407,7 @@ public class ApplicationDao {
 
 	}
 	
-	public static void updateUserVerStatus(String UserID, Boolean verStatus) {
+	public void updateUserVerStatus(String UserID, Boolean verStatus) {
 		String sql = "UPDATE " + MyDB.dbName + ".USER SET verified=? WHERE userID=?;";
 		
 		try (	// Make connection
@@ -431,7 +431,7 @@ public class ApplicationDao {
 	}
 	
 	
-	public static void updateUser(String UserID, String firstName, String lastName) {
+	public void updateUser(String UserID, String firstName, String lastName) {
 		String sql = "UPDATE " + MyDB.dbName + ".USER SET firstName=?, lastName=? WHERE userID=?;";
 		
 		try (	// Make connection
@@ -455,7 +455,7 @@ public class ApplicationDao {
 
 	}
 	
-	public static void updateUserPwd(String pwd, String userID) {
+	public void updateUserPwd(String pwd, String userID) {
 		String sql = "UPDATE " + MyDB.dbName + ".USER SET pwd=? WHERE userID=?;";
 		
 		try (	// Make connection
@@ -479,7 +479,7 @@ public class ApplicationDao {
 	}
 	
 	// Delete
-	public static void deleteUser(String userID){
+	public void deleteUser(String userID){
 		String sql = "DELETE FROM " + MyDB.dbName + ".USER WHERE userID=?";
 		try(	// Make connection
 				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);

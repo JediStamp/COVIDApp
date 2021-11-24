@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import app.User;
 import dao.ApplicationDao;
+import dao.ApplicationDaoProxy;
 
 /**
  * Servlet implementation class DeleteServlet
@@ -16,6 +17,8 @@ import dao.ApplicationDao;
 @WebServlet("/DeleteServlet")
 public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	//Proxy Pattern
+	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
        
     public DeleteServlet() {
         super();
@@ -28,7 +31,7 @@ public class DeleteServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User) request.getSession().getAttribute("thisUser");
 		
-		ApplicationDao.deleteUser(user.getUserID());
+		appDaoProxy.deleteUser(user.getUserID());
 		request.getRequestDispatcher("/LogoutServlet").forward(request,response);
 	}
 

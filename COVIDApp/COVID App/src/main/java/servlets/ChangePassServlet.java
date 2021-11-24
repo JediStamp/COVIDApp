@@ -10,10 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import app.User;
 import app.UserPwd;
 import dao.ApplicationDao;
+import dao.ApplicationDaoProxy;
 
 @WebServlet("/ChangePassServlet")
 public class ChangePassServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	//Proxy Pattern
+	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
        
     public ChangePassServlet() {
         super();
@@ -30,7 +34,7 @@ public class ChangePassServlet extends HttpServlet {
 		// Update Password
 		User user = (User) request.getSession().getAttribute("thisUser");
 		user.setPassword(pwdHashed);
-		ApplicationDao.updateUserPwd(pwdHashed, user.getUserID());
+		appDaoProxy.updateUserPwd(pwdHashed, user.getUserID());
 		
 		// Update Session Parameters
 		request.getSession().setAttribute("thisUser",  user);

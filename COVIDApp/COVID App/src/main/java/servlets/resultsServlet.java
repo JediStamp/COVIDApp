@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.ApplicationDao;
+import dao.ApplicationDaoProxy;
 import dao.DBUtilities;
 import questionnaires.QuestionAnswer;
 
@@ -20,7 +21,9 @@ import questionnaires.QuestionAnswer;
 public class resultsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-
+	//Proxy Pattern
+	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
+	
 	public resultsServlet() {
 		super();
 	}
@@ -32,7 +35,7 @@ public class resultsServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String lineOut = "<table class=\"resultsTable\"><tr><th>First Name</th><th>Last Name</th><th>Time Answered</th><th>Clear</th></tr>";
 		try {
-			List<QuestionAnswer> results = ApplicationDao.readFullSurveyResults();
+			List<QuestionAnswer> results = appDaoProxy.readFullSurveyResults();
 			
 			// Display the results 1 question per line
 			String x = null;

@@ -19,6 +19,7 @@ import javax.mail.internet.MimeMessage;
 import app.Email;
 import app.User;
 import dao.ApplicationDao;
+import dao.ApplicationDaoProxy;
 import dao.DBUtilities;
 
 public class LoginController {
@@ -30,6 +31,8 @@ public class LoginController {
 	 * @return
 	 */
 	static ExecutorService executor = Executors.newFixedThreadPool(5);
+	
+	static ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
 	 
 	public static String[] register(User user) {
 		// {errorMessage, path, userID, firstName, lastName, email};
@@ -40,7 +43,7 @@ public class LoginController {
 		if(!isRegistered(user)) {
 			
 			//Add user to db
-			ApplicationDao.createUser(user);
+			appDaoProxy.createUser(user);
 
 			//Send user verification code & Send user to verification page
 			sendVerificationCode(user);
@@ -66,7 +69,7 @@ public class LoginController {
 			
 			try {
 				//get user from DB
-				user = ApplicationDao.getUserFromEmail(user.getEmail());
+				user = appDaoProxy.getUserFromEmail(user.getEmail());
 				
 				//Send user verification code & Send user to verification page
 				sendVerificationCode(user);
@@ -97,7 +100,7 @@ public class LoginController {
 
 			try {
 				//get user from DB
-				user = ApplicationDao.getUserFromEmail(user.getEmail());
+				user = appDaoProxy.getUserFromEmail(user.getEmail());
 				
 				//Provide output message for user
 				output[0] = "user is already registered...";
@@ -124,7 +127,7 @@ public class LoginController {
 		else {
 			try {
 				//get user from DB
-				user = ApplicationDao.getUserFromEmail(user.getEmail());
+				user = appDaoProxy.getUserFromEmail(user.getEmail());
 
 				//Provide output message for user
 				output[0] = "user is already registered, verified, and pwd is correct, logging in...";
@@ -152,7 +155,7 @@ public class LoginController {
 		
 		try {
 			// Read user from DB
-			User user = ApplicationDao.getUserFromID(userID);
+			User user = appDaoProxy.getUserFromID(userID);
 			
 			// CASE: code matches
 			// -> go to profile page
@@ -162,7 +165,7 @@ public class LoginController {
 				user.setVerified(true);
 				
 				// change status in DB
-				ApplicationDao.updateUserVerStatus(user.getUserID(), user.getVerified());
+				appDaoProxy.updateUserVerStatus(user.getUserID(), user.getVerified());
 				
 				//Provide output message for user
 				output[0] = "welcome";
@@ -248,7 +251,7 @@ public class LoginController {
 			else {
 
 				// Read user from DB
-				User user = ApplicationDao.getUserFromEmail(userAttempt.getEmail());
+				User user = appDaoProxy.getUserFromEmail(userAttempt.getEmail());
 
 				// Include userID
 				output[2] = user.getUserID().toString();
@@ -291,7 +294,7 @@ public class LoginController {
 	public static Boolean isRegistered(User user) {
 		// Check if user is in database
 		try {
-			List<User> users = ApplicationDao.readUsers();
+			List<User> users = appDaoProxy.readUsers();
 			for (int i = 0; i < users.size(); i++) {
 				
 				//check each entry until you find a match
@@ -302,7 +305,7 @@ public class LoginController {
 					return true;
 				}
 			}
-			
+
 			// No match, user is not registered
 			System.out.println("LoginController.isRegistered(): User can be added");
 			return false;
@@ -317,7 +320,7 @@ public class LoginController {
 	
 	public static Boolean isVerified(User user) {
 		try {
-			List<User> users = ApplicationDao.readUsers();
+			List<User> users = appDaoProxy.readUsers();
 			for (int i = 0; i < users.size(); i++) {
 				//check each entry until you find a match
 				if (user.getEmail().equals(users.get(i).getEmail()) && 
@@ -352,7 +355,7 @@ public class LoginController {
 		user.setVerCode(verCode);
 		
 		// Save into DB
-		ApplicationDao.updateUserVerCode(user.getUserID().toString(),  verCode);
+		appDaoProxy.updateUserVerCode(user.getUserID().toString(),  verCode);
 		
 		// TODO: Send verification code to user via email
 		sendEmail(user); //this line was needed.
@@ -428,7 +431,7 @@ public class LoginController {
 	public static Boolean checkPwd(User user) {
 		// Check if user is in database
 		try {
-			List<User> users = ApplicationDao.readUsers();
+			List<User> users = appDaoProxy.readUsers();
 			for (int i = 0; i < users.size(); i++) {
 				//check each entry until you find a match
 				if (user.getEmail().equals(users.get(i).getEmail()) && 
@@ -455,10 +458,10 @@ public class LoginController {
 		System.out.println("Changing password...");
 		if(LoginController.isRegistered(user)) {
 			try {
-				user = ApplicationDao.getUserFromEmail(user.getEmail());
-				ApplicationDao.updateUserVerStatus( user.getUserID(), false);
+				user = appDaoProxy.getUserFromEmail(user.getEmail());
+				appDaoProxy.updateUserVerStatus( user.getUserID(), false);
 				//Update user password
-				ApplicationDao.updateUserPwd("0", user.getUserID());
+				appDaoProxy.updateUserPwd("0", user.getUserID());
 				
 				//Send user verification code & Send user to verification page
 				sendVerificationCode(user);
