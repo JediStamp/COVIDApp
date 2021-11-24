@@ -9,13 +9,19 @@ import javax.servlet.http.HttpServletResponse;
 import app.User;
 import app.UserBuilder;
 import dao.ApplicationDao;
+import dao.ApplicationDaoProxy;
 import login.LoginController;
 
 @WebServlet("/ProfileServlet")
 public class ProfileServlet extends HttpServlet implements Observer{
 	private static final long serialVersionUID = 1L;
+
 	private User user;
 	private LoginController lc;
+
+	//Proxy Pattern
+	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
+
 	
     public ProfileServlet() {
         super();
@@ -39,7 +45,7 @@ public class ProfileServlet extends HttpServlet implements Observer{
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		
-		ApplicationDao.updateUser(user.getUserID(), firstName, lastName);				
+		appDaoProxy.updateUser(user.getUserID(), firstName, lastName);				
 
 		// Set error message & URL
 		String url = "profile.jsp";

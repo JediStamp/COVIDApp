@@ -11,6 +11,7 @@ import app.Email;
 import app.User;
 import app.UserBuilder;
 import dao.ApplicationDao;
+import dao.ApplicationDaoProxy;
 import dao.DBUtilities;
 import servlets.Observer;
 
@@ -23,6 +24,7 @@ public class LoginController implements Observable{
 	 * @return
 	 */
 	static ExecutorService executor = Executors.newFixedThreadPool(5);
+
 	private ArrayList<Observer> observers;
 	private User user;
 	private String[] output = new String[2];
@@ -31,6 +33,10 @@ public class LoginController implements Observable{
 		observers = new ArrayList<Observer>();
 		user = new UserBuilder().createUser();
 	}
+
+	
+	static ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
+
 	 
 	public String[] register(User user) {
 		this.user = user;
@@ -39,8 +45,13 @@ public class LoginController implements Observable{
 		// -> send verification email, take to Verify page
 		if(!isRegistered()) {
 			
+
 			// Add user to db
-			ApplicationDao.createUser(user);
+			// ApplicationDao.createUser(user);
+
+			//Add user to db
+			appDaoProxy.createUser(user);
+
 
 			// Send user verification code & Send user to verification page
 			sendVerificationCode();
@@ -63,8 +74,13 @@ public class LoginController implements Observable{
 		else if(!isVerified() && checkPwd()) {
 			
 			try {
+
 				// get user from DB
-				this.user = ApplicationDao.getUserFromEmail(user.getEmail());
+				//this.user = ApplicationDao.getUserFromEmail(user.getEmail());
+
+				//get user from DB
+				user = appDaoProxy.getUserFromEmail(user.getEmail());
+
 				
 				// Send user verification code & Send user to verification page
 				sendVerificationCode();
@@ -91,8 +107,13 @@ public class LoginController implements Observable{
 		else if(!checkPwd()) {
 
 			try {
+
 				// get user from DB
-				this.user = ApplicationDao.getUserFromEmail(user.getEmail());
+				//this.user = ApplicationDao.getUserFromEmail(user.getEmail());
+
+				//get user from DB
+				user = appDaoProxy.getUserFromEmail(user.getEmail());
+
 				
 				// Provide output message for user
 				output[0] = "user is already registered...";
@@ -115,7 +136,11 @@ public class LoginController implements Observable{
 		else {
 			try {
 				//get user from DB
-				this.user = ApplicationDao.getUserFromEmail(user.getEmail());
+
+				//this.user = ApplicationDao.getUserFromEmail(user.getEmail());
+
+				user = appDaoProxy.getUserFromEmail(user.getEmail());
+
 
 				//Provide output message for user
 				output[0] = "user is already registered, verified, and pwd is correct, logging in...";
@@ -138,7 +163,11 @@ public class LoginController implements Observable{
 		
 		try {
 			// Read user from DB
-			user = ApplicationDao.getUserFromID(userID);
+
+			//user = ApplicationDao.getUserFromID(userID);
+
+			User user = appDaoProxy.getUserFromID(userID);
+
 			
 			// CASE: code matches
 			// -> go to profile page
@@ -148,7 +177,7 @@ public class LoginController implements Observable{
 				user.setVerified(true);
 				
 				// change status in DB
-				ApplicationDao.updateUserVerStatus(user.getUserID(), user.getVerified());
+				appDaoProxy.updateUserVerStatus(user.getUserID(), user.getVerified());
 				
 				// Provide output message for user
 				output[0] = "welcome";
@@ -228,7 +257,11 @@ public class LoginController implements Observable{
 			else {
 
 				// Read user from DB
-				user = ApplicationDao.getUserFromEmail(userAttempt.getEmail());
+
+				//user = ApplicationDao.getUserFromEmail(userAttempt.getEmail());
+
+				User user = appDaoProxy.getUserFromEmail(userAttempt.getEmail());
+
 
 				
 				// CASE: USER REGISTERED, PWD CORRECT, !VERIFIED 
@@ -272,7 +305,7 @@ public class LoginController implements Observable{
 	public Boolean isRegistered() {
 		// Check if user is in database
 		try {
-			List<User> users = ApplicationDao.readUsers();
+			List<User> users = appDaoProxy.readUsers();
 			for (int i = 0; i < users.size(); i++) {
 				
 				//check each entry until you find a match
@@ -283,7 +316,7 @@ public class LoginController implements Observable{
 					return true;
 				}
 			}
-			
+
 			// No match, user is not registered
 			System.out.println("LoginController.isRegistered(): User can be added");
 			return false;
@@ -298,7 +331,7 @@ public class LoginController implements Observable{
 	
 	public Boolean isVerified() {
 		try {
-			List<User> users = ApplicationDao.readUsers();
+			List<User> users = appDaoProxy.readUsers();
 			for (int i = 0; i < users.size(); i++) {
 				//check each entry until you find a match
 				if (user.getEmail().equals(users.get(i).getEmail()) && 
@@ -333,7 +366,7 @@ public class LoginController implements Observable{
 		user.setVerCode(verCode);
 		
 		// Save into DB
-		ApplicationDao.updateUserVerCode(user.getUserID().toString(),  verCode);
+		appDaoProxy.updateUserVerCode(user.getUserID().toString(),  verCode);
 		
 		// Update user details
 		notifyObservers(); 
@@ -370,7 +403,7 @@ public class LoginController implements Observable{
 	public Boolean checkPwd() {
 		// Check if user is in database
 		try {
-			List<User> users = ApplicationDao.readUsers();
+			List<User> users = appDaoProxy.readUsers();
 			for (int i = 0; i < users.size(); i++) {
 				//check each entry until you find a match
 				if (user.getEmail().equalsIgnoreCase(users.get(i).getEmail()) && 
@@ -396,15 +429,22 @@ public class LoginController implements Observable{
 		System.out.println("Changing password...");
 		if(isRegistered()) {
 			try {
-				this.user = ApplicationDao.getUserFromEmail(user.getEmail());
+
+				//this.user = ApplicationDao.getUserFromEmail(user.getEmail());
 				
 				// Update user's verification status
-				ApplicationDao.updateUserVerStatus( user.getUserID(), false);
-				user.setVerified(false);
+				//ApplicationDao.updateUserVerStatus( user.getUserID(), false);
+				//user.setVerified(false);
 				
 				//Update user password
 				ApplicationDao.updateUserPwd("0", user.getUserID());
-				user.setPassword(null);
+				//user.setPassword(null);
+
+				user = appDaoProxy.getUserFromEmail(user.getEmail());
+				appDaoProxy.updateUserVerStatus( user.getUserID(), false);
+				//Update user password
+				appDaoProxy.updateUserPwd("0", user.getUserID());
+
 				
 				//Send user verification code & Send user to verification page
 				sendVerificationCode();

@@ -10,14 +10,25 @@ import app.User;
 import app.UserBuilder;
 import app.UserPwd;
 import dao.ApplicationDao;
+
 import login.LoginController;
+
+import dao.ApplicationDaoProxy;
+
 
 @WebServlet("/ChangePassServlet")
 public class ChangePassServlet extends HttpServlet implements Observer{
 	private static final long serialVersionUID = 1L;
+
 	private User user;
 	private LoginController lc;
 	
+
+	
+	//Proxy Pattern
+	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
+       
+
     public ChangePassServlet() {
         super();
 		user = new UserBuilder().createUser();
@@ -36,7 +47,7 @@ public class ChangePassServlet extends HttpServlet implements Observer{
 		// Update Password
 		user = (User) request.getSession().getAttribute("thisUser");
 		user.setPassword(pwdHashed);
-		ApplicationDao.updateUserPwd(pwdHashed, user.getUserID());
+		appDaoProxy.updateUserPwd(pwdHashed, user.getUserID());
 		
 		// Set URL
 		String url = "profile.jsp";

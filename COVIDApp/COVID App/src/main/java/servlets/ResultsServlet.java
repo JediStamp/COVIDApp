@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import app.User;
 import app.UserBuilder;
 import dao.ApplicationDao;
+import dao.ApplicationDaoProxy;
 import dao.DBUtilities;
 import login.LoginController;
 import questionnaires.QuestionAnswer;
@@ -25,7 +26,11 @@ public class ResultsServlet extends HttpServlet implements Observer{
 	private User user;
 	private LoginController lc;
 
-	public ResultsServlet() {
+
+	//Proxy Pattern
+	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
+	
+	public resultsServlet() {
 		super();
 		user = new UserBuilder().createUser();
 		lc = new LoginController();
@@ -39,7 +44,7 @@ public class ResultsServlet extends HttpServlet implements Observer{
 		// Create output table
 		String lineOut = "<table class=\"resultsTable\"><tr><th>First Name</th><th>Last Name</th><th>Time Answered</th><th>Clear</th></tr>";
 		try {
-			List<QuestionAnswer> results = ApplicationDao.readFullSurveyResults();
+			List<QuestionAnswer> results = appDaoProxy.readFullSurveyResults();
 			
 			// Display the results 1 question per line
 			String x = null;

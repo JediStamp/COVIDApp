@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import app.User;
 import dao.ApplicationDao;
+import dao.ApplicationDaoProxy;
 import questionnaires.QuestionAnswer;
 import questionnaires.QuestionFactory;
 import questionnaires.QuestionSet;
@@ -22,6 +23,9 @@ import questionnaires.QuestionSet;
 @WebServlet("/QuestionnaireServlet")
 public class QuestionnaireServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	//Proxy Pattern
+	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
        
     public QuestionnaireServlet() {
         super();
@@ -61,7 +65,7 @@ public class QuestionnaireServlet extends HttpServlet {
 		System.out.println(user.getUserID());
 		System.out.println(questionSet.getQuestions().size());
 				
-		ApplicationDao.storeQuestions(user.getUserID(), questionSet);
+		appDaoProxy.storeQuestions(user.getUserID(), questionSet);
 		System.out.println("finished storeQuestions()");		
 
 		String url = "/ResultsServlet";
