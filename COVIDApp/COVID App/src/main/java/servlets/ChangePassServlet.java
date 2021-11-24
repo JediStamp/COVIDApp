@@ -10,6 +10,7 @@ import app.User;
 import app.UserBuilder;
 import app.UserPwd;
 import dao.ApplicationDao;
+import dao.ApplicationDaoProxy;
 
 import login.LoginController;
 
@@ -24,7 +25,7 @@ public class ChangePassServlet extends HttpServlet implements Observer{
 	private LoginController lc;
 	
 
-	
+
 	//Proxy Pattern
 	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
        
@@ -51,6 +52,7 @@ public class ChangePassServlet extends HttpServlet implements Observer{
 		
 		// Set URL
 		String url = "profile.jsp";
+
 		
 		// Update Session Parameters
 		request.getSession().setAttribute("thisUser",  user);

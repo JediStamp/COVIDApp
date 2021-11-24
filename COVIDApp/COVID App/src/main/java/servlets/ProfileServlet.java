@@ -16,6 +16,7 @@ import login.LoginController;
 public class ProfileServlet extends HttpServlet implements Observer{
 	private static final long serialVersionUID = 1L;
 
+
 	private User user;
 	private LoginController lc;
 

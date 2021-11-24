@@ -25,6 +25,7 @@ public class LoginController implements Observable{
 	 */
 	static ExecutorService executor = Executors.newFixedThreadPool(5);
 
+
 	private ArrayList<Observer> observers;
 	private User user;
 	private String[] output = new String[2];
@@ -37,7 +38,7 @@ public class LoginController implements Observable{
 	
 	static ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
 
-	 
+
 	public String[] register(User user) {
 		this.user = user;
 		
@@ -113,7 +114,6 @@ public class LoginController implements Observable{
 
 				//get user from DB
 				user = appDaoProxy.getUserFromEmail(user.getEmail());
-
 				
 				// Provide output message for user
 				output[0] = "user is already registered...";
@@ -136,6 +136,7 @@ public class LoginController implements Observable{
 		else {
 			try {
 				//get user from DB
+
 
 				//this.user = ApplicationDao.getUserFromEmail(user.getEmail());
 
@@ -257,6 +258,7 @@ public class LoginController implements Observable{
 			else {
 
 				// Read user from DB
+
 
 				//user = ApplicationDao.getUserFromEmail(userAttempt.getEmail());
 
@@ -430,6 +432,7 @@ public class LoginController implements Observable{
 		if(isRegistered()) {
 			try {
 
+
 				//this.user = ApplicationDao.getUserFromEmail(user.getEmail());
 				
 				// Update user's verification status
@@ -445,7 +448,7 @@ public class LoginController implements Observable{
 				//Update user password
 				appDaoProxy.updateUserPwd("0", user.getUserID());
 
-				
+			
 				//Send user verification code & Send user to verification page
 				sendVerificationCode();
 				
