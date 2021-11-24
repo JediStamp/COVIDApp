@@ -1,22 +1,27 @@
 package servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import app.User;
+import app.UserBuilder;
 import app.UserPwd;
 import login.LoginController;
 
 @WebServlet( "/RegisterServlet")
-public class RegisterServlet extends HttpServlet {
+public class RegisterServlet extends HttpServlet implements Observer {
 	private static final long serialVersionUID = 1L;
+	private User user;
+	private LoginController lc;
        
     public RegisterServlet() {
         super();
+        user = new UserBuilder().createUser();
+		lc = new LoginController();
+		lc.registerObserver(this);
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -24,63 +29,51 @@ public class RegisterServlet extends HttpServlet {
 		response.sendRedirect("index.jsp");
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 * 
-	 * DEBUGGING GUIDE
-	 * 
-	 * fname = "ver" gets you verified
-	 * pwd = "pwd" gets correct password
-	 * registered works through dB
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		doGet(request, response);
-		System.out.println(request.getParameterMap());
-		System.out.println("select"+ 1);
-		
-		String fName = request.getParameter("first_name");
-		String lName = request.getParameter("last_name");
+		// Get request parameters
+		String firstName = request.getParameter("first_name");
+		String lastName = request.getParameter("last_name");
 		String email = request.getParameter("email");
 		String pwd = request.getParameter("pwd");
+		
+		// Create new user
+		user = new UserBuilder()
+					.setFirstName(firstName)
+					.setLastName(lastName)
+					.setEmail(email)
+					.setPassword(UserPwd.hashPwd(pwd))
+					.createUser();
+		
+		// Register User		
+		String[] output = lc.register(user);
 
-		String info = "New user: " + fName + " " + lName + " " + email + " " + pwd;
-		String htmlOut = "<html>" + info + "</html>";
-		PrintWriter writer = response.getWriter();
-		writer.write(htmlOut);
-
-		System.out.printf("User: \n\t%s\n\t%s\n\t%s\n\t%s\n",
-				fName,lName,email,pwd);
-		
-		//Create new user
-		String pwdHashed = UserPwd.hashPwd(pwd);
-		User user = new User(fName, lName, email, pwdHashed);
-		
-		// Register User
-		String[] output = LoginController.register(user);
-		
-		
-		// Set error message, user details & URL
+		// Set error message & URL
 		request.setAttribute("errorMsg", output[0]);
-		request.getSession().setAttribute("thisUser", user);
-//		request.getSession().setAttribute("userID", output[2]);
-		request.getSession().setAttribute("firstName", output[3]);
-		request.getSession().setAttribute("lastName", output[4]);
-		request.getSession().setAttribute("email", output[5]);
-		
 		String url = output[1];
 		
-		// Print them to the screen
-		System.out.println("RegisterServlet: Printing output parameters...");
-		System.out.println("error message is: " + output[0]);
-		System.out.println("path is: " + output[1]);
-		System.out.println("userID is: " + output[2]);
-		System.out.println("firstName is: " + output[3]);
-		System.out.println("lastName is: " + output[4]);
-		System.out.println("email is: " + output[5]);
-		
-		
+		// Set session info
+		request.getSession().setAttribute("thisUser", user);
+
+		// Display Register Servlet info
+		display(pwd, output);
+
 		// Display new page
 		request.getRequestDispatcher(url).forward(request,response);
 	}
 
+	@Override
+	public void update(User user) {
+		this.user = user;
+	}
+	
+	public void display(String pwd, String[] output) {
+		// Print out user's info
+		System.out.printf("RegisterServlet:\n");
+		System.out.printf("\tRegister User: \n\t%s\n\t%s\n\t%s\n\t%s\n",
+					user.getFirstName(), user.getLastName(), user.getEmail(), pwd);
+		
+		// Print outputs to screen
+		System.out.printf("\terror message is: %s\n", output[0]);
+		System.out.printf("\tpath is: %s\n\n", output[1]);
+	}
 }

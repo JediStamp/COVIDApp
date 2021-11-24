@@ -11,25 +11,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import app.User;
+import app.UserBuilder;
 import dao.ApplicationDao;
 import dao.DBUtilities;
+import login.LoginController;
 import questionnaires.QuestionAnswer;
 
 
 @WebServlet("/ResultsServlet")
-public class resultsServlet extends HttpServlet {
+public class ResultsServlet extends HttpServlet implements Observer{
 	private static final long serialVersionUID = 1L;
+	private User user;
+	private LoginController lc;
 
-
-	public resultsServlet() {
+	public ResultsServlet() {
 		super();
+		user = new UserBuilder().createUser();
+		lc = new LoginController();
+		lc.registerObserver(this);
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Create output table
 		String lineOut = "<table class=\"resultsTable\"><tr><th>First Name</th><th>Last Name</th><th>Time Answered</th><th>Clear</th></tr>";
 		try {
 			List<QuestionAnswer> results = ApplicationDao.readFullSurveyResults();
@@ -96,6 +103,11 @@ public class resultsServlet extends HttpServlet {
 
 		// Display new page
 		request.getRequestDispatcher("results.jsp").forward(request,response);
+	}
+
+	@Override
+	public void update(User user) {
+		this.user = user;
 	}
 
 }

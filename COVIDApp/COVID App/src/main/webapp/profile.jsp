@@ -13,11 +13,18 @@
 	<div class="menubar">
 		<a id="selected" href="profile.jsp">PROFILE</a>
 		<a href="questionnaire.jsp">QUESTIONNAIRE</a>
+		<a href="team.jsp">TEAM</a>
+		<a href="question.jsp">QUESTION</a>
 		<a id="selected" href="results.jsp">RESULTS</a>
 		<a class="right_align" href="LogoutServlet?logout=true">LOGOUT</a>
 	</div>
-
-
+<%@ page import ="app.User"   %>
+<%
+User user = (User) request.getSession().getAttribute("thisUser"); 
+			String first_name = user.getFirstName();
+			String last_name = user.getLastName();
+			String email = user.getEmail();
+%>
 <div class="center-me">
 	<div class="light left_side">
 	<form action="./ProfileServlet" method="post">
@@ -29,18 +36,18 @@
 		<tr>
 			<td><label class="profile-label" for="first_name">First Name:</label></td>
 			<td><input class="profile" type="text" id="first_name" name="first_name" size="30"
-			value=<% out.println(request.getSession().getAttribute("firstName"));%>/></td>
+			value=<% out.println(user.getFirstName());%>/></td>
 		</tr>
 		
 		<tr>
 			<td><label class="profile-label" for="last_name">Last Name:</label></td>
 			<td><input class="profile" type="text" id="last_name" name="last_name" size="30"
-			value=<% out.println(request.getSession().getAttribute("lastName"));%>/></td>
+			value=<% out.println(user.getLastName());%>/></td>
 		</tr>
 		
 		<tr>
 			<td><label class="profile-label">Email:</label></td>
-			<td><label class="profile-label"><% out.println(request.getSession().getAttribute("email"));%></label></td>
+			<td><label class="profile-label"><% out.println(user.getEmail());%></label></td>
 		</tr>
 		
 		<tr>

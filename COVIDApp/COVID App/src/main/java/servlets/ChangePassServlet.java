@@ -6,38 +6,63 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import app.User;
+import app.UserBuilder;
 import app.UserPwd;
 import dao.ApplicationDao;
+import login.LoginController;
 
 @WebServlet("/ChangePassServlet")
-public class ChangePassServlet extends HttpServlet {
+public class ChangePassServlet extends HttpServlet implements Observer{
 	private static final long serialVersionUID = 1L;
-       
+	private User user;
+	private LoginController lc;
+	
     public ChangePassServlet() {
         super();
+		user = new UserBuilder().createUser();
+		lc = new LoginController();
+		lc.registerObserver(this);
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Get request parameters
 		String pwd = request.getParameter("pwd");
 		String pwdHashed = UserPwd.hashPwd(pwd);
 		
 		// Update Password
-		User user = (User) request.getSession().getAttribute("thisUser");
+		user = (User) request.getSession().getAttribute("thisUser");
 		user.setPassword(pwdHashed);
 		ApplicationDao.updateUserPwd(pwdHashed, user.getUserID());
+		
+		// Set URL
+		String url = "profile.jsp";
 		
 		// Update Session Parameters
 		request.getSession().setAttribute("thisUser",  user);
 		
-		// Go back to profile page
-		String url = "profile.jsp";
+		// Display Change Pass Servlet info
+		display(pwd, url);
+		
+		// Display new page
 		request.getRequestDispatcher(url).forward(request,response);
 	}
 
+	@Override
+	public void update(User user) {
+		this.user = user;
+	}
+
+	private void display(String pwd, String url) {
+		System.out.printf("ChangePassServlet:\n");
+		System.out.printf("\tChange User Password: \n\t%s\n\t%s\n\n\t%s\n\t%s\n",
+					user.getFirstName(), user.getLastName(), user.getEmail(), pwd);
+		
+		// Print outputs to screen
+		System.out.printf("\tpath is: %s\n\n", url);
+		
+	}
 }
