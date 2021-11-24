@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import app.User;
 import dao.ApplicationDao;
 import questionnaires.QuestionAnswer;
+import questionnaires.QuestionFactory;
 import questionnaires.QuestionSet;
 
 /**
@@ -27,6 +28,7 @@ public class QuestionnaireServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+				
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -63,6 +65,11 @@ public class QuestionnaireServlet extends HttpServlet {
 		System.out.println("finished storeQuestions()");		
 
 		String url = "/ResultsServlet";
+		
+		QuestionFactory.getNewQuestion(true, 1, "made a new question", null, 0);
+		System.out.println("on questionair servlet");
+		
+		
 				
 		// Display new page
 				
