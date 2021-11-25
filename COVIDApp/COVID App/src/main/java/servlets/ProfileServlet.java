@@ -21,7 +21,7 @@ public class ProfileServlet extends HttpServlet implements Observer{
 	private LoginController lc;
 
 	//Proxy Pattern
-	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
+	ApplicationDaoProxy appDaoProxy = ApplicationDaoProxy.getAppDAOProxy();
 
 	
     public ProfileServlet() {

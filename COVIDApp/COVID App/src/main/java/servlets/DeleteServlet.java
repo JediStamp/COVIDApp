@@ -18,7 +18,7 @@ import dao.ApplicationDaoProxy;
 public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	//Proxy Pattern
-	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
+	ApplicationDaoProxy appDaoProxy = ApplicationDaoProxy.getAppDAOProxy();
        
     public DeleteServlet() {
         super();

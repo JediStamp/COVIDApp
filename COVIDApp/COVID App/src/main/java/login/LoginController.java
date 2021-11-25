@@ -34,7 +34,7 @@ public class LoginController implements Observable{
 		user = new UserBuilder().createUser();
 	}
 
-	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
+	ApplicationDaoProxy appDaoProxy = ApplicationDaoProxy.getAppDAOProxy();
 
 	public String[] register(User user) {
 		this.user = user;

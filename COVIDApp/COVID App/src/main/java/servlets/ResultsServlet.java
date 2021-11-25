@@ -24,7 +24,7 @@ public class ResultsServlet extends HttpServlet implements Observer{
 	private LoginController lc;
 
 	//Proxy Pattern
-	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
+	ApplicationDaoProxy appDaoProxy = ApplicationDaoProxy.getAppDAOProxy();
 	
 	public ResultsServlet() {
 		super();

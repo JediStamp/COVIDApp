@@ -27,7 +27,7 @@ public class ChangePassServlet extends HttpServlet implements Observer{
 
 
 	//Proxy Pattern
-	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
+	ApplicationDaoProxy appDaoProxy = ApplicationDaoProxy.getAppDAOProxy();
        
 
     public ChangePassServlet() {
