@@ -59,7 +59,7 @@ td {
     font-size: 14px;
 }
 
-[type="submit"] {
+[type="submit"], [type="file"] {
 	padding: 8px;
 	text-align: center;
 }

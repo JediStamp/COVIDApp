@@ -10,7 +10,8 @@ import questionnaires.QuestionSet;
 public interface Application {
 	
 	public void createUser(User user);
-	public void storeQuestions(String userID, QuestionSet questionSet);
+	public void saveTeamUserRole(User user);
+	public void saveQuestionnaireResponse(String userID, QuestionSet questionSet);
 	public List<User> readUsers() throws SQLException;
 	// public List<QuestionAnswer> readSurveyResults() throws SQLException;
 	public List<QuestionAnswer> readFullSurveyResults() throws SQLException;

@@ -9,15 +9,7 @@
 <body>
 <h1 class="centered">Question Page</h1>
 
-	<!--  Navigation bar  -->
-	<div class="menubar">
-		<a href="profile.jsp">PROFILE</a>
-		<a href="questionnaire.jsp">QUESTIONNAIRE</a>
-		<a href="team.jsp">TEAM</a>
-		<a id="selected" href="question.jsp">QUESTION</a>
-		<a href="results.jsp">RESULTS</a>
-		<a class="right_align" href="LogoutServlet?logout=true">LOGOUT</a>
-	</div>
+<%@ include file="header.jsp" %> 
 	
 <div class="center-me">
 
@@ -26,13 +18,13 @@
 	<table>
 	<tr>
 	<td><label for="question_content">Question Content:</label></td>
-	<td><input colspan="3" type="text" id="question_content" name="question_content" size="30"/></td>
+	<td colspan="3"><input type="text" id="question_content" name="question_content" size="30"/></td>
 	</tr>
 
 	<tr>
 	<td><label for="correct_ans">Question Answer:</label></td>
 	<td><input type="radio" name="correct_ans" value="Yes" required="required"></td>
-	<td><input type="radio" name="correct_ans" value="No" required="required"></td></td>
+	<td><input type="radio" name="correct_ans" value="No" required="required"></td>
 	<td><input type="submit" value="Add"></td>
 	</tr>
 	

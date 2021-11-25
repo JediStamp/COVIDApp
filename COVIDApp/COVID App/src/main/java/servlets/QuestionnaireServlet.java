@@ -39,10 +39,11 @@ public class QuestionnaireServlet extends HttpServlet {
 		
 		//create question set to store answers to survey
 		QuestionSet questionSet = new QuestionSet(1,1);
+		
 		// create question answer to use to store each question and answer combo
 		QuestionAnswer qa;
 		
-		// Get time stamp of log 
+		// Get time stamp of entry 
 		Date date = new Date();
 		Timestamp time_stamp = new Timestamp(date.getTime());
 		
@@ -65,18 +66,10 @@ public class QuestionnaireServlet extends HttpServlet {
 		System.out.println(user.getUserID());
 		System.out.println(questionSet.getQuestions().size());
 				
-		appDaoProxy.storeQuestions(user.getUserID(), questionSet);
+		appDaoProxy.saveQuestionnaireResponse(user.getUserID(), questionSet);
 		System.out.println("finished storeQuestions()");		
 
-		String url = "/ResultsServlet";
-		
-		QuestionFactory.getNewQuestion(true, 1, "made a new question", null, 0);
-		System.out.println("on questionair servlet");
-		
-		
-				
 		// Display new page
-				
 		request.getRequestDispatcher("results.jsp").forward(request,response);
 	}
 

@@ -118,8 +118,9 @@ public class DBUtilities {
 				+ "roleName VARCHAR(45));";
 		
 		String sqlTeam_user = "CREATE TABLE IF NOT EXISTS TEAM_USER_ROLE ("
+				+ "teamUserRoleID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,"
 				+ "teamID INT,"
-				+ "userID INT,"
+				+ "userID VARCHAR(45),"
 				+ "roleID INT);";
 		
 		String sqlEvent = "CREATE TABLE IF NOT EXISTS EVENT ("
@@ -140,6 +141,12 @@ public class DBUtilities {
 		
 		// Set Version Number
 		String inDBVer = "insert into " + dbName + ".DBVer  values(" + dbVersion + ");";
+		
+		// Set Roles
+		String inRoles1 = "INSERT INTO " + dbName + ".role (roleID, roleName) VALUES ('1', 'owner');";
+		String inRoles2 = "INSERT INTO " + dbName + ".role (roleID, roleName) VALUES ('2', 'admin');";
+		String inRoles3 = "INSERT INTO " + dbName + ".role (roleID, roleName) VALUES ('3', 'member');";
+		
 		// Set Questions
 		String inQ1 = "insert into " + dbName + ".QUESTION (questionText) values "
 				+ "('I am fully vaccinated against COVID-19.');";
@@ -215,6 +222,10 @@ public class DBUtilities {
 			// Insert Data
 			// DBVer
 			stmt.addBatch(inDBVer);
+			//Roles
+			stmt.addBatch(inRoles1);
+			stmt.addBatch(inRoles2);
+			stmt.addBatch(inRoles3);
 			// Question
 			stmt.addBatch(inQ1);
 			stmt.addBatch(inQ2);

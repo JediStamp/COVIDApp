@@ -29,7 +29,7 @@ public class ResultsServlet extends HttpServlet implements Observer{
 	//Proxy Pattern
 	ApplicationDaoProxy appDaoProxy = new ApplicationDaoProxy();
 	
-	public resultsServlet() {
+	public ResultsServlet() {
 		super();
 		user = new UserBuilder().createUser();
 		lc = new LoginController();

@@ -1,20 +1,16 @@
 package app;
 
-import java.util.UUID;
+import userRoles.UserRole;
 
-/**
- * FUTURE WORK TO USE BUILDER PATTERN
- * @author jkmik
- *
- */
 public class UserBuilder {
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String userID;
-	private UserRole userRole; // not set up
+	private UserRole userRole;
+	private int teamID;
 	private Boolean verified;
-	private String password; // Temporary - not secure
+	private String password; 
 	private String verCode;
 	
 	public UserBuilder() {
@@ -45,9 +41,24 @@ public class UserBuilder {
 		this.userRole = userRole;
 		return this;
 	}
+	
+	public UserBuilder setTeamID(int teamID) {
+		this.teamID = teamID;
+		return this;
+	}
 
 	public UserBuilder setVerified(Boolean verified) {
 		this.verified = verified;
+		return this;
+	}
+	
+	//overload setVerified to take int from dB
+	public UserBuilder setVerified(int verified) {
+		if (verified == 1) {
+			this.setVerified(true);	
+		}else {
+			this.setVerified(false);
+		}
 		return this;
 	}
 
@@ -62,6 +73,6 @@ public class UserBuilder {
 	}
 	
 	public User createUser() {
-		return new User(firstName, lastName, email, userID, userRole, verified, password, verCode);
+		return new User(firstName, lastName, email, userID, userRole, teamID, verified, password, verCode);
 	}
 }

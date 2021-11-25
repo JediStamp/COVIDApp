@@ -9,15 +9,7 @@
 <body>
 <h1 class="centered">Results Page</h1>
 
-	<!--  Navigation bar  -->
-	<div class="menubar">
-		<a href="profile.jsp">PROFILE</a>
-		<a href="questionnaire.jsp">QUESTIONNAIRE</a>
-		<a href="team.jsp">TEAM</a>
-		<a href="question.jsp">QUESTION</a>
-		<a id="selected" href="results.jsp">RESULTS</a>
-		<a class="right_align" href="LogoutServlet?logout=true">LOGOUT</a>
-	</div>
+<%@ include file="header.jsp" %> 
 
     <script>
         function clearcontent(elementID) {

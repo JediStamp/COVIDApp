@@ -9,22 +9,14 @@
 <body>
 <h1 class="centered">Profile Page</h1>
 
-	<!--  Navigation bar  -->
-	<div class="menubar">
-		<a id="selected" href="profile.jsp">PROFILE</a>
-		<a href="questionnaire.jsp">QUESTIONNAIRE</a>
-		<a href="team.jsp">TEAM</a>
-		<a href="question.jsp">QUESTION</a>
-		<a id="selected" href="results.jsp">RESULTS</a>
-		<a class="right_align" href="LogoutServlet?logout=true">LOGOUT</a>
-	</div>
-<%@ page import ="app.User"   %>
+<%@ include file="header.jsp" %> 
+
 <%
-User user = (User) request.getSession().getAttribute("thisUser"); 
-			String first_name = user.getFirstName();
-			String last_name = user.getLastName();
-			String email = user.getEmail();
+	String first_name = user.getFirstName();
+	String last_name = user.getLastName();
+	String email = user.getEmail();
 %>
+
 <div class="center-me">
 	<div class="light left_side">
 	<form action="./ProfileServlet" method="post">
@@ -56,7 +48,10 @@ User user = (User) request.getSession().getAttribute("thisUser");
 		
 		<tr>
 			<td colspan=2 class="right_align"><input type="submit" value="Update">
-			<input type="submit" value="Delete" formaction="./DeleteServlet"></td>
+			<input type="submit" value="Delete" formaction="./DeleteServlet"/></td>
+		</tr>
+		<tr>
+			<td colspan=2 class="centered"><input type="submit" value="Create Team" formaction="team.jsp"/></td>
 		</tr>
 		
 	</table>
@@ -64,15 +59,18 @@ User user = (User) request.getSession().getAttribute("thisUser");
 	</div> <!-- end div dark left_side -->
 	
 	<div class="dark right_side">
-	<form action="./ProfileServlet" method="get">
+	<form action="./UploadServlet" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>
-			<th colspan=2><img src="http://localhost:8080/COVID_App/html/images/profile.jpg" width="200px"></th>
+			<th><img src="http://localhost:8080/COVID_App/html/images/profile.jpg" width="200px"/></th>
 		</tr>
-		
+
 		<tr>
-			<td><label for="owner">Team Owner</label></td>
-			<td><input type="checkbox" id="owner" name="owner"/></td>
+			<td class="centered"><input type="file" name="file" /></td>
+		</tr>
+			
+		<tr>
+			<td class="centered"><input type="submit" value="Upload" /></td>
 		</tr>
 	</table>
 	</form>

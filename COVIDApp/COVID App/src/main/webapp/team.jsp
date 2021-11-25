@@ -9,15 +9,7 @@
 <body>
 <h1 class="centered">Team Page</h1>
 
-	<!--  Navigation bar  -->
-	<div class="menubar">
-		<a href="profile.jsp">PROFILE</a>
-		<a href="questionnaire.jsp">QUESTIONNAIRE</a>
-		<a id="selected" href="team.jsp">TEAM</a>
-		<a href="question.jsp">QUESTION</a>
-		<a href="results.jsp">RESULTS</a>
-		<a class="right_align" href="LogoutServlet?logout=true">LOGOUT</a>
-	</div>
+<%@ include file="header.jsp" %> 
 	
 <div class="center-me">
 
