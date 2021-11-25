@@ -4,16 +4,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import app.User;
 import app.UserBuilder;
-import dao.ApplicationDao;
 import dao.ApplicationDaoProxy;
 import dao.DBUtilities;
 import login.LoginController;

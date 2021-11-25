@@ -10,7 +10,6 @@ import java.util.concurrent.Executors;
 import app.Email;
 import app.User;
 import app.UserBuilder;
-import dao.ApplicationDao;
 import dao.ApplicationDaoProxy;
 import dao.DBUtilities;
 import servlets.Observer;
@@ -398,29 +397,23 @@ public class LoginController implements Observable{
 		}
 	}
 	
-	public String[] changePwd(User user) {
-		this.user = user;
+	public String[] changePwd(User chkUser) {
+		user = chkUser;
 		
 		System.out.println("Changing password...");
 		if(isRegistered()) {
 			try {
 
-
-				//this.user = ApplicationDao.getUserFromEmail(user.getEmail());
+				user = appDaoProxy.getUserFromEmail(user.getEmail());
 				
 				// Update user's verification status
-				//ApplicationDao.updateUserVerStatus( user.getUserID(), false);
-				//user.setVerified(false);
+				appDaoProxy.updateUserVerStatus( user.getUserID(), false);
+				user.setVerified(false);
 				
 				//Update user password
-				//ApplicationDao.updateUserPwd("0", user.getUserID());
-				//user.setPassword(null);
-
-				user = appDaoProxy.getUserFromEmail(user.getEmail());
-				appDaoProxy.updateUserVerStatus( user.getUserID(), false);
-				//Update user password
 				appDaoProxy.updateUserPwd("0", user.getUserID());
-			
+				user.setPassword(null);
+
 				//Send user verification code & Send user to verification page
 				sendVerificationCode();
 				
@@ -429,13 +422,12 @@ public class LoginController implements Observable{
 				System.out.println(output[0]);
 				
 				//Send user to verification page
-				output[1] = "verifyPasswordChange.jsp"; 
+				output[1] = "verify.jsp"; 
 				
 				// Update user details
 				notifyObservers(); 
 				
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				DBUtilities.processException(e);
 			}
 		}
