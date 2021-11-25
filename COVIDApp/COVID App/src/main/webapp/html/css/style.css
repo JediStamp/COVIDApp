@@ -192,3 +192,7 @@ p{
 .profile-label{
 	color: #1b2432; 			/* gunmetal grey */
 }
+
+textarea {
+	resize: none;
+}

@@ -47,11 +47,11 @@
 		</tr>
 		
 		<tr>
-			<td colspan=2 class="right_align"><input type="submit" value="Update">
-			<input type="submit" value="Delete" formaction="./DeleteServlet"/></td>
-		</tr>
-		<tr>
-			<td colspan=2 class="centered"><input type="submit" value="Create Team" formaction="team.jsp"/></td>
+			<td colspan=2 class="right_align">
+			<input type="submit" value="Create Team" formaction="team.jsp"/>
+			<input type="submit" value="Update Profile">
+			<input type="submit" value="Delete Profile" formaction="./DeleteServlet"/>
+			</td>
 		</tr>
 		
 	</table>
@@ -62,7 +62,18 @@
 	<form action="./UploadServlet" method="post" enctype="multipart/form-data">
 	<table>
 		<tr>
-			<th><img src="http://localhost:8080/COVID_App/html/images/profile.jpg" width="200px"/></th>
+			<th><img src=
+			<%
+			String vaxPath = "C:/VaxPassport/passport.jpg";
+			java.io.File img = new java.io.File(vaxPath);
+			if (img.exists()){
+				out.println(vaxPath);
+			} 
+			else {
+				out.println("http://localhost:8080/COVID_App/html/images/profile.jpg");
+			}
+			%>
+			 width="200px"/></th>
 		</tr>
 
 		<tr>

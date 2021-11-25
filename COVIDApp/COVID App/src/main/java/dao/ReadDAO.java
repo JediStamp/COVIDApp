@@ -145,7 +145,7 @@ public class ReadDAO {
 		+ "team_user_role.teamID "
 		+ "FROM " + MyDB.dbName + ".USER "
 		+ "JOIN " + MyDB.dbName + ".team_user_role "
-		+ "ON user.userID = team_user_role.userID WHERE " + key + "=? ;";
+		+ "ON user.userID = team_user_role.userID WHERE USER." + key + "=? ;";
 
 		try (	// Make connection
 				Connection conn = DBUtilities.getConnToDB( MyDB.connPath,  MyDB.userName,  MyDB.pwd, MyDB.dbName ,MyDB.version);

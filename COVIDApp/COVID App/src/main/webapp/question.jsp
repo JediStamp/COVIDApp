@@ -16,15 +16,16 @@
 	<div class="light">
 	<form action="./QuestionServlet" method="post">
 	<table>
+	
 	<tr>
-	<td><label for="question_content">Question Content:</label></td>
-	<td colspan="3"><input type="text" id="question_content" name="question_content" size="30"/></td>
+	<td rowspan="5"><label for="question_content">Question Content:</label></td>
+	<td colspan="3" rowspan="5"><textarea cols="50" rows="5" id="question_content" name="question_content"></textarea></td>
 	</tr>
 
 	<tr>
 	<td><label for="correct_ans">Question Answer:</label></td>
-	<td><input type="radio" name="correct_ans" value="Yes" required="required"></td>
-	<td><input type="radio" name="correct_ans" value="No" required="required"></td>
+	<td><label for="correct_ans">Yes</label><input type="radio" name="correct_ans" value="Yes" required="required"></td>
+	<td><label for="correct_ans">No</label><input type="radio" name="correct_ans" value="No" required="required"></td>
 	<td><input type="submit" value="Add"></td>
 	</tr>
 	

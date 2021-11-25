@@ -34,6 +34,7 @@ public class ResultsServlet extends HttpServlet implements Observer{
 		user = new UserBuilder().createUser();
 		lc = new LoginController();
 		lc.registerObserver(this);
+		
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

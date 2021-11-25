@@ -11,12 +11,6 @@
 
 <%@ include file="header.jsp" %> 
 
-    <script>
-        function clearcontent(elementID) {
-            document.getElementById(elementID).innerHTML = "";
-        }
-    </script>
-
 	<div>
 	<form action="./ResultsServlet" method="post">
 		<table>
@@ -28,6 +22,7 @@
 	</div>
 
 <div class="center-me">
+
  <% if (null!=request.getAttribute("lineOut"))
 {
     %>	

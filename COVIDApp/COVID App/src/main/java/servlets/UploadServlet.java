@@ -1,5 +1,6 @@
 package servlets;
 
+import java.io.File;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -37,10 +38,21 @@ public class UploadServlet extends HttpServlet {
 	    Part filePart = request.getPart("file");
 	    String fileName = filePart.getSubmittedFileName();
 	    
-	    // Should save file and display it on the profile.jsp
-	    System.out.println(filePart + " : " + fileName);
+	    // Save file
+	    for (Part part : request.getParts()) {
+	    	//Check if directory exists
+	    	File dir = new File("C:\\VaxPassport");
+	    	if (!dir.exists()) {
+	    		dir.mkdir();
+	    	}
+	    	// Write file to dir
+    		System.out.println(dir + "\\" + fileName);
+    		part.write(dir + "\\" + fileName);
+	      }
 	    
-	    // Then would update the user to have vax status == yes
+	    // Load file as new profile pic.
+	    
+	    // Update the user to have vax status == yes
 	    
 		// Display new page
 		request.getRequestDispatcher("profile.jsp").forward(request,response);
