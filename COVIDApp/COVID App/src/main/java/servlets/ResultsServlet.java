@@ -3,6 +3,7 @@ package servlets;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +16,7 @@ import dao.ApplicationDaoProxy;
 import dao.DBUtilities;
 import login.LoginController;
 import questionnaires.QuestionAnswer;
+import questionnaires.Result;
 
 
 @WebServlet("/ResultsServlet")
@@ -38,8 +40,12 @@ public class ResultsServlet extends HttpServlet implements Observer{
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// Get individual lines of results and create a summarized result from it
+		
+		// Create ArrayList
+		ArrayList<Result> resultsOut = new ArrayList<Result>();
+		
 		// Create output table
-		String lineOut = "<table class=\"resultsTable\"><tr><th>First Name</th><th>Last Name</th><th>Time Answered</th><th>Clear</th></tr>";
 		try {
 			List<QuestionAnswer> results = appDaoProxy.readFullSurveyResults();
 			
@@ -47,47 +53,52 @@ public class ResultsServlet extends HttpServlet implements Observer{
 			String x = null;
 			Timestamp ts = null;
 			int cnt = 0;
+			Result result;
+			
 			for(int i = 0; i < results.size(); i++) {
 				// Set the values to compare against for first loop
 				if(i == 0) {
 					x = results.get(i).getUserID();
-					ts = results.get(i).getTimestamp();				
+					ts = results.get(i).getTimestamp();	
 				}
+				
+				// Create new Result
+				result = new Result();
+				result.setFirstName(results.get(i).getfName());
+				result.setLastName(results.get(i).getlName());
+				result.setTimeAnswered(results.get(i).getTimestamp());
 				
 				// Get user details to display
 				String uID = results.get(i).getUserID();
-				String fName = results.get(i).getfName();
-				String lName = results.get(i).getlName();
 				Timestamp time_stamp = results.get(i).getTimestamp();
 				
 				// Get cumulative results for user at given time
 				if (x.equals(uID) && (ts.equals(time_stamp))) {
+					// if answer is wrong
 					if (results.get(i).getAnswerID() != results.get(i).getRightAns()) {
 						cnt++;
 					}
-
-					// End of current set of results or last set of results display a line
+					// Set results (so far)
+					if (cnt == 0) {
+						result.setGoodToGo("No");
+					}
+					else {
+						result.setGoodToGo("Yes");
+					}
+					
+					// Check if is end of current set of results 
 					Boolean isLastRecord = (i == results.size() - 1);
 					if (isLastRecord) {
-						lineOut += "<tr><td>" + fName + "</td><td> " + lName + "</td><td>" + time_stamp + "</td>";
-						if (cnt == 0) {
-							lineOut += "<td style=\"background-color:#6AF190;\">" + "Yes" + "</td><tr>";
-						}
-						else {
-							lineOut += "<td style=\"background-color:#BA3B54;\">" + "No" + "</td><tr>";
-						}
+						resultsOut.add(result);
 						break;
 					}
+					
+					// Check if is last answer in a set of results 
 					Boolean isNewRecord = !(x.equals(results.get(i+1).getUserID()) && (ts.equals(results.get(i+1).getTimestamp())));
 					if(isNewRecord) {
-						lineOut += "<tr><td>" + fName + "</td><td> " + lName + "</td><td>" + time_stamp + "</td>";
-						if (cnt == 0) {
-							lineOut += "<td style=\"background-color:#6AF190;\">" + "Yes" + "</td><tr>";
-						}
-						else {
-							lineOut += "<td style=\"background-color:#BA3B54;\">" + "No" + "</td><tr>";
-						}
+						resultsOut.add(result);
 					}
+					
 				// reset for next set of results
 				}else {
 					x = results.get(i).getUserID();
@@ -95,9 +106,8 @@ public class ResultsServlet extends HttpServlet implements Observer{
 					cnt = 0;
 				}
 			}
-
-			lineOut += "</table>";
-			request.setAttribute("lineOut", lineOut);
+			
+			request.setAttribute("resultsOut", resultsOut);
 		} catch (SQLException e) {
 			DBUtilities.processException(e);
 		}
