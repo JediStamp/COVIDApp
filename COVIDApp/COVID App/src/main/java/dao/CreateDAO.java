@@ -3,8 +3,9 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import app.User;
-import questionnaires.QuestionSet;
+
+import beans.app.User;
+import beans.questionnaires.QuestionSet;
 
 public class CreateDAO {
 	// Adds a new user to the database

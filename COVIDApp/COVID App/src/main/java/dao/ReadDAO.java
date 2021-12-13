@@ -8,10 +8,11 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import app.User;
-import app.UserBuilder;
-import questionnaires.QuestionAnswer;
-import userRoles.UserRole;
+
+import beans.app.User;
+import beans.app.UserBuilder;
+import beans.questionnaires.QuestionAnswer;
+import beans.userRoles.UserRole;
 
 public class ReadDAO {
 	//create new arraylist for reading questions

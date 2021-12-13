@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import app.User;
+import beans.app.User;
+import beans.questionnaires.QuestionAnswer;
+import beans.questionnaires.QuestionFactory;
+import beans.questionnaires.QuestionSet;
 import dao.ApplicationDao;
 import dao.ApplicationDaoProxy;
-import questionnaires.QuestionAnswer;
-import questionnaires.QuestionFactory;
-import questionnaires.QuestionSet;
 
 /**
  * Servlet implementation class QuestionnaireServlet

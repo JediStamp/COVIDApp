@@ -6,11 +6,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import app.User;
-import app.UserBuilder;
+
+import beans.app.User;
+import beans.app.UserBuilder;
+import beans.login.LoginController;
 import dao.ApplicationDao;
 import dao.ApplicationDaoProxy;
-import login.LoginController;
 
 @WebServlet("/ProfileServlet")
 public class ProfileServlet extends HttpServlet implements Observer{

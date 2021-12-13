@@ -1,6 +1,6 @@
 package servlets;
 
-import app.User;
+import beans.app.User;
 
 public interface Observer {
 	public void update(User user);

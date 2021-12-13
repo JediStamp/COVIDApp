@@ -10,13 +10,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import app.User;
-import app.UserBuilder;
+
+import beans.app.User;
+import beans.app.UserBuilder;
+import beans.login.LoginController;
+import beans.questionnaires.QuestionAnswer;
+import beans.questionnaires.Result;
 import dao.ApplicationDaoProxy;
 import dao.DBUtilities;
-import login.LoginController;
-import questionnaires.QuestionAnswer;
-import questionnaires.Result;
 
 
 @WebServlet("/ResultsServlet")

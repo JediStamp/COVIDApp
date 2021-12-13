@@ -3,9 +3,9 @@ package dao;
 import java.sql.SQLException;
 import java.util.List;
 
-import app.User;
-import questionnaires.QuestionAnswer;
-import questionnaires.QuestionSet;
+import beans.app.User;
+import beans.questionnaires.QuestionAnswer;
+import beans.questionnaires.QuestionSet;
 
 public interface Application {
 	

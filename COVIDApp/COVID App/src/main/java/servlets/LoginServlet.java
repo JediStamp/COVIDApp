@@ -6,10 +6,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import app.User;
-import app.UserBuilder;
-import app.UserPwd;
-import login.LoginController;
+
+import beans.app.User;
+import beans.app.UserBuilder;
+import beans.app.UserPwd;
+import beans.login.LoginController;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet implements Observer{
